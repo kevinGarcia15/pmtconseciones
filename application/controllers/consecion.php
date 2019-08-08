@@ -26,8 +26,9 @@ class consecion extends CI_Controller {
 		$this->restringirAcceso();
 		$data['base_url'] = $this->config->item('base_url');
 
-	$data['flag'] = 0;//variable bandera que nos indica si hay datos del contratista
+	$data['flag'] = 0;//variable bandera que nos indica si hay datos del contratistaa
 	$data['CUI_contratista'] = "";
+	$data['activar'] = "";//utilizado para activar o desactivar los inputs
 		//Busca a contratista en BD
 		if (isset($_GET['cui'])) {
 	$data['CUI'] ="";
@@ -37,9 +38,11 @@ class consecion extends CI_Controller {
 	$retorno = count($data['result']);
 	if ($retorno > 0) {
 		$data['flag'] = 1;
+		$data['activar'] = 'disabled';
 	}else {
 		$data['flag'] = 0;
 		$data['CUI_contratista'] = $data['CUI'];
+		$data['activar'] = '';
 	}
 }
 //Datos de registro del contratista

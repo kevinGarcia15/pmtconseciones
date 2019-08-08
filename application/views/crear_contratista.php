@@ -30,28 +30,28 @@ $mensaje = isset($mensaje) ? $mensaje : "";
 					<td><strong>Nombre<strong style="color: red; font-size: 20px">*</strong></strong></td>
 					<td>
 						<input type="text" class="form-control" placeholder="Nombre" name="nombre_contratista"
-							required maxlength="50" size="50" disabled value="<?php if ($flag == 1){echo $result[0]['nombre'];} ?>">
+							required maxlength="50" size="50" <?php echo $activar; ?> value="<?php if ($flag == 1){echo $result[0]['nombre'];} ?>">
 					</td>
 				</tr>
 				<tr>
 					<td><strong>Apellido<strong style="color: red; font-size: 20px">*</strong></strong></td>
 					<td>
 						<input type="text" class="form-control" placeholder="Apellido" name="Apellido_contratista"
-							required maxlength="50" size="50" value="<?php if ($flag == 1){echo $result[0]['apellido'];} ?>">
+							required maxlength="50" size="50" <?php echo $activar; ?> value="<?php if ($flag == 1){echo $result[0]['apellido'];} ?>">
 					</td>
 				</tr>
 				<tr>
 					<td><strong>Fecha de nacimiento<strong style="color: red; font-size: 20px">*</strong></strong></td>
 					<td>
 						<input id="fecha" onchange="validarFecha()" type="date" class="form-control" name="fecha_nacimiento_contratista"
-							required value="<?php if ($flag == 1){echo $result[0]['fecha_nacimiento'];}?>">
+							<?php echo $activar; ?> required value="<?php if ($flag == 1){echo $result[0]['fecha_nacimiento'];}?>">
 					</td>
 				</tr>
 				<tr>
 					<td><strong>Teléfono</strong></td>
 					<td>
 						<input type="number" class="form-control" min="1" placeholder="Número de teléfono" name="telefono_contratista"
-					 		value="<?php if ($flag == 1){echo $result[0]['telefono'];}?>">
+					 		<?php echo $activar; ?> value="<?php if ($flag == 1){echo $result[0]['telefono'];}?>">
 					</td>
 				</tr>
 				<tr>
@@ -74,7 +74,7 @@ $mensaje = isset($mensaje) ? $mensaje : "";
 					<td><strong>Ingrese lugar de domicilio</strong></td>
 					<td>
 						<input type="text" class="form-control" placeholder="Domicilio" name="domicilio_contratista"
-							required value="<?php if ($flag == 1){echo $result[0]['domicilio'];}?>">
+							<?php echo $activar; ?> required value="<?php if ($flag == 1){echo $result[0]['domicilio'];}?>">
 					</td>
 				</tr>
 				</tr>
