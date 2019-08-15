@@ -16,7 +16,7 @@ $mensaje = isset($mensaje) ? $mensaje : "";
 	</header>
 
 	<div  id="body">
-		<form  id="subir" action="<?=$base_url?>/consecion/crear/" method="POST">
+		<form  id="subir" action="<?=$base_url?>/consecion/crearContratista" method="POST">
 			<table border="1">
 				<tr>
 					<td><strong>Ingrese No. de documento DPI<strong style="color: red; font-size: 20px">*</strong></strong></td>
@@ -36,8 +36,8 @@ $mensaje = isset($mensaje) ? $mensaje : "";
 				<tr>
 					<td><strong>Apellido<strong style="color: red; font-size: 20px">*</strong></strong></td>
 					<td>
-						<input type="text" class="form-control" placeholder="Apellido" name="Apellido_contratista"
-							required maxlength="50" size="50" <?php echo $activar; ?> value="<?php if ($flag == 1){echo $result[0]['apellido'];} ?>">
+						<input type="text" class="form-control" placeholder="Apellido" name="apellido_contratista"
+							required maxlength="50" size="50" <?php echo $activar//activa o desactiva el input; ?> value="<?php if ($flag == 1){echo $result[0]['apellido'];} ?>">
 					</td>
 				</tr>
 				<tr>
@@ -65,7 +65,7 @@ $mensaje = isset($mensaje) ? $mensaje : "";
 				<tr>
 					<td><strong>Seleccionar Aldea o Caserío</strong></td>
 					<td>
-						<select class="custom-select" name="municipio" id="aldea">
+						<select class="custom-select" name="aldea" id="aldea">
 							<option value="0">Seleccionar</option>
 						</select>
 					</td>
@@ -80,7 +80,9 @@ $mensaje = isset($mensaje) ? $mensaje : "";
 				</tr>
 			</table>
 			<td colspan="2">
-				<input class="btn btn-primary btn-md" type="submit" role="button" name="Siguiente" value="Siguiente">
+				<input class="btn btn-primary btn-md"  role="button"  type="submit" required name="continuar" value="continuar">
+				<input name="flag" type="hidden" value="<?php echo $flag; ?>">
+				<input name="id_contratista" type="hidden" value="<?php if (isset($result[0]['id_contratista'])) {echo $result[0]['id_contratista'];} ?>">
 			</td>
 		</form>
 		<?php $mensaje ?>

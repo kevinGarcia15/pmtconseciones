@@ -21,7 +21,7 @@ class consecion extends CI_Controller {
 		$this->restringirAcceso();
 		$data['base_url'] = $this->config->item('base_url');
 	}
-
+//Crear un nuevo vontratista-----------------------------------------------------
 	public function crearContratista() {
 		$this->restringirAcceso();
 		$data['base_url'] = $this->config->item('base_url');
@@ -45,6 +45,7 @@ class consecion extends CI_Controller {
 		$data['activar'] = '';
 	}
 }
+
 //Datos de registro del contratista
 		$data['nombre_contratista'] ="";
 		$data['apellido_contratista'] ="";
@@ -54,8 +55,30 @@ class consecion extends CI_Controller {
 		$data['domicilio_contratista'] = "";
 		$data['usuario_id_usuario'] = $this->session->IDUSUARIO;
 
+		if ($this->input->post('continuar') == 'continuar') {
+			if ($_POST['flag'] == 1) {
+
+				redirect("/consecion/conductor?id_con=".$_GET['id_con']);
+			}else {
+				$data['CUI_contratista'] = $_POST['CUI_contratista'];
+				$data['nombre_contratista'] = str_replace(["<",">"], "", $_POST['nombre_contratista']);
+				$data['apellido_contratista'] = $_POST['apellido_contratista'];
+				$data['fecha_nacimiento_contratista'] = str_replace(["<",">"], "", $_POST['fecha_nacimiento_contratista']);
+				$data['telefono_contratista'] = str_replace(["<",">"], "", $_POST['telefono_contratista']);
+				$data['aldea_id_aldea'] = str_replace(["<",">"], "", $_POST['aldea']);
+				$data['domicilio_contratista'] = $_POST['domicilio_contratista'];
+
+				$this->consecion_model->crear_persona($data['nombre_contratista'], $data['apellido_contratista'], $data['fecha_nacimiento_contratista']);
+				$id_persona = $this->consecion_model->seleccionar_id_persona();
+
+				$this->consecion_model->crear_contratista($data['telefono_contratista'],$data['CUI_contratista'],
+				 $data['domicilio_contratista'], $id_persona, $data['aldea_id_aldea']);
+			}
+		}
+
 		$this->load->view('crear_contratista', $data);
 	}
+
 
 	public function crear() {
 		$this->restringirAcceso();
@@ -119,6 +142,26 @@ class consecion extends CI_Controller {
 
 		}
 		$this->load->view('crear_consecion', $data);
+	}
+
+	public function crearRuta() {
+		$this->restringirAcceso();
+		$data['base_url'] = $this->config->item('base_url');
+
+		$data['ruta'] ="";
+		$data['descripcion'] ="";
+
+		if (isset($_POST['guardar'])) {
+			$data['ruta'] = str_replace(["<",">"], "", $_POST['ruta']);
+			$data['descripcion'] = str_replace(["<",">"], "", $_POST['descripcion']);
+			echo $data['descripcion'];
+
+		$this->consecion_model->crear_ruta($data['ruta'], $data['descripcion']);//ingresa datos en la tabla ruta
+			$data['mensaje'] = "<div class=\"alert alert-success\" role=\"alert\">
+  															Datos guardados exitosamente
+															</div>";
+		}
+		$this->load->view('crear_ruta', $data);
 	}
 
 	public function buscar()
