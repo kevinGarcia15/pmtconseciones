@@ -39,7 +39,7 @@ if (isset($this->session->USUARIO)) { // Sesión iniciada
             Conseción
            </a>
            <div class="dropdown-menu" aria-labelledby="navbarDropdownMenuLink">
-            <a class="dropdown-item" href="<?=$base_url?>/consecion/crearContratista">Crear Conseción</a>
+            <a class="dropdown-item" href="<?=$base_url?>/contratista/crearContratista">Crear Conseción</a>
             <a class="dropdown-item" href="<?=$base_url?>/consecion/crear">Listar Conseción</a>
             <hr>
             <a class="dropdown-item" href="<?=$base_url?>/consecion/crearRuta">Crear ruta</a>

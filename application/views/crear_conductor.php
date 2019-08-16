@@ -5,53 +5,63 @@ $mensaje = isset($mensaje) ? $mensaje : "";
 <html lang="en">
 <head>
 	<?php $this->load->view('header'); ?>
-	<title>Ingresar Contratista</title>
+	<title>Ingresar Conductor</title>
 </head>
 <body>
 
 <div id="container">
 	<?php $this->load->view('menu'); ?>
 	<header>
-		<h1><img width="70" src="<?=$base_url?>/recursos/img/logo.png"/> Ingreso de datos del contratista</h1>
+		<h1><img width="70" src="<?=$base_url?>/recursos/img/logo.png"/> Ingreso de datos del piloto</h1>
 	</header>
 
 	<div  id="body">
-		<form  id="subir" action="<?=$base_url?>/contratista/crearContratista" method="POST">
+		<form  id="subir" action="<?=$base_url?>/conductor/crearConductor" method="POST">
 			<table border="1">
 				<tr>
-					<td><strong>Ingrese No. de documento DPI<strong style="color: red; font-size: 20px">*</strong></strong></td>
+					<td><strong>Ingrese No. de licencia<strong style="color: red; font-size: 20px">*</strong></strong></td>
 					<td>
-						<input onchange="return llenar()" id="cui" type="number" class="form-control"
-							placeholder="CUI" name="CUI_contratista" min="999999999999" required
-							value="<?php if ($flag == 1){echo $result[0]['cui'];}else {echo $CUI_contratista;} ?>">
+						<input type="number" class="form-control"
+							placeholder="No. Licencia" name="numero_licencia" min="999999999999" required
+							value="<?php $numero_licencia ?>">
 					</td>
 				</tr>
 				<tr>
 					<td><strong>Nombre<strong style="color: red; font-size: 20px">*</strong></strong></td>
 					<td>
-						<input type="text" class="form-control" placeholder="Nombre" name="nombre_contratista"
-							required maxlength="50" size="50" <?php echo $activar; ?> value="<?php if ($flag == 1){echo $result[0]['nombre'];} ?>">
+						<input type="text" class="form-control" placeholder="Nombre" name="nombre"
+							required maxlength="50" size="50" value="<?php $nombre?>">
 					</td>
 				</tr>
 				<tr>
 					<td><strong>Apellido<strong style="color: red; font-size: 20px">*</strong></strong></td>
 					<td>
-						<input type="text" class="form-control" placeholder="Apellido" name="apellido_contratista"
-							required maxlength="50" size="50" <?php echo $activar//activa o desactiva el input; ?> value="<?php if ($flag == 1){echo $result[0]['apellido'];} ?>">
+						<input type="text" class="form-control" placeholder="Apellido" name="apellido"
+							required maxlength="50" size="50" value="<?php $apellido ?>">
 					</td>
 				</tr>
 				<tr>
 					<td><strong>Fecha de nacimiento<strong style="color: red; font-size: 20px">*</strong></strong></td>
 					<td>
-						<input id="fecha" onchange="validarFecha()" type="date" class="form-control" name="fecha_nacimiento_contratista"
-							<?php echo $activar; ?> required value="<?php if ($flag == 1){echo $result[0]['fecha_nacimiento'];}?>">
+						<input id="fecha" onchange="validarFecha()" type="date" class="form-control" name="fecha_nacimiento"
+						 required value="<?php $fecha_nacimiento ?>">
+					</td>
+				</tr>
+				<tr>
+					<td><strong>Seleccionar el tipo de licencia</strong></td>
+					<td>
+						<select class="custom-select" name="tipo_licencia">
+							<?php foreach ($licencia as $key) {?>
+							<option value="<?php echo $key['id_tipo']; ?>"><?php echo $key['tipo']; ?></option>
+							<?php	} ?>
+						</select>
 					</td>
 				</tr>
 				<tr>
 					<td><strong>Teléfono</strong></td>
 					<td>
-						<input type="number" class="form-control" min="1" placeholder="Número de teléfono" name="telefono_contratista"
-					 		<?php echo $activar; ?> value="<?php if ($flag == 1){echo $result[0]['telefono'];}?>">
+						<input type="number" class="form-control" min="10000000" max="99999999" placeholder="Número de teléfono" name="telefono"
+					 	 value="<?php $telefono ?>">
 					</td>
 				</tr>
 				<tr>
@@ -73,16 +83,14 @@ $mensaje = isset($mensaje) ? $mensaje : "";
 				<tr>
 					<td><strong>Ingrese lugar de domicilio</strong></td>
 					<td>
-						<input type="text" class="form-control" placeholder="Domicilio" name="domicilio_contratista"
-							<?php echo $activar; ?> required value="<?php if ($flag == 1){echo $result[0]['domicilio'];}?>">
+						<input type="text" class="form-control" placeholder="Domicilio" name="domicilio"
+							required value="<?php $domicilio ?>">
 					</td>
 				</tr>
 				</tr>
 			</table>
 			<td colspan="2">
 				<input class="btn btn-primary btn-md"  role="button"  type="submit" required name="continuar" value="continuar">
-				<input class="btn btn-primary btn-md"  role="button"  type="reset" required name="borrar" value="Borrar">
-				<input name="flag" type="hidden" value="<?php echo $flag; ?>">
 				<input name="id_contratista" type="hidden" value="<?php if (isset($result[0]['id_contratista'])) {echo $result[0]['id_contratista'];} ?>">
 			</td>
 		</form>
@@ -141,7 +149,7 @@ else {
 
 function llenar(){
 	let cui = document.getElementById('cui').value
-	window.location.href = '<?=$base_url?>/contratista/crearContratista?cui='+cui+'';
+	window.location.href = '<?=$base_url?>/consecion/crearContratista?cui='+cui+'';
 }
 </script>
 </html>

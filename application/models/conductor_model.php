@@ -1,6 +1,6 @@
 <?php if ( ! defined('BASEPATH')) exit('No direct script access allowed');
 
-class consecion_model extends CI_Model{
+class conductor_model extends CI_Model{
 
 	//Constructor
 	function __construct(){
@@ -22,6 +22,7 @@ function seleccionarAldea($id) {
 	return $rows;
 }
 
+
 function seleccionarMunicipio() {
 	$sql = "SELECT id_municipio, nombre_mun
 			FROM 	municipio
@@ -35,30 +36,18 @@ function seleccionarMunicipio() {
 	return $rows;
 }
 
-function crear_ruta($ruta, $descripcion) {
-	$sql = "INSERT INTO ruta(nombre,descripcion)
-			VALUES (?, ?)";
+function seleccionarLicencia() {
+	$sql = "SELECT id_tipo, tipo
+			FROM 	tipo_licencia
+			order by tipo ASC
+			LIMIT 	10";
 
-	$valores = array($ruta,$descripcion);
+	$dbres = $this->db->query($sql);
 
-	$dbres = $this->db->query($sql, $valores);
+	$rows = $dbres->result_array();
 
-	return $dbres;
+	return $rows;
 }
-
-	function seleccionarBusqueda($busqueda) {
-		$sql = "SELECT c.id_corredor, c.Nombre, i.numero_atleta as Numero
-				FROM 	corredor c
-				join inscripcion i on c.id_corredor = i.corredor_id_corredor
-				where i.numero_atleta = ?
-				LIMIT 	1";
-
-		$dbres = $this->db->query($sql, $busqueda);
-
-		$rows = $dbres->result_array();
-
-		return $rows;
-	}
 	function crear_persona($nombre,$apellido, $fecha_nacimiento) {
 		$sql = "INSERT INTO persona(nombre,apellido,fecha_nacimiento)
 				VALUES (?, ?, ?)";
