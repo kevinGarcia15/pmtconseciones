@@ -17,7 +17,7 @@ $mensaje = isset($mensaje) ? $mensaje : "";
 
 	<div  id="body">
 		<form  id="subir" action="<?=$base_url?>/contratista/crearContratista" method="POST">
-			<table border="1">
+			<table class="table table-bordered" border="1">
 				<tr>
 					<td><strong>Ingrese No. de documento DPI<strong style="color: red; font-size: 20px">*</strong></strong></td>
 					<td>
@@ -81,7 +81,7 @@ $mensaje = isset($mensaje) ? $mensaje : "";
 			</table>
 			<td colspan="2">
 				<input class="btn btn-primary btn-md"  role="button"  type="submit" required name="continuar" value="continuar">
-				<input class="btn btn-primary btn-md"  role="button"  type="reset" required name="borrar" value="Borrar">
+				<input class="btn btn-warning btn-md"  role="button"  type="reset" required name="Reset" value="Reset">
 				<input name="flag" type="hidden" value="<?php echo $flag; ?>">
 				<input name="id_contratista" type="hidden" value="<?php if (isset($result[0]['id_contratista'])) {echo $result[0]['id_contratista'];} ?>">
 			</td>
@@ -143,5 +143,6 @@ function llenar(){
 	let cui = document.getElementById('cui').value
 	window.location.href = '<?=$base_url?>/contratista/crearContratista?cui='+cui+'';
 }
+
 </script>
 </html>

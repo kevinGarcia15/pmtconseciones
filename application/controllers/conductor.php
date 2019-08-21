@@ -36,33 +36,28 @@ class conductor extends CI_Controller {
 		$data['tipo_licencia'] ="";
 		$data['aldea_id_aldea_piloto'] = "";
 		$data['ayudante_id_ayudante'] = "";
-		$data['contratista_id_contratista'] = $_GET['id_con'];
 
-		$data['licencia'] = $this->conductor_model->seleccionarLicencia();
+		$data['licencia'] = $this->conductor_model->seleccionarLicencia();//mustra los tipos de licencias en la BD
 
 		if ($this->input->post('continuar') == 'continuar') {
-			if ($_POST['flag'] == 1) {
 
-				redirect("/conductor/crearConductor?id_con=".$_POST['id_contratista']);
-			}else {
-				$data['numero_licencia'] = $_POST['numero_licencia'];
-				$data['nombre'] = str_replace(["<",">"], "", $_POST['nombre_contratista']);
-				$data['apellido'] = $_POST['apellido_contratista'];
-				$data['fecha_nacimiento'] = str_replace(["<",">"], "", $_POST['fecha_nacimiento_contratista']);
-				$data['domicilio'] = $_POST['domicilio'];
-				$data['telefono'] = str_replace(["<",">"], "", $_POST['telefono_contratista']);
-				$data['tipo_licencia'] = str_replace(["<",">"], "", $_POST['tipo_licencia']);
-				$data['aldea_id_aldea'] = str_replace(["<",">"], "", $_POST['aldea']);
-				$data['ayudante_id_ayudante'] = str_replace(["<",">"], "", $_POST['ayudante_id_ayudante']);
-
+				$conductor = array(
+												'numero_licencia'  => $_POST['numero_licencia'],
+												'nombre_conductor' => $_POST['nombre_conductor'],
+												'apellido_conductor' => $_POST['apellido_conductor'],
+												'fecha_nacimiento_conductor' => $_POST['fecha_nacimiento_conductor'],
+												'telefono_conductor' => $_POST['telefono_conductor'],
+												'aldea_id_aldea_conductor' => $_POST['aldea_id_aldea_conductor'],
+												'domicilio_conductor' => $_POST['domicilio_conductor']
+											 );
+								$this->session->set_userdata($conductor);
 //				$this->consecion_model->crear_persona($data['nombre_contratista'], $data['apellido_contratista'], $data['fecha_nacimiento_contratista']);
 	//			$id_persona = $this->consecion_model->seleccionar_id_persona();
 
 //				$this->consecion_model->crear_contratista($data['telefono_contratista'],$data['CUI_contratista'],
 //				$data['domicilio_contratista'], $id_persona, $data['aldea_id_aldea']);
 //				$id_contratista = $this->consecion_model->seleccionar_id_contratista();
-//				 	redirect("/conductor/crearConductor?id_con=".$id_contratista);
-			}
+			 	redirect("/ayudante/crearAyudante");
 		}
 
 		$this->load->view('crear_conductor', $data);

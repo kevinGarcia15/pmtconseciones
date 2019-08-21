@@ -52,7 +52,7 @@ foreach ($arr as $a) {
 				<?=$htmltrows?>
 			</tbody>
 		</table>
-    <br><a class='btn btn-primary btn-md' href="<?=$base_url?>/inicio">Listo</a>
+    <br><a class='btn btn-primary btn-md' href="<?=$base_url?>/usuario/activos">Listo</a>
 		<td><a class='btn btn-secondary' href="<?=$base_url?>/usuario/editar/<?=$id_empleado?>">editar</a></td>
     <div class="alert alert-success" onclick="$(this).hide(1000)"><?=$mensaje?></div>
 	</div><br><br><br><br><br><br>

@@ -53,28 +53,35 @@ class contratista extends CI_Controller {
 		$data['telefono_contratista'] ="";
 		$data['aldea_id_aldea'] = "";
 		$data['domicilio_contratista'] = "";
-		$data['usuario_id_usuario'] = $this->session->IDUSUARIO;
+
 
 		if ($this->input->post('continuar') == 'continuar') {
 			if ($_POST['flag'] == 1) {
+				//usa una variable de session para guardar el id del contratista
+				$contratistaid = array(
+												'id_contratista_existe'  => $_POST['id_contratista'] );
+								$this->session->set_userdata($contratistaid);
+				redirect("/conductor/crearConductor");
 
-				redirect("/conductor/crearConductor?id_con=".$_POST['id_contratista']);
 			}else {
-				$data['CUI_contratista'] = $_POST['CUI_contratista'];
-				$data['nombre_contratista'] = str_replace(["<",">"], "", $_POST['nombre_contratista']);
-				$data['apellido_contratista'] = $_POST['apellido_contratista'];
-				$data['fecha_nacimiento_contratista'] = str_replace(["<",">"], "", $_POST['fecha_nacimiento_contratista']);
-				$data['telefono_contratista'] = str_replace(["<",">"], "", $_POST['telefono_contratista']);
-				$data['aldea_id_aldea'] = str_replace(["<",">"], "", $_POST['aldea']);
-				$data['domicilio_contratista'] = $_POST['domicilio_contratista'];
+				$contratista = array(
+												'CUI_contratista'  => $_POST['CUI_contratista'],
+												'nombre_contratista' => $_POST['nombre_contratista'],
+												'apellido_contratista' => $_POST['apellido_contratista'],
+												'fecha_nacimiento_contratista' => $_POST['fecha_nacimiento_contratista'],
+												'telefono_contratista' => $_POST['telefono_contratista'],
+												'aldea_id_aldea_contratista' => $_POST['aldea'],
+												'domicilio_contratista' => $_POST['domicilio_contratista']
+											 );
+								$this->session->set_userdata($contratista);
 
-				$this->consecion_model->crear_persona($data['nombre_contratista'], $data['apellido_contratista'], $data['fecha_nacimiento_contratista']);
-				$id_persona = $this->consecion_model->seleccionar_id_persona();
+	/*			$this->contratista_model->crear_persona($data['nombre_contratista'], $data['apellido_contratista'], $data['fecha_nacimiento_contratista']);
+				$id_persona = $this->contratista_model->seleccionar_id_persona();
 
-				$this->consecion_model->crear_contratista($data['telefono_contratista'],$data['CUI_contratista'],
+				$this->contratista_model->crear_contratista($data['telefono_contratista'],$data['CUI_contratista'],
 				$data['domicilio_contratista'], $id_persona, $data['aldea_id_aldea']);
-				$id_contratista = $this->consecion_model->seleccionar_id_contratista();
-				 	redirect("/conductor/crearConductor?id_con=".$id_contratista);
+				$id_contratista = $this->contratista_model->seleccionar_id_contratista();*/
+				 	redirect("/conductor/crearConductor");
 			}
 		}
 
