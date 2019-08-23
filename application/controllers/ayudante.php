@@ -46,13 +46,9 @@ class ayudante extends CI_Controller {
 											 );
 								$this->session->set_userdata($ayudante);
 
-			//	 	redirect("/vehiculo/crearVheiculo");
+				 	redirect("/vehiculo/crearVehiculo");
 
 		}
-		if ($this->input->post('omitir') == 'omitir') {
-				redirect("/vehiculo/crearVehiculo");
-		}
-
 		$this->load->view('crear_ayudante', $data);
 	}
 

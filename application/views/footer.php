@@ -40,7 +40,7 @@ defined('BASEPATH') OR exit('No direct script access allowed');
   <div class="container-footer">
     <div class="footer">
     <div class="copyright">
-      2019 Todos los derechos reservados
+      <?php $año = date("Y"); echo $año; ?> Todos los derechos reservados
     </div>
     <div class="information">
       <a href="#">Informacion</a>

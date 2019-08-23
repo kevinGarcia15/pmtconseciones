@@ -8,6 +8,32 @@ class consecion_model extends CI_Model{
 		$this->load->database();
 	}
 
+function seleccionarRuta() {
+	$sql = "SELECT id_ruta, nombre
+			FROM 	ruta
+			order by nombre ASC
+			LIMIT 	100";
+
+	$dbres = $this->db->query($sql);
+
+	$rows = $dbres->result_array();
+
+	return $rows;
+}
+
+
+function crear_ruta($ruta, $descripcion) {
+	$sql = "INSERT INTO ruta(nombre,descripcion)
+			VALUES (?, ?)";
+
+	$valores = array($ruta,$descripcion);
+
+	$dbres = $this->db->query($sql, $valores);
+
+	return $dbres;
+}
+
+
 function seleccionarAldea($id) {
 	$sql = "SELECT id_canton_aldea, nombre
 			FROM 	canton_aldea
@@ -22,6 +48,7 @@ function seleccionarAldea($id) {
 	return $rows;
 }
 
+
 function seleccionarMunicipio() {
 	$sql = "SELECT id_municipio, nombre_mun
 			FROM 	municipio
@@ -35,25 +62,19 @@ function seleccionarMunicipio() {
 	return $rows;
 }
 
-function crear_ruta($ruta, $descripcion) {
-	$sql = "INSERT INTO ruta(nombre,descripcion)
-			VALUES (?, ?)";
+	function listar() {
+		$sql = "SELECT c.numero numero, contra.nombre nombre_contratista, pil.nombre nombre_piloto, r.nombre ruta, t.tipo_vehiculo tipo
+				FROM 	consecion c
+				join contratista con on con.id_contratista = c.contratista_id_contratista
+				join piloto p on p.id_piloto = c.piloto_id_piloto
+				join ruta r on r.id_ruta = c.ruta_id_ruta
+				join vehiculo v on v.id_vehiculo = c.vehiculo_id_vehiculo
+				join tipo t on t.id_tipo = v.tipo_id_tipo
+				join persona contra on contra.id_persona = con.persona_id_persona
+        join persona pil on pil.id_persona = p.persona_id_persona
+				LIMIT 	1000";
 
-	$valores = array($ruta,$descripcion);
-
-	$dbres = $this->db->query($sql, $valores);
-
-	return $dbres;
-}
-
-	function seleccionarBusqueda($busqueda) {
-		$sql = "SELECT c.id_corredor, c.Nombre, i.numero_atleta as Numero
-				FROM 	corredor c
-				join inscripcion i on c.id_corredor = i.corredor_id_corredor
-				where i.numero_atleta = ?
-				LIMIT 	1";
-
-		$dbres = $this->db->query($sql, $busqueda);
+		$dbres = $this->db->query($sql);
 
 		$rows = $dbres->result_array();
 
@@ -117,5 +138,82 @@ function crear_contratista($telefono_contratista,$cui, $domicilio_contratista, $
 		return $rows;
 	}
 
+	function seleccionar_id_ayudante() {
+			$sql = "SELECT MAX(id_ayudante) as id_ayudante FROM ayudante
+							LIMIT 	1";
+
+			$dbres = $this->db->query($sql);
+
+			$rows = $dbres->result_array();
+
+			return $rows[0]['id_ayudante'];
+		}
+
+function crear_ayudante($cui, $domicilio_ayudante, $persona_id_persona, $aldea_id_aldea) {
+$sql = "INSERT INTO ayudante(cui,domicilio,persona_id_persona,canton_aldea_id_canton_aldea)
+		VALUES (?, ?, ?, ?)";
+
+$valores = array($cui, $domicilio_ayudante, $persona_id_persona, $aldea_id_aldea);
+
+$dbres = $this->db->query($sql, $valores);
+
+return $dbres;
+}
+
+function crear_conductor($licencia,$domicilio, $telefono,$id_persona,$id_tipo_licencia,$aldea_id_aldea,$id_ayudante) {
+	$sql = "INSERT INTO piloto(numero_licencia, domicilio, telefono,persona_id_persona,
+																tipo_licencia_id_tipo, canton_aldea_id_canton_aldea,
+																ayudante_id_ayudante)
+			VALUES (?, ?, ?, ?, ?, ?, ?)";
+
+	$valores = array($licencia,$domicilio, $telefono,$id_persona,$id_tipo_licencia,$aldea_id_aldea,$id_ayudante);
+
+	$dbres = $this->db->query($sql, $valores);
+
+	return $dbres;
+}
+function seleccionar_id_conductor() {
+		$sql = "SELECT MAX(id_piloto) as id_piloto FROM piloto
+						LIMIT 	1";
+
+		$dbres = $this->db->query($sql);
+
+		$rows = $dbres->result_array();
+
+		return $rows[0]['id_piloto'];
+	}
+
+	function crear_vehiculo($modelo,$color_id_color, $noplaca,$tipo_id_tipo,$marca_id_marca) {
+		$sql = "INSERT INTO vehiculo(modelo, color_id_color, numero_placa,tipo_id_tipo,
+																	marca_id_marca)
+				VALUES (?, ?, ?, ?, ?)";
+
+		$valores = array($modelo,$color_id_color, $noplaca,$tipo_id_tipo,$marca_id_marca);
+
+		$dbres = $this->db->query($sql, $valores);
+
+		return $dbres;
+	}
+	function seleccionar_id_vehiculo() {
+			$sql = "SELECT MAX(id_vehiculo) as id_vehiculo FROM vehiculo
+							LIMIT 	1";
+
+			$dbres = $this->db->query($sql);
+
+			$rows = $dbres->result_array();
+
+			return $rows[0]['id_vehiculo'];
+		}
+		function crear_consecion($numero,$descripcion, $id_contratista,$id_ruta,$id_vehiculo,$id_empleado, $id_piloto) {
+			$sql = "INSERT INTO consecion(numero, descripcion, contratista_id_contratista, ruta_id_ruta,
+																		vehiculo_id_vehiculo, empleado_id_empleado, piloto_id_piloto)
+					VALUES (?, ?, ?, ?, ?, ?, ?)";
+
+			$valores = array($numero,$descripcion, $id_contratista,$id_ruta,$id_vehiculo,$id_empleado, $id_piloto);
+
+			$dbres = $this->db->query($sql, $valores);
+
+			return $dbres;
+		}
 
 }

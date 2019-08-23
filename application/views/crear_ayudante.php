@@ -71,7 +71,7 @@ $mensaje = isset($mensaje) ? $mensaje : "";
 					</td>
 				</tr>
 				<?php
-					 print_r($this->session->userdata());
+				print_r($this->session->userdata());
 				?>
 				</tr>
 			</table>

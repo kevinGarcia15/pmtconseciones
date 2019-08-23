@@ -2,18 +2,6 @@
 defined('BASEPATH') OR exit('No direct script access allowed');
 $mensaje = isset($mensaje) ? $mensaje : "";
 ?><!DOCTYPE html>
-<html lang="en">
-<head>
-	<?php $this->load->view('header'); ?>
-	<title>Ingresar nueva ruta de la conseción</title>
-</head>
-<body>
-
-<div id="container">
-	<?php $this->load->view('menu'); ?>
-	<header>
-		<h1><img width="70" src="<?=$base_url?>/recursos/img/logo.png"/>Ruta</h1>
-	</header>
 
 	<div  id="body">
 		<h1>Ingreso de datos de la ruta</h1>
@@ -50,9 +38,6 @@ $mensaje = isset($mensaje) ? $mensaje : "";
 		<?php $mensaje ?>
 		<div class="label label-danger label-md" onclick="$(this).hide(1000)"><?=$mensaje?></div>
 	</div>
-	<footer><?php $this->load->view('footer') ?></footer>
-</div>
-</body>
 <script type="text/javascript">
 function enviar(){
   document.getElementById("subir").submit();

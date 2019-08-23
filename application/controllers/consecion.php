@@ -26,65 +26,131 @@ class consecion extends CI_Controller {
 		$this->restringirAcceso();
 
 		$data['base_url'] = $this->config->item('base_url');
-//Datos de registro del contratista
-		$data['CUI_contratista'] ="";
-		$data['nombre_contratista'] ="";
-		$data['apellido_contratista'] ="";
-		$data['fecha_nacimiento_contratista'] = "";
-		$data['telefono_contratista'] ="";
-		$data['aldea_id_aldea'] = "";
-		$data['domicilio_contratista'] = "";
-		$data['usuario_id_usuario'] = $this->session->IDUSUARIO;
 
-//Datos de registro del piloto
-		$data['numero_licencia'] ="";
-		$data['nombre_piloto'] ="";
-		$data['apellido_piloto'] ="";
-		$data['fecha_nacimiento_piloto'] = "";
-		$data['telefono_piloto'] ="";
-		$data['aldea_id_aldea_piloto'] = "";
-		$data['domicilio_piloto'] = "";
+		$data['ruta'] = $this->consecion_model->seleccionarRuta();//selecciona la ruta
 
+		$data['numero_consecion'] = "";
+		$data['descripcion'] = "";
+		$id_contratista_existe = "";
+//ingresa todos los datos a la base de datos
+		if (isset($_POST['finalizar'])) {
+					$data['numero_consecion']  = $_POST['numero_consecion'];
+					$data['descripcion'] = $_POST['descripcion'];
+					$data['ruta_id_ruta'] = $_POST['ruta_id_ruta'];
+					$id_usuario =	$this->session->IDUSUARIO;
+				/*crear contratista*/
+				if ( null== $this->session->userdata('id_contratista_existe')) {//verifica si existe yá un contratista
 
-		if (isset($_POST['guardar'])) {
-			$data['nombre'] = str_replace(["<",">"], "", $_POST['nombre']);
-			$data['fecha_nacimiento'] = $_POST['fecha_nacimiento'];
-			$data['CUI'] = str_replace(["<",">"], "", $_POST['CUI']);
-			$data['email'] = str_replace(["<",">"], "", $_POST['email']);
-			$data['telefono'] = str_replace(["<",">"], "", $_POST['telefono']);
-			$data['numero'] = $_POST['numero'];
-			$data['rama'] = str_replace(["<",">"], "", $_POST['rama']);
-			$data['nombre_familiar'] = str_replace(["<",">"], "", $_POST['nombre_familiar']);
-			$data['telefono_familiar'] = str_replace(["<",">"], "", $_POST['telefono_familiar']);
-			$data['municipio_id_municipio'] = $_POST['municipio'];
+				$this->crearPersona(
+					$this->session->userdata('nombre_contratista'),
+					$this->session->userdata('apellido_contratista'),
+					$this->session->userdata('fecha_nacimiento_contratista')
+				);
+			$id_persona = $this->consecion_model->seleccionar_id_persona();
 
-			$validacion = $this->corredor_model->seleccionarCorredor($data['CUI'], $data['numero']);
-
-				if ($validacion == 0 and $data['municipio_id_municipio'] != 0) {
-					$this->corredor_model->crear_corredor($data['nombre'], $data['fecha_nacimiento'], $data['CUI']
-		 			,$data['email'],$data['telefono'], $data['rama'],$data['usuario_id_usuario']
-					,$data['municipio_id_municipio']);//ingresa datos en la tabla correror
-
-					$id_corredor = $this->corredor_model->seleccionar_id_corredor($data['CUI']);
-					$this->corredor_model->crear_familiar($id_corredor,	$data['nombre_familiar'], $data['telefono_familiar']);//ingresar datos en la tabla familia
-					$this->corredor_model->crear_inscripcion($id_corredor,	$data['numero']);//ingresar datos del numero y el año de competicion
-					$data['mensaje'] = "<div class=\"alert alert-success\" role=\"alert\">
-  															Datos guardados exitosamente
-															</div>";
-				//exite un CUI o Numero duplicado
-				}elseif ($validacion == 1 ) {
-					$data['mensaje'] = "<div class=\"alert alert-danger\" role=\"alert\">
-  															No se pudo guardar el registro, CUI o numero de atleta duplicados
-															</div>";
-				}elseif ($data['municipio_id_municipio'] == 0) {
-						$data['mensaje'] = "<div class=\"alert alert-danger\" role=\"alert\">
-																	Debe seleccionar un país de origen, un departamento y un municipio
-																</div>";
-						}
-
+			$this->consecion_model->crear_contratista(
+				$this->session->userdata('telefono_contratista'),
+				$this->session->userdata('CUI_contratista'),
+				$this->session->userdata('domicilio_contratista'),
+				$id_persona,
+				$this->session->userdata('aldea_id_aldea_contratista')
+			);
+			$id_contratista = $this->consecion_model->seleccionar_id_contratista();
+		}else {
+			$id_contratista = $this->session->userdata('id_contratista_existe');
 		}
+		/*crear ayudante*/
+		$this->crearPersona(
+			$this->session->userdata('nombre_ayudante'),
+			$this->session->userdata('apellido_ayudante'),
+			$this->session->userdata('fecha_nacimiento_ayudante')
+		);
+		$id_persona = $this->consecion_model->seleccionar_id_persona();
+
+		$this->consecion_model->crear_ayudante(
+			$this->session->userdata('CUI_ayudante'),
+			$this->session->userdata('domicilio_ayudante'),
+			$id_persona,
+			$this->session->userdata('aldea_id_aldea_ayudante')
+		);
+		$id_ayudante = $this->consecion_model->seleccionar_id_ayudante();
+		/*crear piloto*/
+		$this->crearPersona(
+			$this->session->userdata('nombre_conductor'),
+			$this->session->userdata('apellido_conductor'),
+			$this->session->userdata('fecha_nacimiento_conductor')
+		);
+		$id_persona = $this->consecion_model->seleccionar_id_persona();
+
+		$this->consecion_model->crear_conductor(
+			$this->session->userdata('numero_licencia'),
+			$this->session->userdata('domicilio_conductor'),
+			$this->session->userdata('telefono_conductor'),
+			$id_persona,
+			$this->session->userdata('tipo_licencia_id_tipo'),
+			$this->session->userdata('aldea_id_aldea_contratista'),
+			$id_ayudante
+		);
+		$id_conductor = $this->consecion_model->seleccionar_id_conductor();
+
+		/*crear vehiculo*/
+		$this->consecion_model->crear_vehiculo(
+			$this->session->userdata('modelo_vehiculo'),
+			$this->session->userdata('color_id_color_vehiculo'),
+			$this->session->userdata('placas_vehiculo'),
+			$this->session->userdata('tipo_id_tipo_vehiculo'),
+			$this->session->userdata('marca_id_marca_vehiculo')
+		);
+		$id_vehiculo = $this->consecion_model->seleccionar_id_vehiculo();
+		/*crear consecion*/
+		$this->consecion_model->crear_consecion(
+			$data['numero_consecion'],
+			$data['descripcion'],
+			$id_contratista,
+			$data['ruta_id_ruta'],
+			$id_vehiculo,
+			$id_usuario,
+			$id_conductor
+		);
+		//borra todos los datos de la variable de sesion
+		$borrar = array(	'CUI_contratista',
+												'nombre_contratista',
+												'apellido_contratista',
+												'fecha_nacimiento_contratista',
+												'telefono_contratista',
+												'aldea_id_aldea_contratista',
+												'domicilio_contratista',
+												'numero_licencia',
+												'nombre_conductor',
+												'apellido_conductor',
+												'fecha_nacimiento_conductor',
+												'telefono_conductor',
+												'aldea_id_aldea_conductor',
+												'tipo_licencia_id_tipo',
+												'domicilio_conductor',
+												'CUI_ayudante',
+												'nombre_ayudante',
+												'apellido_ayudante',
+												'fecha_nacimiento_ayudante',
+												'aldea_id_aldea_ayudante',
+												'domicilio_ayudante',
+												'placas_vehiculo',
+												'modelo_vehiculo',
+												'color_id_color_vehiculo',
+												'tipo_id_tipo_vehiculo',
+												'marca_id_marca_vehiculo'
+											);
+		$this->session->unset_userdata($borrar);
+	}
 		$this->load->view('crear_consecion', $data);
 	}
+
+	private function crearPersona($nombre,$apellido, $fecha_nacimiento){
+			$this->consecion_model->crear_persona(
+				$nombre, $apellido,$fecha_nacimiento
+			);
+	}
+
 
 	public function crearRuta() {
 		$this->restringirAcceso();
@@ -99,11 +165,8 @@ class consecion extends CI_Controller {
 			echo $data['descripcion'];
 
 		$this->consecion_model->crear_ruta($data['ruta'], $data['descripcion']);//ingresa datos en la tabla ruta
-			$data['mensaje'] = "<div class=\"alert alert-success\" role=\"alert\">
-  															Datos guardados exitosamente
-															</div>";
+		redirect("/consecion/crear");
 		}
-		$this->load->view('crear_ruta', $data);
 	}
 
 	public function buscar()
@@ -146,13 +209,12 @@ class consecion extends CI_Controller {
 		}
 	}
 
-
-	public function detalles($id = 0) {
+	public function listar() {
 		$this->restringirAcceso();
 		$data['base_url'] = $this->config->item('base_url');
 
-		$data['arr'] = $this->corredor_model->seleccionarDetalle($id);
-		$this->load->view('detalle', $data);
+		$data['arr'] = $this->consecion_model->listar();
+		$this->load->view('listar_consecion', $data);
 
 		}
 

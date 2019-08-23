@@ -17,207 +17,76 @@ $mensaje = isset($mensaje) ? $mensaje : "";
 
 	<div  id="body">
 		<form  id="subir" action="<?=$base_url?>/consecion/crear/" method="POST">
-			<h1>Ingreso de datos del contratista</h1>
-			<table border="1">
+			<h1>Ingreso de datos de la conseción</h1>
+			<table class="table table-bordered" border="1">
 				<tr>
-					<td><strong>Ingrese No. de documento DPI<strong style="color: red; font-size: 20px">*</strong></strong></td>
+					<td><strong>Ingrese No. de la consecion<strong style="color: red; font-size: 20px">*</strong></strong></td>
 					<td>
-						<input type="number" class="form-control" placeholder="CUI" name="CUI_contratista" min="999999999999" required value="<?=$CUI_contratista?>">
+						<input type="number" class="form-control" placeholder="numero" name="numero_consecion" min="100" required value="<?=$numero_consecion?>">
 					</td>
 				</tr>
 				<tr>
-					<td><strong>Nombre<strong style="color: red; font-size: 20px">*</strong></strong></td>
+					<td><strong>Seleccionar la ruta que cubre</strong></td>
 					<td>
-						<input type="text" class="form-control" placeholder="Nombre" name="nombre_contratista" required maxlength="50" size="50" value="<?=$nombre_contratista?>">
-					</td>
-				</tr>
-				<tr>
-					<td><strong>Apellido<strong style="color: red; font-size: 20px">*</strong></strong></td>
-					<td>
-						<input type="text" class="form-control" placeholder="Apellido" name="Apellido_contratista" required maxlength="50" size="50" value="<?=$apellido_contratista?>">
-					</td>
-				</tr>
-				<tr>
-					<td><strong>Fecha de nacimiento<strong style="color: red; font-size: 20px">*</strong></strong></td>
-					<td>
-						<input id="fecha" onchange="validarFecha()" type="date" class="form-control" name="fecha_nacimiento_contratista" required value="<?=$fecha_nacimiento_contratista?>">
-					</td>
-				</tr>
-				<tr>
-					<td><strong>Teléfono</strong></td>
-					<td>
-						<input type="number" class="form-control" min="1" placeholder="Número de teléfono" name="telefono_contratista" required value="<?=$telefono_contratista?>">
-					</td>
-				</tr>
-				<tr>
-					<td><strong>Seleccionar Municipio</strong></td>
-					<td>
-						<select class="custom-select" name="municipio" id="municipio">
-							<option value="0">Seleccionar</option>
-						</select>
-					</td>
-				</tr>
-				<tr>
-					<td><strong>Seleccionar Aldea o Caserío</strong></td>
-					<td>
-						<select class="custom-select" name="municipio" id="Aldea">
-							<option value="0">Seleccionar</option>
-						</select>
-					</td>
-				</tr>
-				<tr>
-					<td><strong>Ingrese lugar de domicilio</strong></td>
-					<td>
-						<input type="text" class="form-control" placeholder="Domicilio" name="domicilio_contratista" required value="<?=$domicilio_contratista?>">
-					</td>
-				</tr>
-				</tr>
-			</table>
-			<hr>
-			<hr>
+						<select class="custom-select" name="ruta_id_ruta">
+							<?php foreach ($ruta as $key) {?>
+							<option value="<?php echo $key['id_ruta']; ?>"><?php echo $key['nombre']; ?></option>
+							<?php	} ?>
+						</select>Ingresar ruta nueva
+						<!-- Boton que activa la ventana emergente-->
+						<img type="button" data-toggle="modal" data-target="#exampleModal" data-whatever="@mdo" src="<?=$base_url?>/recursos/img/plus.png" style="width: 24px;" alt=""><br>
 
-			<!-- Formulario para el ingreso del conductor asociado a la consecion-->
-			<h1>Ingreso de datos del Conductor</h1>
-			<table border="1">
-				<tr>
-					<td><strong>Ingrese No. de licencia<strong style="color: red; font-size: 20px">*</strong></strong></td>
-					<td>
-						<input type="number" class="form-control" placeholder="Número" min="999999999999" name="$numero_licencia" required value="<?=$numero_licencia?>">
 					</td>
 				</tr>
 				<tr>
-					<td><strong>Seleccione tipo de licencia</strong></td>
+					<td><strong>Ingrese una descripción</strong></td>
 					<td>
-						<select class="custom-select" name="tipo_licencia">
-							<option value="0">Seleccionar</option>
-						</select>
-					</td>
-				</tr>
-				<tr>
-					<td><strong>Nombre<strong style="color: red; font-size: 20px">*</strong></strong></td>
-					<td>
-						<input type="text" class="form-control" placeholder="Nombre" name="nombre_piloto" required maxlength="50" size="50" value="<?=$nombre_piloto?>">
-					</td>
-				</tr>
-				<tr>
-					<td><strong>Apellido<strong style="color: red; font-size: 20px">*</strong></strong></td>
-					<td>
-						<input type="text" class="form-control" placeholder="Apellido" name="Apellido_piloto" required maxlength="50" size="50" value="<?=$apellido_piloto?>">
-					</td>
-				</tr>
-				<tr>
-					<td><strong>Fecha de nacimiento<strong style="color: red; font-size: 20px">*</strong></strong></td>
-					<td>
-						<input id="fecha2" onchange="validarFecha()" type="date" class="form-control" name="fecha_nacimiento_piloto" required value="<?=$fecha_nacimiento_piloto?>">
-					</td>
-				</tr>
-				<tr>
-					<td><strong>Teléfono</strong></td>
-					<td>
-						<input type="number" class="form-control" min="10000000" max="99999999" placeholder="Número de teléfono" name="telefono_piloto" required value="<?=$telefono_piloto?>">
-					</td>
-				</tr>
-				<tr>
-					<td><strong>Seleccionar Municipio</strong></td>
-					<td>
-						<select class="custom-select" name="municipio" id="municipio">
-							<option value="0">Seleccionar</option>
-						</select>
-					</td>
-				</tr>
-				<tr>
-					<td><strong>Seleccionar Aldea o Caserío</strong></td>
-					<td>
-						<select class="custom-select" name="municipio" id="municipio">
-							<option value="0">Seleccionar</option>
-						</select>
-					</td>
-				</tr>
-				<tr>
-					<td><strong>Ingrese lugar de domicilio</strong></td>
-					<td>
-						<input type="text" class="form-control" placeholder="Domicilio" name="domicilio_piloto" required value="<?=$domicilio_piloto?>">
+						<textarea class="form-control" id="message-text" name="descripcion" value="<?php $descripcion ?>"></textarea>
 					</td>
 				</tr>
 				</tr>
-			</table>
-			<hr>
-			<hr>
-
-			<!-- Formulario para el ingreso de los datos del vehiculo-->
-			<h1>Ingreso de datos del vehiculo</h1>
-			<table border="1">
-				<tr>
-					<td><strong>Ingrese No. de placas<strong style="color: red; font-size: 20px">*</strong></strong></td>
-					<td>
-						<input type="text" class="form-control" placeholder="Placas"  name="$numero_placa" required value="<?=$numero_placa?>">
-					</td>
-				</tr>
-				<tr>
-					<td><strong>Seleccione el modelo</strong></td>
-					<td>
-						<select class="custom-select" name="tipo_licencia">
-							<?php
-							$año_inicio  = '1950';
-							$años_actual = date("Y");
-							while ($año_inicio < $años_actual) { $año_inicio = $año_inicio + 1; ?>
-								<option value=""><?php echo "$año_inicio"; ?></option>
-							<?php } ?>
-						</select>
-					</td>
-				</tr>
-				<tr>
-					<td><strong>Nombre<strong style="color: red; font-size: 20px">*</strong></strong></td>
-					<td>
-						<input type="text" class="form-control" placeholder="Nombre" name="nombre_piloto" required maxlength="50" size="50" value="<?=$nombre_piloto?>">
-					</td>
-				</tr>
-				<tr>
-					<td><strong>Apellido<strong style="color: red; font-size: 20px">*</strong></strong></td>
-					<td>
-						<input type="text" class="form-control" placeholder="Apellido" name="Apellido_piloto" required maxlength="50" size="50" value="<?=$apellido_piloto?>">
-					</td>
-				</tr>
-				<tr>
-					<td><strong>Fecha de nacimiento<strong style="color: red; font-size: 20px">*</strong></strong></td>
-					<td>
-						<input id="fecha2" onchange="validarFecha()" type="Year" class="form-control" name="fecha_nacimiento_piloto" required value="<?=$fecha_nacimiento_piloto?>">
-					</td>
-				</tr>
-				<tr>
-					<td><strong>Teléfono</strong></td>
-					<td>
-						<input type="number" class="form-control" min="10000000" max="99999999" placeholder="Número de teléfono" name="telefono_piloto" required value="<?=$telefono_piloto?>">
-					</td>
-				</tr>
-				<tr>
-					<td><strong>Seleccionar Municipio</strong></td>
-					<td>
-						<select class="custom-select" name="municipio" id="municipio">
-							<option value="0">Seleccionar</option>
-						</select>
-					</td>
-				</tr>
-				<tr>
-					<td><strong>Seleccionar Aldea o Caserío</strong></td>
-					<td>
-						<select class="custom-select" name="municipio" id="municipio">
-							<option value="0">Seleccionar</option>
-						</select>
-					</td>
-				</tr>
-				<tr>
-					<td><strong>Ingrese lugar de domicilio</strong></td>
-					<td>
-						<input type="text" class="form-control" placeholder="Domicilio" name="domicilio_piloto" required value="<?=$domicilio_piloto?>">
-					</td>
-				</tr>
-				</tr>
+				<?php
+					 echo '<b>Datos form1</b>';
+					 print_r($this->session->userdata());
+					 echo '<pre>';
+				?>
 			</table>
 			<td colspan="2">
-				<input class="btn btn-primary btn-md" type="submit" role="button" name="guardar" value="Guardar">
+				<input class="btn btn-primary btn-md" type="submit" role="button" name="finalizar" value="Finalizar">
+				<input class="btn btn-danger btn-md"  role="button" onclick="mensaje()"  name="cancelar" value="Cancelar">
 			</td>
 		</form>
+		<!-- inicio del formulario emergente-->
+		<div class="modal fade" id="exampleModal" tabindex="-1" role="dialog" aria-labelledby="exampleModalLabel" aria-hidden="true">
+			<div class="modal-dialog" role="document">
+				<div class="modal-content">
+					<div class="modal-header">
+						<h5 class="modal-title" id="exampleModalLabel" style="color:white;">Crear Ruta</h5>
+						<button type="button" class="close" data-dismiss="modal" aria-label="Close">
+							<span aria-hidden="true">&times;</span>
+						</button>
+					</div>
+					<div class="modal-body">
+						<form id="subir" action="<?=$base_url?>/consecion/crearRuta/" method="POST">
+							<div class="form-group">
+								<label for="recipient-name" class="col-form-label" style="color:white;">Ingrese nombre de la ruta</label>
+								<input type="text" class="form-control" id="recipient-name" name="ruta" value="<?php $rut ?>">
+							</div>
+							<div class="form-group">
+								<label for="message-text" class="col-form-label" style="color:white;">ingrese una descripción</label>
+								<textarea class="form-control" id="message-text" name="descripcion" value="<?php $descripcion ?>"></textarea>
+							</div>
+							<div class="modal-footer">
+								<button type="button" class="btn btn-secondary" data-dismiss="modal" style="color:white;">Cerrar</button>
+								<button  type="submit" class="btn btn-primary" name="guardar" value="Guardar" style="color:white;">Guardar</button>
+								<?php $ruta ?>
+							</div>
+						</form>
+					</div>
+				</div>
+			</div>
+		</div>
+		<!-- Fin ventana emergente-->
 		<?php $mensaje ?>
 		<div class="label label-danger label-md" onclick="$(this).hide(1000)"><?=$mensaje?></div>
 	</div>
@@ -229,47 +98,14 @@ $mensaje = isset($mensaje) ? $mensaje : "";
 
 
 <script type="text/javascript">
-//funcion Ajax para buscar en base de datos
-$(function(){
-	$.post('<?=$base_url?>/corredor/pais').done(function(respuesta){
-		$('#pais').html(respuesta);
+function mensaje(){
+	// confirm dialog
+alertify.confirm("¿Está seguro de omitir?", function (e) {
+		if (e) {
+			document.getElementById("subir").submit(); //Sube el documento
+		}else{
+		}
 	});
-
-	//lista de departamentos
-	$('#pais').change(function(){
-		var el_pais = $(this).val();
-
-		$.post('<?=$base_url?>/corredor/departamento',{pais: el_pais}).done(function(respuesta){
-			$('#departamento').html(respuesta);
-		});
-	});
-
-	//listar de Municipios
-	$('#departamento').change(function(){
-		var id_depto = $(this).val();
-
-		$.post('<?=$base_url?>/corredor/municipio',{departamento: id_depto}).done(function(respuesta){
-			$('#municipio').html(respuesta);
-		});
-	});
-})
-
-function validarFecha()
-{
-	var hoy = new Date();
-	let fecha_form_usuario = document.getElementById('fecha').value;
-	let fecha_form = new Date(fecha_form_usuario);
-
-// Comparamos solo las fechas => no las horas!!
-hoy.setHours(0,0,0,0);  // Lo iniciamos a 00:00 horas
-
-if (fecha_form >= hoy) {
-  alert('Fecha no valida');
-	  document.getElementById("fecha").value = "";
-}
-else {
-
-}
 }
 </script>
 </html>

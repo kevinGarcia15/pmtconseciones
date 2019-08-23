@@ -48,6 +48,7 @@ class conductor extends CI_Controller {
 												'fecha_nacimiento_conductor' => $_POST['fecha_nacimiento_conductor'],
 												'telefono_conductor' => $_POST['telefono_conductor'],
 												'aldea_id_aldea_conductor' => $_POST['aldea_id_aldea_conductor'],
+												'tipo_licencia_id_tipo' => $_POST['tipo_licencia'],
 												'domicilio_conductor' => $_POST['domicilio_conductor']
 											 );
 								$this->session->set_userdata($conductor);

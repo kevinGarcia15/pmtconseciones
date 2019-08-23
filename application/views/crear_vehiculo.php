@@ -21,19 +21,49 @@ $mensaje = isset($mensaje) ? $mensaje : "";
 				<tr>
 					<td><strong>Ingrese No. de placas<strong style="color: red; font-size: 20px">*</strong></strong></td>
 					<td>
-						<input type="text" class="form-control" placeholder="Placas"  name="$numero_placa" required value="">
+						<input type="text" class="form-control" placeholder="Placas"  name="placas_vehiculo" required value="<?php $placas_vehiculo ?>">
 					</td>
 				</tr>
 				<tr>
 					<td><strong>Seleccione el modelo</strong></td>
 					<td>
-						<select class="custom-select" name="modelo">
+						<select class="custom-select" name="modelo_vehiculo">
 							<?php
 							$año_inicio  = '1950';
 							$años_actual = date("Y");
 							while ($año_inicio < $años_actual) { $año_inicio = $año_inicio + 1; ?>
-								<option value=""><?php echo "$año_inicio"; ?></option>
+								<option value="<?php echo $año_inicio; ?>"><?php echo "$año_inicio"; ?></option>
 							<?php } ?>
+						</select>
+					</td>
+				</tr>
+				<tr>
+					<td><strong>Seleccionar color del Vehículo</strong></td>
+					<td>
+						<select class="custom-select" name="color_id_color_vehiculo">
+							<?php foreach ($color as $key) {?>
+							<option value="<?php echo $key['id_color']; ?>"><?php echo $key['color']; ?></option>
+							<?php	} ?>
+						</select>
+					</td>
+				</tr>
+				<tr>
+					<td><strong>Seleccionar el tipo de vehículo</strong></td>
+					<td>
+						<select class="custom-select" name="tipo_id_tipo_vehiculo">
+							<?php foreach ($tipo as $key) {?>
+							<option value="<?php echo $key['id_tipo']; ?>"><?php echo $key['tipo_vehiculo']; ?></option>
+							<?php	} ?>
+						</select>
+					</td>
+				</tr>
+				<tr>
+					<td><strong>Seleccionar la marca del vehículo</strong></td>
+					<td>
+						<select class="custom-select" name="marca_id_marca_vehiculo">
+							<?php foreach ($marca as $key) {?>
+							<option value="<?php echo $key['id_marca']; ?>"><?php echo $key['nombre']; ?></option>
+							<?php	} ?>
 						</select>
 					</td>
 				</tr>
@@ -57,24 +87,5 @@ $mensaje = isset($mensaje) ? $mensaje : "";
 
 
 <script type="text/javascript">
-
-function validarFecha()
-{
-	var hoy = new Date();
-	let fecha_form_usuario = document.getElementById('fecha').value;
-	let fecha_form = new Date(fecha_form_usuario);
-
-// Comparamos solo las fechas => no las horas!!
-hoy.setHours(0,0,0,0);  // Lo iniciamos a 00:00 horas
-
-if (fecha_form >= hoy) {
-  alert('Fecha no valida');
-	  document.getElementById("fecha").value = "";
-}
-else {
-
-}
-}
-
 </script>
 </html>

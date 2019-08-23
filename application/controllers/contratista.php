@@ -60,7 +60,7 @@ class contratista extends CI_Controller {
 				//usa una variable de session para guardar el id del contratista
 				$contratistaid = array(
 												'id_contratista_existe'  => $_POST['id_contratista'] );
-								$this->session->set_userdata($contratistaid);
+				$this->session->set_userdata($contratistaid);
 				redirect("/conductor/crearConductor");
 
 			}else {
@@ -74,6 +74,8 @@ class contratista extends CI_Controller {
 												'domicilio_contratista' => $_POST['domicilio_contratista']
 											 );
 								$this->session->set_userdata($contratista);
+
+
 
 	/*			$this->contratista_model->crear_persona($data['nombre_contratista'], $data['apellido_contratista'], $data['fecha_nacimiento_contratista']);
 				$id_persona = $this->contratista_model->seleccionar_id_persona();

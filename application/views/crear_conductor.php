@@ -99,6 +99,7 @@ $mensaje = isset($mensaje) ? $mensaje : "";
 	</div>
 	<?php
 		 print_r($this->session->userdata());
+		  echo $this->session->tempdata('nombre_contratista');
 	?>
 	<hr><hr><hr>
 	<footer><?php $this->load->view('footer') ?></footer>
