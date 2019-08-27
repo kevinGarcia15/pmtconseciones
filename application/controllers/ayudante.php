@@ -49,6 +49,19 @@ class ayudante extends CI_Controller {
 				 	redirect("/vehiculo/crearVehiculo");
 
 		}
+		if ($this->input->post('omitir') == 'omitir'){
+			$canton_aldea = 46;//id de valor null o No Aplica N/A
+			$ayudante = array(
+											'CUI_ayudante'  => NULL,
+											'nombre_ayudante' => $_POST['nombre_ayudante'],
+											'apellido_ayudante' => $_POST['apellido_ayudante'],
+											'fecha_nacimiento_ayudante' => $_POST['fecha_nacimiento_ayudante'],
+											'aldea_id_aldea_ayudante' => $canton_aldea,
+											'domicilio_ayudante' => $_POST['domicilio_ayudante']
+										 );
+							$this->session->set_userdata($ayudante);
+			redirect("/vehiculo/crearVehiculo");
+		}
 		$this->load->view('crear_ayudante', $data);
 	}
 

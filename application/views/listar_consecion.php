@@ -11,11 +11,14 @@ $htmltrow = "<tr>
 				<td>%s</td>
 				<td>%s</td>
 				<td>%s</td>
+				<td><a class='btn btn-secondary' href=\"${base_url}/consecion/editar/%s\">Editar</a></td>
+				<td><a class='btn btn-secondary' href=\"${base_url}/consecion/detalles/%s\">Ver mas</a></td>
+
 			 	</tr>";
 $htmltrows = "";
 
 foreach ($arr as $a) {
-	$htmltrows .= sprintf($htmltrow,$a['numero'],$a['nombre_contratista'],$a['nombre_piloto'],$a['ruta'],$a['tipo']);
+	$htmltrows .= sprintf($htmltrow,$a['numero'],$a['nombre_contratista'],$a['nombre_piloto'],$a['ruta'],$a['tipo'],$a['id_consecion'],$a['id_consecion']);
 }
 ?>
 <!DOCTYPE html>
@@ -60,6 +63,8 @@ foreach ($arr as $a) {
 			<th>Nombre del piloto</th>
 			<th>Ruta</th>
 			<th>Tipo de vehículo</th>
+			<th>Editar</th>
+			<th>Detalles</th>
 		</thead>
 		<tbody>
 			<?=$htmltrows?>

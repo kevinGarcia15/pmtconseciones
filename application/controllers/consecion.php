@@ -88,7 +88,7 @@ class consecion extends CI_Controller {
 			$this->session->userdata('telefono_conductor'),
 			$id_persona,
 			$this->session->userdata('tipo_licencia_id_tipo'),
-			$this->session->userdata('aldea_id_aldea_contratista'),
+			$this->session->userdata('aldea_id_aldea_conductor'),
 			$id_ayudante
 		);
 		$id_conductor = $this->consecion_model->seleccionar_id_conductor();
@@ -138,7 +138,8 @@ class consecion extends CI_Controller {
 												'modelo_vehiculo',
 												'color_id_color_vehiculo',
 												'tipo_id_tipo_vehiculo',
-												'marca_id_marca_vehiculo'
+												'marca_id_marca_vehiculo',
+												'id_contratista_existe'
 											);
 		$this->session->unset_userdata($borrar);
 	}
@@ -217,6 +218,14 @@ class consecion extends CI_Controller {
 		$this->load->view('listar_consecion', $data);
 
 		}
+
+		public function detalles($id = 0) {
+			$this->restringirAcceso();
+			$data['base_url'] = $this->config->item('base_url');
+
+			$data['arr'] = $this->consecion_model->seleccionarDetalle($id);
+			$this->load->view('detalle', $data);
+	}
 
 		public function editar($id = 0) {
 			$this->restringirAcceso();
