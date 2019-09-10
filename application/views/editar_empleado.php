@@ -30,7 +30,7 @@ foreach ($arr as $key) {
 
 	<div  id="body">
 		<form  action="<?=$base_url?>/usuario/editar/" method="POST">
-			<table border="1">
+			<table class="table table-bordered">
 				<tr>
 					<td><strong>Nombre<strong style="color: red; font-size: 20px">*</strong></strong></td>
 					<td>

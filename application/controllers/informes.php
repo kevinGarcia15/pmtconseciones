@@ -21,6 +21,16 @@ class informes extends CI_Controller {
 		$this->restringirAcceso();
 		$data['base_url'] = $this->config->item('base_url');
 	}
+	
+	public function mostrarNuevaConcesion($numero) {
+		$this->restringirAcceso();
+		$data['base_url'] = $this->config->item('base_url');
+
+		$data['arr'] = $this->informes_model->mostrar($numero);
+		$data['mensaje'] = "Datos ingresados exitosamente";
+		$this->load->view('mostrar_nueva_concesion', $data);
+
+		}
 
 	public function descargar($id){
 

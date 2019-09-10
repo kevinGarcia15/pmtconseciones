@@ -17,7 +17,7 @@ $mensaje = isset($mensaje) ? $mensaje : "";
 
 	<div  id="body">
 		<form  id="subir" action="<?=$base_url?>/usuario/crear/" method="POST">
-			<table border="1">
+			<table class="table table-bordered" >
 				<tr>
 					<td><strong>Nombre<strong style="color: red; font-size: 20px">*</strong></strong></td>
 					<td>

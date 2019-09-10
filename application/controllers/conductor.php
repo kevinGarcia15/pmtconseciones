@@ -34,7 +34,7 @@ class conductor extends CI_Controller {
 		$data['domicilio'] = "";
 		$data['telefono'] ="";
 		$data['tipo_licencia'] ="";
-		$data['aldea_id_aldea_piloto'] = "";
+		$data['municipio_id_municipio'] = "";
 		$data['ayudante_id_ayudante'] = "";
 
 		$data['licencia'] = $this->conductor_model->seleccionarLicencia();//mustra los tipos de licencias en la BD
@@ -47,7 +47,7 @@ class conductor extends CI_Controller {
 												'apellido_conductor' => $_POST['apellido_conductor'],
 												'fecha_nacimiento_conductor' => $_POST['fecha_nacimiento_conductor'],
 												'telefono_conductor' => $_POST['telefono_conductor'],
-												'aldea_id_aldea_conductor' => $_POST['aldea_id_aldea_conductor'],
+												'municipio_conductor' => $_POST['municipio_conductor'],
 												'tipo_licencia_id_tipo' => $_POST['tipo_licencia'],
 												'domicilio_conductor' => $_POST['domicilio_conductor']
 											 );

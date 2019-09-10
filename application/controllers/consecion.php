@@ -31,10 +31,16 @@ class consecion extends CI_Controller {
 
 		$data['numero_consecion'] = "";
 		$data['descripcion'] = "";
+		$data['tarifa'] = "";
+		$data['horario_inicio'] = "";
+		$data['horario_fin'] = "";
 		$id_contratista_existe = "";
 //ingresa todos los datos a la base de datos
 		if (isset($_POST['finalizar'])) {
 					$data['numero_consecion']  = $_POST['numero_consecion'];
+					$data['tarifa'] = $_POST['tarifa'];
+					$data['horario_inicio'] = $_POST['horario_inicio'];
+					$data['horario_fin'] = $_POST['horario_fin'];
 					$data['descripcion'] = $_POST['descripcion'];
 					$data['ruta_id_ruta'] = $_POST['ruta_id_ruta'];
 					$id_usuario =	$this->session->IDUSUARIO;
@@ -50,6 +56,7 @@ class consecion extends CI_Controller {
 
 			$this->consecion_model->crear_contratista(
 				$this->session->userdata('telefono_contratista'),
+				$this->session->userdata('telefono2_contratista'),
 				$this->session->userdata('CUI_contratista'),
 				$this->session->userdata('domicilio_contratista'),
 				$id_persona,
@@ -71,7 +78,8 @@ class consecion extends CI_Controller {
 			$this->session->userdata('CUI_ayudante'),
 			$this->session->userdata('domicilio_ayudante'),
 			$id_persona,
-			$this->session->userdata('aldea_id_aldea_ayudante')
+			$this->session->userdata('telefono_ayudante'),
+			$this->session->userdata('municipio_ayudante')
 		);
 		$id_ayudante = $this->consecion_model->seleccionar_id_ayudante();
 		/*crear piloto*/
@@ -88,7 +96,7 @@ class consecion extends CI_Controller {
 			$this->session->userdata('telefono_conductor'),
 			$id_persona,
 			$this->session->userdata('tipo_licencia_id_tipo'),
-			$this->session->userdata('aldea_id_aldea_conductor'),
+			$this->session->userdata('municipio_conductor'),
 			$id_ayudante
 		);
 		$id_conductor = $this->consecion_model->seleccionar_id_conductor();
@@ -96,7 +104,9 @@ class consecion extends CI_Controller {
 		/*crear vehiculo*/
 		$this->consecion_model->crear_vehiculo(
 			$this->session->userdata('modelo_vehiculo'),
+			$this->session->userdata('tarjeta_circulacion'),
 			$this->session->userdata('color_id_color_vehiculo'),
+			$this->session->userdata('color_variante'),
 			$this->session->userdata('placas_vehiculo'),
 			$this->session->userdata('tipo_id_tipo_vehiculo'),
 			$this->session->userdata('marca_id_marca_vehiculo')
@@ -105,6 +115,9 @@ class consecion extends CI_Controller {
 		/*crear consecion*/
 		$this->consecion_model->crear_consecion(
 			$data['numero_consecion'],
+			$data['tarifa'],
+			$data['horario_inicio'],
+			$data['horario_fin'],
 			$data['descripcion'],
 			$id_contratista,
 			$data['ruta_id_ruta'],
@@ -118,6 +131,7 @@ class consecion extends CI_Controller {
 												'apellido_contratista',
 												'fecha_nacimiento_contratista',
 												'telefono_contratista',
+												'telefono2_contratista',
 												'aldea_id_aldea_contratista',
 												'domicilio_contratista',
 												'numero_licencia',
@@ -125,14 +139,15 @@ class consecion extends CI_Controller {
 												'apellido_conductor',
 												'fecha_nacimiento_conductor',
 												'telefono_conductor',
-												'aldea_id_aldea_conductor',
+												'municipio_conductor',
 												'tipo_licencia_id_tipo',
 												'domicilio_conductor',
 												'CUI_ayudante',
 												'nombre_ayudante',
 												'apellido_ayudante',
 												'fecha_nacimiento_ayudante',
-												'aldea_id_aldea_ayudante',
+												'municipio_ayudante',
+												'telefono_ayudante',
 												'domicilio_ayudante',
 												'placas_vehiculo',
 												'modelo_vehiculo',
@@ -141,11 +156,14 @@ class consecion extends CI_Controller {
 												'marca_id_marca_vehiculo',
 												'id_contratista_existe'
 											);
-		$this->session->unset_userdata($borrar);
+		$this->session->unset_userdata($borrar);//borra las variables de sesion
+	redirect("/informes/mostrarNuevaConcesion/${data['numero_consecion']}");
+
 	}
 		$this->load->view('crear_consecion', $data);
 	}
 
+//funcion donde se crea a las personas
 	private function crearPersona($nombre,$apellido, $fecha_nacimiento){
 			$this->consecion_model->crear_persona(
 				$nombre, $apellido,$fecha_nacimiento
@@ -184,12 +202,25 @@ class consecion extends CI_Controller {
 		$this->load->view('Busqueda', $data);
 	}
 
+	public function departamento()
+	{
+		$this->restringirAcceso();
+		$data['base_url'] = $this->config->item('base_url');
+
+		$data['departamento'] =  $this->consecion_model->seleccionarDepartamento(); //Selelcciona el pais para el select option
+		echo '<option value="0">Seleccionar</option>';
+		foreach ($data['departamento'] as $key) {
+		echo '<option value="'.$key['id_departamento'].'">'.$key['nombre_depto'].'</option>'."\n";
+		}
+	}
+
 	public function municipio()
 	{
 		$this->restringirAcceso();
 		$data['base_url'] = $this->config->item('base_url');
 
-		$data['municipio'] =  $this->consecion_model->seleccionarMunicipio(); //Selelcciona el pais para el select option
+		$id_depto = $_POST['departamento'];
+		$data['municipio'] =  $this->consecion_model->seleccionarMunicipio($id_depto); //Selelcciona el pais para el select option
 		echo '<option value="0">Seleccionar</option>';
 		foreach ($data['municipio'] as $key) {
 		echo '<option value="'.$key['id_municipio'].'">'.$key['nombre_mun'].'</option>'."\n";

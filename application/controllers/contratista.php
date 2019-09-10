@@ -51,6 +51,7 @@ class contratista extends CI_Controller {
 		$data['apellido_contratista'] ="";
 		$data['fecha_nacimiento_contratista'] = "";
 		$data['telefono_contratista'] ="";
+		$data['telefono2_contratista']="";
 		$data['aldea_id_aldea'] = "";
 		$data['domicilio_contratista'] = "";
 
@@ -70,19 +71,11 @@ class contratista extends CI_Controller {
 												'apellido_contratista' => $_POST['apellido_contratista'],
 												'fecha_nacimiento_contratista' => $_POST['fecha_nacimiento_contratista'],
 												'telefono_contratista' => $_POST['telefono_contratista'],
+												'telefono2_contratista' => $_POST['telefono2_contratista'],
 												'aldea_id_aldea_contratista' => $_POST['aldea'],
 												'domicilio_contratista' => $_POST['domicilio_contratista']
 											 );
 								$this->session->set_userdata($contratista);
-
-
-
-	/*			$this->contratista_model->crear_persona($data['nombre_contratista'], $data['apellido_contratista'], $data['fecha_nacimiento_contratista']);
-				$id_persona = $this->contratista_model->seleccionar_id_persona();
-
-				$this->contratista_model->crear_contratista($data['telefono_contratista'],$data['CUI_contratista'],
-				$data['domicilio_contratista'], $id_persona, $data['aldea_id_aldea']);
-				$id_contratista = $this->contratista_model->seleccionar_id_contratista();*/
 				 	redirect("/conductor/crearConductor");
 			}
 		}

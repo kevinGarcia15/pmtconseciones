@@ -23,22 +23,44 @@ if (count($arr) < 1) {
 	<div id="body">
 <?php foreach ($arr as $a) {?>
 		<h4>Conseción número: <?php echo $a['numero']; ?> </h4>
-		<hr>
 		<h5>Fecha de inserción: <?php echo $a['creado']; ?> </h5>
+		<br><br>
 		<div class="">
+			<!-- informacion de la concesion-->
+			<h5>Información de la concesión</h5>
+			<hr><br>
+			<table class="table table-bordered">
+				<thead>
+					<th>Tarifa</th>
+					<th>Horario inicio de labores </th>
+					<th>Horario fin de labores</th>
+					<th>Acciones</th>
+				</thead>
+				<tbody>
+					<tr>
+						<td><?php echo "Q.".$a['tarifa']; ?></td>
+						<td><?php echo $a['h_inicio']; ?></td>
+						<td><?php echo $a['h_fin']; ?></td>
+						<td><a class='btn btn-secondary' href="<?=$base_url?>/inicio/">Editar</a></td>
+					</tr>
+				</tbody>
+			</table>
+			<br><br>
+			<!-- Datos del contratista-->
 			<h5>Información del contratista</h5>
 			<hr><br>
 			<table class="table table-bordered">
 				<thead>
-					<!-- Datos del contratista-->
 					<th>No. documento DPI</th>
 					<th>Nombre</th>
 					<th>Apellido</th>
 					<th>Fecha de nacimiento</th>
 					<th>Teléfono</th>
+					<th>Teléfono No. 2</th>
 					<th>Domicilio</th>
 					<th>Canton/Aldea</th>
 					<th>Municipio</th>
+					<th>Acciones</th>
 				</thead>
 				<tbody>
 					<tr>
@@ -47,9 +69,11 @@ if (count($arr) < 1) {
 						<td><?php echo $a['apellido_contra']; ?></td>
 						<td><?php echo $a['nacimiento_contra']; ?></td>
 						<td><?php echo $a['telefono_contra']; ?></td>
+						<td><?php echo $a['telefono2_contra']; ?></td>
 						<td><?php echo $a['domicilio_contra']; ?></td>
 						<td><?php echo $a['cantald_contra']; ?></td>
 						<td><?php echo $a['mun_contra']; ?></td>
+						<td><a class='btn btn-secondary' href="<?=$base_url?>/inicio/">Editar</a></td>
 					</tr>
 				</tbody>
 			</table>
@@ -66,8 +90,9 @@ if (count($arr) < 1) {
 					<th>Tipo de licencia</th>
 					<th>Teléfono</th>
 					<th>Domicilio</th>
-					<th>Canton/Aldea</th>
 					<th>Municipio</th>
+					<th>Departamento</th>
+					<th>Acciones</th>
 				</thead>
 				<tbody>
 					<tr>
@@ -78,8 +103,9 @@ if (count($arr) < 1) {
 						<td><?php echo $a['tipo_lice']; ?></td>
 						<td><?php echo $a['telefono_piloto']; ?></td>
 						<td><?php echo $a['domicilio_piloto']; ?></td>
-						<td><?php echo $a['cant_piloto']; ?></td>
-						<td><?php echo $a['mun_contra']; ?></td>
+						<td><?php echo $a['mun_pil']; ?></td>
+						<td><?php echo $a['depto_pil']; ?></td>
+						<td><a class='btn btn-secondary' href="<?=$base_url?>/inicio/">Editar</a></td>
 					</tr>
 				</tbody>
 			</table>
@@ -94,8 +120,9 @@ if (count($arr) < 1) {
 					<th>Apellido</th>
 					<th>Fecha de nacimiento</th>
 					<th>Domicilio</th>
-					<th>Canton/Aldea</th>
 					<th>Municipio</th>
+					<th>Departamento</th>
+					<th>Acciones</th>
 				</thead>
 				<tbody>
 					<tr>
@@ -104,8 +131,9 @@ if (count($arr) < 1) {
 						<td><?php echo $a['apellido_ayudante']; ?></td>
 						<td><?php echo $a['nacimiento_ayudante']; ?></td>
 						<td><?php echo $a['domicilio_ayudante']; ?></td>
-						<td><?php echo $a['cantald_ayudante']; ?></td>
 						<td><?php echo $a['mun_ayudante']; ?></td>
+						<td><?php echo $a['depto_ayudante']; ?></td>
+						<td><a class='btn btn-secondary' href="<?=$base_url?>/inicio/">Editar</a></td>
 					</tr>
 				</tbody>
 			</table>
@@ -116,20 +144,24 @@ if (count($arr) < 1) {
 			<table class="table table-bordered">
 				<thead>
 					<th>Número de placa</th>
+					<th>Número de tarjeta de circulación</th>
 					<th>Modelo</th>
 					<th>Color</th>
+					<th>Variante de color</th>
 					<th>Tipo</th>
 					<th>Marca</th>
-					<th>Otros</th>
+					<th>Acciones</th>
 				</thead>
 				<tbody>
 					<tr>
 						<td><?php echo $a['placa']; ?></td>
+						<td><?php echo $a['tarjeta_circulacion']; ?></td>
 						<td><?php echo $a['modelo']; ?></td>
 						<td><?php echo $a['color']; ?></td>
+						<td><?php echo $a['color_variante']; ?></td>
 						<td><?php echo $a['tipo']; ?></td>
 						<td><?php echo $a['marca']; ?></td>
-						<td><?php echo $a['descripcion_color']; ?></td>
+						<td><a class='btn btn-secondary' href="<?=$base_url?>/inicio/">Editar</a></td>
 					</tr>
 				</tbody>
 			</table>

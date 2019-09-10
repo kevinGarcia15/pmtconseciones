@@ -218,6 +218,7 @@ section .section-title {
 		<th>Apellido</th>
 		<th>Fecha de nacimiento</th>
 		<th>Teléfono</th>
+		<th>Teléfono No. 2</th>
 		<th>Domicilio</th>
 		<th>Canton/Aldea</th>
 		<th>Municipio</th>
@@ -228,6 +229,7 @@ section .section-title {
 			<td><?php echo $a['apellido_contra']; ?></td>
 			<td><?php echo $a['nacimiento_contra']; ?></td>
 			<td><?php echo $a['telefono_contra']; ?></td>
+			<td><?php echo $a['telefono2_contra']; ?></td>
 			<td><?php echo $a['domicilio_contra']; ?></td>
 			<td><?php echo $a['cantald_contra']; ?></td>
 			<td><?php echo $a['mun_contra']; ?></td>
@@ -246,8 +248,8 @@ section .section-title {
 		<th>Tipo de licencia</th>
 		<th>Teléfono</th>
 		<th>Domicilio</th>
-		<th>Canton/Aldea</th>
 		<th>Municipio</th>
+		<th>Departamento</th>
 	</tr>
 
 		<tr>
@@ -258,8 +260,8 @@ section .section-title {
 			<td><?php echo $a['tipo_lice']; ?></td>
 			<td><?php echo $a['telefono_piloto']; ?></td>
 			<td><?php echo $a['domicilio_piloto']; ?></td>
-			<td><?php echo $a['cant_piloto']; ?></td>
-			<td><?php echo $a['mun_contra']; ?></td>
+			<td><?php echo $a['mun_pil']; ?></td>
+			<td><?php echo $a['depto_pil']; ?></td>
 		</tr>
 
 </table>
@@ -274,8 +276,8 @@ section .section-title {
 		<th>Apellido</th>
 		<th>Fecha de nacimiento</th>
 		<th>Domicilio</th>
-		<th>Canton/Aldea</th>
 		<th>Municipio</th>
+		<th>Departamento</th>
 	</tr>
 
 		<tr>
@@ -284,8 +286,8 @@ section .section-title {
 			<td><?php echo $a['apellido_ayudante']; ?></td>
 			<td><?php echo $a['nacimiento_ayudante']; ?></td>
 			<td><?php echo $a['domicilio_ayudante']; ?></td>
-			<td><?php echo $a['cantald_ayudante']; ?></td>
 			<td><?php echo $a['mun_ayudante']; ?></td>
+			<td><?php echo $a['depto_ayudante']; ?></td>
 		</tr>
 
 </table>
@@ -298,18 +300,18 @@ section .section-title {
 		<th>Número de placa</th>
 		<th>Modelo</th>
 		<th>Color</th>
+		<th>Variante de color</th>
 		<th>Tipo</th>
 		<th>Marca</th>
-		<th>Otros</th>
 	</tr>
 
 		<tr>
 			<td><?php echo $a['placa']; ?></td>
 			<td><?php echo $a['modelo']; ?></td>
 			<td><?php echo $a['color']; ?></td>
+			<td><?php echo $a['color_variante']; ?></td>
 			<td><?php echo $a['tipo']; ?></td>
 			<td><?php echo $a['marca']; ?></td>
-			<td><?php echo $a['descripcion_color']; ?></td>
 		</tr>
 </table>
 <br>

@@ -416,4 +416,8 @@ body {
     font-weight: bold;
 }
 
+#names{
+    text-transform: capitalize;
+}
+
 	</style>

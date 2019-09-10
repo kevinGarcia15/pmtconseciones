@@ -11,6 +11,7 @@ $htmltrow = "<tr>
 				<td>%s</td>
 				<td>%s</td>
 				<td>%s</td>
+				<td><a class='btn btn-secondary' href=\"${base_url}/consecion/editar/%s\">Editar</a></td>
 				<td><a class='btn btn-secondary' href=\"${base_url}/consecion/detalles/%s\">Ver mas</a></td>
 
 			 	</tr>";
@@ -24,7 +25,7 @@ foreach ($arr as $a) {
 <html lang="en">
 <head>
 	<?php $this->load->view('header'); ?>
-	<title>Lista de conseciones</title>
+	<title>Nueva inserción</title>
 </head>
 <body>
 <div id="container">
@@ -40,15 +41,8 @@ foreach ($arr as $a) {
 <div class="container">
   <div class="row">
     <div class="col-sm-4">
-			<form action="<?=$base_url?>/informes/categoria"  method="POST">
-				<td><strong>Ordenar por</strong></td>
-					<select  class="form-control" onchange="consultaCategoría()" name="selectCategoria">
-						<option value="" >select</option>
-					</select>
     </div>
-    <div class="col-sm-2"><br>
-			<input type="submit" class="btn btn-default btn-xs" role="button" name="BtnCategoria" value="Ir">
-			</form>
+    <div class="col-sm-2"><br>	
     </div>
     <div class="col-sm">
     </div>
@@ -62,6 +56,7 @@ foreach ($arr as $a) {
 			<th>Nombre del piloto</th>
 			<th>Ruta</th>
 			<th>Tipo de vehículo</th>
+			<th>Editar</th>
 			<th>Detalles</th>
 		</thead>
 		<tbody>
@@ -70,7 +65,7 @@ foreach ($arr as $a) {
 	</table>
 </div>
     <br><a class='btn btn-primary btn-md' href="<?=$base_url?>/inicio/">Listo</a>
-    <div class="label label-danger label-md" onclick="$(this).hide(1000)"><?=$mensaje?></div>
+		<div class="alert alert-success" onclick="$(this).hide(1000)"><?=$mensaje?></div>
 	</div>
 	<footer><?php $this->load->view('footer') ?></footer>
 </div>

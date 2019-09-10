@@ -33,6 +33,7 @@ class ayudante extends CI_Controller {
 		$data['fecha_nacimiento_ayudante'] = "";
 		$data['aldea_id_aldea'] = "";
 		$data['domicilio_ayudante'] = "";
+			$data['telefono_ayudante'] = "";
 
 		if ($this->input->post('continuar') == 'continuar') {
 
@@ -41,7 +42,8 @@ class ayudante extends CI_Controller {
 												'nombre_ayudante' => $_POST['nombre_ayudante'],
 												'apellido_ayudante' => $_POST['apellido_ayudante'],
 												'fecha_nacimiento_ayudante' => $_POST['fecha_nacimiento_ayudante'],
-												'aldea_id_aldea_ayudante' => $_POST['aldea_id_aldea_ayudante'],
+												'municipio_ayudante' => $_POST['municipio'],
+												'telefono_ayudante' => $_POST['telefono_ayudante'],
 												'domicilio_ayudante' => $_POST['domicilio_ayudante']
 											 );
 								$this->session->set_userdata($ayudante);

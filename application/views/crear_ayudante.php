@@ -48,21 +48,29 @@ $mensaje = isset($mensaje) ? $mensaje : "";
 					</td>
 				</tr>
 				<tr>
-					<td><strong>Seleccionar Municipio</strong></td>
-					<td>
-						<select class="custom-select" name="municipio" id="municipio">
-							<option value="0">Seleccionar</option>
-						</select>
-					</td>
-				</tr>
-				<tr>
-					<td><strong>Seleccionar Aldea o Caserío</strong></td>
-					<td>
-						<select class="custom-select" name="aldea_id_aldea_ayudante" id="aldea">
-							<option value="0">Seleccionar</option>
-						</select>
-					</td>
-				</tr>
+					<tr>
+						<td><strong>Seleccionar departamento</strong></td>
+						<td>
+							<select class="custom-select" name="departamento" id="departamento">
+								<option value="0">Seleccionar</option>
+							</select>
+						</td>
+					</tr>
+					<tr>
+						<td><strong>Seleccionar municipio</strong></td>
+						<td>
+							<select class="custom-select" name="municipio" id="municipio">
+								<option value="0">Seleccionar</option>
+							</select>
+						</td>
+					</tr>
+					<tr>
+						<td><strong>Números de teléfono</strong></td>
+						<td>
+							<input type="number" required class="form-control" min="10000000" max="99999999" placeholder="Número de teléfono" name="telefono_ayudante"
+						 	value="<?php $telefono_ayudante;?>">
+						</td>
+					</tr>
 				<tr>
 					<td><strong>Ingrese lugar de domicilio</strong></td>
 					<td>
@@ -70,9 +78,6 @@ $mensaje = isset($mensaje) ? $mensaje : "";
 						 value="<?php $domicilio_ayudante;?>">
 					</td>
 				</tr>
-				<?php
-				print_r($this->session->userdata());
-				?>
 				</tr>
 			</table>
 			<td colspan="2">
@@ -103,18 +108,21 @@ alertify.confirm("¿Está seguro de omitir?", function (e) {
 
 //funcion Ajax para buscar en base de datos
 $(function(){
-	$.post('<?=$base_url?>/consecion/municipio').done(function(respuesta){
-		$('#municipio').html(respuesta);
+	$.post('<?=$base_url?>/consecion/departamento').done(function(respuesta){
+		$('#departamento').html(respuesta);
 	});
 
-	//lista de Aldeas o caserios
-	$('#municipio').change(function(){
-		var el_municipio = $(this).val();
+	//lista de municipios
+	$('#departamento').change(function(){
+		var id_depto = $(this).val();
 
-		$.post('<?=$base_url?>/consecion/aldea',{municipio: el_municipio}).done(function(respuesta){
-			$('#aldea').html(respuesta);
+		$.post('<?=$base_url?>/consecion/municipio',{departamento: id_depto}).done(function(respuesta){
+			$('#municipio').html(respuesta);
 		});
 	});
+
+
+	//listar de Municipios
 })
 
 function validarFecha()

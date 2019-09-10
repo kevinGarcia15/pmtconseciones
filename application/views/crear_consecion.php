@@ -12,44 +12,79 @@ $mensaje = isset($mensaje) ? $mensaje : "";
 <div id="container">
 	<?php $this->load->view('menu'); ?>
 	<header>
-		<h1><img width="70" src="<?=$base_url?>/recursos/img/logo.png"/> Ingreso de conseción</h1>
+		<h1><img width="70" src="<?=$base_url?>/recursos/img/logo.png"/> Ingreso de concesión</h1>
 	</header>
 
 	<div  id="body">
 		<form  id="subir" action="<?=$base_url?>/consecion/crear/" method="POST">
-			<h1>Ingreso de datos de la conseción</h1>
+			<h1>Ingreso de datos de la concesión</h1>
 			<table class="table table-bordered" border="1">
 				<tr>
-					<td><strong>Ingrese No. de la consecion<strong style="color: red; font-size: 20px">*</strong></strong></td>
+					<td><strong>Ingrese No. de la concesión<strong style="color: red; font-size: 20px">*</strong></strong></td>
 					<td>
-						<input type="number" class="form-control" placeholder="numero" name="numero_consecion" min="100" required value="<?=$numero_consecion?>">
+						<input type="number" class="form-control" placeholder="número" name="numero_consecion" min="100" required value="<?=$numero_consecion?>">
 					</td>
 				</tr>
 				<tr>
 					<td><strong>Seleccionar la ruta que cubre</strong></td>
 					<td>
-						<select class="custom-select" name="ruta_id_ruta">
-							<?php foreach ($ruta as $key) {?>
-							<option value="<?php echo $key['id_ruta']; ?>"><?php echo $key['nombre']; ?></option>
-							<?php	} ?>
-						</select>Ingresar ruta nueva
-						<!-- Boton que activa la ventana emergente-->
-						<img type="button" data-toggle="modal" data-target="#exampleModal" data-whatever="@mdo" src="<?=$base_url?>/recursos/img/plus.png" style="width: 24px;" alt=""><br>
-
+						<div class="row">
+							<div class="col-8">
+								<select class="custom-select" name="ruta_id_ruta">
+									<?php foreach ($ruta as $key) {?>
+									<option value="<?php echo $key['id_ruta']; ?>"><?php echo $key['nombre']; ?></option>
+									<?php	} ?>
+								</select>
+							</div>
+							<div class="col-2">
+								Ingresar ruta nueva
+							</div>
+							<div class="col-2">
+								<!-- Boton que activa la ventana emergente-->
+								<img type="button" data-toggle="modal" data-target="#exampleModal" data-whatever="@mdo" src="<?=$base_url?>/recursos/img/plus.png" style="width: 24px;" alt="">
+							</div>
+						</div>
 					</td>
 				</tr>
 				<tr>
-					<td><strong>Ingrese una descripción</strong></td>
+					<td><strong>Ingrese la tarifa<strong style="color: red; font-size: 20px">*</strong></strong></td>
+					<td>
+						<div class="row">
+							<div class="col-8">
+								<input type="number" step="any" min="0"class="form-control" placeholder="Tarifa báse" required name="tarifa"  value="<?php $tarifa ?>">
+							</div>
+							<div class="col-4">
+								Quetzales
+							</div>
+						</div>
+					</td>
+				</tr>
+				<tr>
+					<td><strong>Ingrese horarios<strong style="color: red; font-size: 20px">*</strong></strong></td>
+					<td>
+						<div class="row">
+							<div class="col-2">
+								horario de inicio
+							</div>
+							<div class="col-2">
+								<input type="time" min="00:00:00" max="11:59:59" class="form-control"  name="horario_inicio"  required value="<?=$horario_inicio?>">
+							</div>
+							<div class="col-2">
+								horario Fin
+							</div>
+							<div class="col-2">
+								<input type="time" min="12:00:00" max="23:59:59" class="form-control"  name="horario_fin" required value="<?=$horario_fin?>">
+							</div>
+						</div>
+					</td>
+				</tr>
+				<tr>
+					<td><strong>Observaciones</strong></td>
 					<td>
 						<textarea class="form-control" id="message-text" name="descripcion" value="<?php $descripcion ?>"></textarea>
 					</td>
 				</tr>
 				</tr>
-				<?php
-					 echo '<b>Datos form1</b>';
-					 print_r($this->session->userdata());
-					 echo '<pre>';
-				?>
 			</table>
 			<td colspan="2">
 				<input class="btn btn-primary btn-md" type="submit" role="button" name="finalizar" value="Finalizar">

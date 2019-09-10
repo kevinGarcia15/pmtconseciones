@@ -65,17 +65,17 @@ $mensaje = isset($mensaje) ? $mensaje : "";
 					</td>
 				</tr>
 				<tr>
-					<td><strong>Seleccionar Municipio</strong></td>
+					<td><strong>Seleccionar departamento</strong></td>
 					<td>
-						<select class="custom-select" name="municipio" id="municipio">
+						<select class="custom-select" name="departamento" id="departamento">
 							<option value="0">Seleccionar</option>
 						</select>
 					</td>
 				</tr>
 				<tr>
-					<td><strong>Seleccionar Aldea o Caserío</strong></td>
+					<td><strong>Seleccionar municipio</strong></td>
 					<td>
-						<select class="custom-select" name="aldea_id_aldea_conductor" id="aldea">
+						<select class="custom-select" name="municipio_conductor" id="municipio">
 							<option value="0">Seleccionar</option>
 						</select>
 					</td>
@@ -97,10 +97,6 @@ $mensaje = isset($mensaje) ? $mensaje : "";
 		<?php $mensaje ?>
 		<div class="label label-danger label-md" onclick="$(this).hide(1000)"><?=$mensaje?></div>
 	</div>
-	<?php
-		 print_r($this->session->userdata());
-		  echo $this->session->tempdata('nombre_contratista');
-	?>
 	<hr><hr><hr>
 	<footer><?php $this->load->view('footer') ?></footer>
 </div>
@@ -110,27 +106,21 @@ $mensaje = isset($mensaje) ? $mensaje : "";
 <script type="text/javascript">
 //funcion Ajax para buscar en base de datos
 $(function(){
-	$.post('<?=$base_url?>/consecion/municipio').done(function(respuesta){
-		$('#municipio').html(respuesta);
+	$.post('<?=$base_url?>/consecion/departamento').done(function(respuesta){
+		$('#departamento').html(respuesta);
 	});
 
-	//lista de Aldeas o caserios
-	$('#municipio').change(function(){
-		var el_municipio = $(this).val();
-
-		$.post('<?=$base_url?>/consecion/aldea',{municipio: el_municipio}).done(function(respuesta){
-			$('#aldea').html(respuesta);
-		});
-	});
-
-	//listar de Municipios
+	//lista de municipios
 	$('#departamento').change(function(){
 		var id_depto = $(this).val();
 
-		$.post('<?=$base_url?>/corredor/municipio',{departamento: id_depto}).done(function(respuesta){
+		$.post('<?=$base_url?>/consecion/municipio',{departamento: id_depto}).done(function(respuesta){
 			$('#municipio').html(respuesta);
 		});
 	});
+
+
+	//listar de Municipios
 })
 
 function validarFecha()

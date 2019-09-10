@@ -11,15 +11,15 @@ if (isset($this->session->USUARIO)) { // Sesión iniciada
 <html lang="en">
 <head>
 	<?php $this->load->view('header'); ?>
-	<title>Control de conseciones</title>
+	<title>Control de concesiones</title>
 </head>
-
 <body>
 <div id="container">
 	<?php $this->load->view('menu'); ?>
 	<br>
 	<div class="container-flu bg-primary"></div>
 	<br><br>
+  <?php  	 print_r($this->session->userdata()); ?>
 	<div>
 	  <h3><center>Policía Municipal de Transito de Totonicapán</center></h2>
 	  <h3><center><?php $año = date("Y"); echo $año; ?></center></h2><br>
@@ -37,7 +37,7 @@ if (isset($this->session->USUARIO)) { // Sesión iniciada
             <div class="info text-center">
               <br>
                 <h1 class="h4">BIENVENIDOS</h1>
-                <p class="lead">Sistema de control de conseciónes</p>
+                <p class="lead">Sistema de control de concesiones</p>
                 <hr class="m-y-2">
                 <p class="lead">
 									<?php echo $log; ?>
@@ -77,8 +77,8 @@ if (isset($this->session->USUARIO)) { // Sesión iniciada
 										<div class="card m-3">
 												<img class="card-img-top mb-3" style="width:70%;padding-left: 0px;margin-left: 56px;" src="<?=$base_url?>/recursos/img/consecion.png" alt="Card image cap" >
 												<div class="card-block">
-														<h4 class="card-title">Conseción</h4>
-														<p class="card-text p-2">Crear Conseción</p>
+														<h4 class="card-title">Concesión</h4>
+														<p class="card-text p-2">Crear Concesión</p>
 														<!-- Large modal -->
 													 <a class="btn btn-warning" href="" role="button" target="_blank">Visitar</a>
 												</div>
@@ -90,7 +90,7 @@ if (isset($this->session->USUARIO)) { // Sesión iniciada
 												<img class="card-img-top mb-3" style="width:70%;padding-left: 0px;margin-left: 56px;" src="<?=$base_url?>/recursos/img/listarConsecion.jpg" alt="Card image cap" >
 												<div class="card-block">
 														<h4 class="card-title">Ver</h4>
-														<p class="card-text p-2">Listar Conseciones</p>
+														<p class="card-text p-2">Listar Concesiones</p>
 														<!-- Large modal -->
 													 <a class="btn btn-warning" href="" role="button" target="_blank">Visitar</a>
 												</div>

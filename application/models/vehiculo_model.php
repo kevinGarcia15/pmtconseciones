@@ -46,4 +46,16 @@ function seleccionarMarca() {
 	return $rows;
 }
 
+
+function crear_color($color) {
+	$sql = "INSERT INTO color(color)
+			VALUES (?)";
+
+	$valores = array($color);
+
+	$dbres = $this->db->query($sql, $valores);
+
+	return $dbres;
+}
+
 }

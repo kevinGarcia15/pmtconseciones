@@ -29,14 +29,14 @@ $mensaje = isset($mensaje) ? $mensaje : "";
 				<tr>
 					<td><strong>Nombre<strong style="color: red; font-size: 20px">*</strong></strong></td>
 					<td>
-						<input type="text" class="form-control" placeholder="Nombre" name="nombre_contratista"
+						<input id="names" type="text" class="form-control" placeholder="Nombre" name="nombre_contratista"
 							required maxlength="50" size="50" <?php echo $activar; ?> value="<?php if ($flag == 1){echo $result[0]['nombre'];} ?>">
 					</td>
 				</tr>
 				<tr>
 					<td><strong>Apellido<strong style="color: red; font-size: 20px">*</strong></strong></td>
 					<td>
-						<input type="text" class="form-control" placeholder="Apellido" name="apellido_contratista"
+						<input id="names" style="text-transform: capitalize;"type="text" class="form-control" placeholder="Apellido" name="apellido_contratista"
 							required maxlength="50" size="50" <?php echo $activar//activa o desactiva el input; ?> value="<?php if ($flag == 1){echo $result[0]['apellido'];} ?>">
 					</td>
 				</tr>
@@ -48,10 +48,12 @@ $mensaje = isset($mensaje) ? $mensaje : "";
 					</td>
 				</tr>
 				<tr>
-					<td><strong>Teléfono</strong></td>
+					<td><strong>Números de teléfono</strong></td>
 					<td>
-						<input type="number" class="form-control" min="1" placeholder="Número de teléfono" name="telefono_contratista"
-					 		<?php echo $activar; ?> value="<?php if ($flag == 1){echo $result[0]['telefono'];}?>">
+						<input type="number" required class="form-control" min="10000000" max="99999999" placeholder="Número de teléfono" name="telefono_contratista"
+					 		<?php echo $activar; ?> value="<?php if ($flag == 1){echo $result[0]['telefono'];}?>"><br>
+						<input type="number" class="form-control" min="10000000" max="99999999" placeholder="ingrese otro número (opcional)" name="telefono2_contratista"
+						 	<?php echo $activar; ?> value="<?php if ($flag == 1){echo $result[0]['telefono2'];}?>">
 					</td>
 				</tr>
 				<tr>
@@ -71,7 +73,7 @@ $mensaje = isset($mensaje) ? $mensaje : "";
 					</td>
 				</tr>
 				<tr>
-					<td><strong>Ingrese lugar de domicilio</strong></td>
+					<td><strong>Ingrese lugar de domicilio<strong style="color: red; font-size: 20px">*</strong></strong></td>
 					<td>
 						<input type="text" class="form-control" placeholder="Domicilio" name="domicilio_contratista"
 							<?php echo $activar; ?> required value="<?php if ($flag == 1){echo $result[0]['domicilio'];}?>">

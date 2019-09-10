@@ -38,11 +38,15 @@ class vehiculo extends CI_Controller {
 		$data['marca_id_marca_vehiculo'] = "";
 
 		if ($this->input->post('continuar') == 'continuar') {
+				$strPlaca = strtoupper($_POST['placas_vehiculo']);//convierte el alfabeto a mayuscula
+				$data['placas_vehiculo'] = $_POST['inicial'].' '.$strPlaca;//concatena la inicial al numero de placa
 
 				$vehiculo = array(
-												'placas_vehiculo'  => $_POST['placas_vehiculo'],
+												'placas_vehiculo'  => $data['placas_vehiculo'],
 												'modelo_vehiculo' => $_POST['modelo_vehiculo'],
+												'tarjeta_circulacion'=> $_POST['tarjeta_circulacion'],
 												'color_id_color_vehiculo' => $_POST['color_id_color_vehiculo'],
+												'color_variante' => $_POST['color_variante'],
 												'tipo_id_tipo_vehiculo' => $_POST['tipo_id_tipo_vehiculo'],
 												'marca_id_marca_vehiculo' => $_POST['marca_id_marca_vehiculo']
 											 );
@@ -53,5 +57,20 @@ class vehiculo extends CI_Controller {
 		}
 		$this->load->view('crear_vehiculo', $data);
 	}
+
+
+		public function crearColor() {
+			$this->restringirAcceso();
+			$data['base_url'] = $this->config->item('base_url');
+
+			$data['color'] ="";
+
+			if (isset($_POST['guardar'])) {
+				$data['color'] = str_replace(["<",">"], "", $_POST['color']);
+
+			$this->vehiculo_model->crear_color($data['color']);//ingresa datos en la tabla ruta
+			redirect("/vehiculo/crearVehiculo");
+			}
+		}
 
 }

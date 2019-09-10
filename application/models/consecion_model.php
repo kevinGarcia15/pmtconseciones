@@ -49,10 +49,35 @@ function seleccionarAldea($id) {
 }
 
 
-function seleccionarMunicipio() {
-	$sql = "SELECT id_municipio, nombre_mun
-			FROM 	municipio
-			order by nombre_mun ASC
+function seleccionarMunicipio($id) {
+	if (isset($id)) {
+		$sql = "SELECT id_municipio, nombre_mun
+				FROM 	municipio
+				where departamento_id_departamento = ?
+				order by nombre_mun ASC
+				LIMIT 	500";
+
+		$dbres = $this->db->query($sql, $id);
+	}else {
+		$sql = "SELECT id_municipio, nombre_mun
+				FROM 	municipio
+				where id_municipio = 2
+				order by nombre_mun ASC
+				LIMIT 	500";
+
+		$dbres = $this->db->query($sql);
+	}
+
+
+	$rows = $dbres->result_array();
+
+	return $rows;
+}
+
+function seleccionarDepartamento() {
+	$sql = "SELECT id_departamento, nombre_depto
+			FROM 	departamento
+			order by nombre_depto ASC
 			LIMIT 	500";
 
 	$dbres = $this->db->query($sql);
@@ -82,27 +107,27 @@ function seleccionarMunicipio() {
 	}
 
 	function seleccionarDetalle($id) {
-		$sql = "SELECT c.id_consecion id_consecion, c.numero numero,c.fecha_creacion creado,
+		$sql = "SELECT c.id_consecion id_consecion, c.numero numero,c.fecha_creacion creado,c.tarifa tarifa,c.hora_inicio h_inicio,c.hora_fin h_fin,
 /*ssda*/
 										con.cui cui_contra,contra.nombre nombre_contratista,
                     contra.apellido	apellido_contra,contra.fecha_nacimiento
-                    nacimiento_contra,con.telefono telefono_contra,con.domicilio domicilio_contra,
+                    nacimiento_contra,con.telefono telefono_contra,con.telefono2 telefono2_contra,con.domicilio domicilio_contra,
 										cant_contra.nombre cantald_contra,mun_contra.nombre_mun mun_contra,
 
 										p.numero_licencia licencia,pil.nombre nombre_piloto,
                     pil.apellido	apellido_piloto, pil.fecha_nacimiento
                     nacimiento_piloto,p.telefono telefono_piloto, p.domicilio domicilio_piloto,
-										cant_pil.nombre cant_piloto,mun_contra.nombre_mun mun_contra, lice.tipo tipo_lice,
+										mun_pil.nombre_mun mun_pil, depto_pil.nombre_depto depto_pil , lice.tipo tipo_lice,
 
 										a.cui cui_ayudante,ayu.nombre nombre_ayudante,
                     ayu.apellido	apellido_ayudante,ayu.fecha_nacimiento
                     nacimiento_ayudante,a.domicilio domicilio_ayudante,
-										cant_ayu.nombre cantald_ayudante,mun_ayu.nombre_mun mun_ayudante,
+										mun_ayu.nombre_mun mun_ayudante,depto_ayu.nombre_depto depto_ayudante,
 
 										r.nombre ruta ,r.descripcion descripcion_ruta,
 
-                    v.numero_placa placa, v.modelo modelo,t.tipo_vehiculo tipo, col.color color, col.descripción
-                    descripcion_color, m.nombre marca
+                    v.numero_placa placa, v.tarjeta_circulacion tarjeta_circulacion, v.modelo modelo,
+										t.tipo_vehiculo tipo, col.color color, v.color_variante color_variante, m.nombre marca
 
 										FROM 	consecion c
 
@@ -112,15 +137,15 @@ function seleccionarMunicipio() {
 				            	join persona contra on contra.id_persona = con.persona_id_persona
 
 											join piloto p on p.id_piloto = c.piloto_id_piloto
-                    	join canton_aldea cant_pil on p.canton_aldea_id_canton_aldea = cant_pil.id_canton_aldea
-											join municipio mun_pil on cant_pil.municipio_id_municipio = mun_pil.id_municipio
+											join municipio mun_pil on p.municipio_id_municipio = mun_pil.id_municipio
+											join departamento depto_pil on mun_pil.departamento_id_departamento = depto_pil.id_departamento
 	       		 					join persona pil on pil.id_persona = p.persona_id_persona
 											join tipo_licencia lice on lice.id_tipo = p.tipo_licencia_id_tipo
 
                     	join ayudante a on a.id_ayudante = p.ayudante_id_ayudante
 	       		 					join persona ayu on ayu.id_persona = a.persona_id_persona
-                    	join canton_aldea cant_ayu on a.canton_aldea_id_canton_aldea = cant_ayu.id_canton_aldea
-											join municipio mun_ayu on cant_ayu.municipio_id_municipio = mun_ayu.id_municipio
+											join municipio mun_ayu on a.municipio_id_municipio = mun_ayu.id_municipio
+											join departamento depto_ayu on mun_ayu.departamento_id_departamento = depto_ayu.id_departamento
 
 											join ruta r on r.id_ruta = c.ruta_id_ruta
 											join vehiculo v on v.id_vehiculo = c.vehiculo_id_vehiculo
@@ -172,11 +197,11 @@ function seleccionarMunicipio() {
 
 
 
-function crear_contratista($telefono_contratista,$cui, $domicilio_contratista, $persona_id_persona, $aldea_id_aldea) {
-	$sql = "INSERT INTO contratista(telefono,cui,domicilio,persona_id_persona,canton_aldea_id_canton_aldea)
-			VALUES (?, ?, ?, ?, ?)";
+function crear_contratista($telefono_contratista, $telefono2_contratista,$cui, $domicilio_contratista, $persona_id_persona, $aldea_id_aldea) {
+	$sql = "INSERT INTO contratista(telefono,telefono2,cui,domicilio,persona_id_persona,canton_aldea_id_canton_aldea)
+			VALUES (?, ?, ?, ?, ?, ?)";
 
-	$valores = array($telefono_contratista,$cui, $domicilio_contratista, $persona_id_persona, $aldea_id_aldea);
+	$valores = array($telefono_contratista,$telefono2_contratista,$cui, $domicilio_contratista, $persona_id_persona, $aldea_id_aldea);
 
 	$dbres = $this->db->query($sql, $valores);
 
@@ -207,24 +232,24 @@ function crear_contratista($telefono_contratista,$cui, $domicilio_contratista, $
 			return $rows[0]['id_ayudante'];
 		}
 
-function crear_ayudante($cui, $domicilio_ayudante, $persona_id_persona, $aldea_id_aldea) {
-$sql = "INSERT INTO ayudante(cui,domicilio,persona_id_persona,canton_aldea_id_canton_aldea)
-		VALUES (?, ?, ?, ?)";
+function crear_ayudante($cui, $domicilio_ayudante, $persona_id_persona,$telefono_ayudante, $municipio_ayudante) {
+$sql = "INSERT INTO ayudante(cui,domicilio,persona_id_persona,telefono,municipio_id_municipio)
+		VALUES (?, ?, ?, ?, ?)";
 
-$valores = array($cui, $domicilio_ayudante, $persona_id_persona, $aldea_id_aldea);
+$valores = array($cui, $domicilio_ayudante, $persona_id_persona, $telefono_ayudante, $municipio_ayudante);
 
 $dbres = $this->db->query($sql, $valores);
 
 return $dbres;
 }
 
-function crear_conductor($licencia,$domicilio, $telefono,$id_persona,$id_tipo_licencia,$aldea_id_aldea,$id_ayudante) {
+function crear_conductor($licencia,$domicilio, $telefono,$id_persona,$id_tipo_licencia,$municipio_conductor,$id_ayudante) {
 	$sql = "INSERT INTO piloto(numero_licencia, domicilio, telefono,persona_id_persona,
-																tipo_licencia_id_tipo, canton_aldea_id_canton_aldea,
+																tipo_licencia_id_tipo, municipio_id_municipio,
 																ayudante_id_ayudante)
 			VALUES (?, ?, ?, ?, ?, ?, ?)";
 
-	$valores = array($licencia,$domicilio, $telefono,$id_persona,$id_tipo_licencia,$aldea_id_aldea,$id_ayudante);
+	$valores = array($licencia,$domicilio, $telefono,$id_persona,$id_tipo_licencia,$municipio_conductor,$id_ayudante);
 
 	$dbres = $this->db->query($sql, $valores);
 
@@ -241,12 +266,12 @@ function seleccionar_id_conductor() {
 		return $rows[0]['id_piloto'];
 	}
 
-	function crear_vehiculo($modelo,$color_id_color, $noplaca,$tipo_id_tipo,$marca_id_marca) {
-		$sql = "INSERT INTO vehiculo(modelo, color_id_color, numero_placa,tipo_id_tipo,
+	function crear_vehiculo($modelo,$tarjeta_circulacion,$color_id_color,$color_variante, $noplaca,$tipo_id_tipo,$marca_id_marca) {
+		$sql = "INSERT INTO vehiculo(modelo,tarjeta_circulacion, color_id_color, color_variante ,numero_placa,tipo_id_tipo,
 																	marca_id_marca)
-				VALUES (?, ?, ?, ?, ?)";
+				VALUES (?, ?, ?, ?, ?, ?, ?)";
 
-		$valores = array($modelo,$color_id_color, $noplaca,$tipo_id_tipo,$marca_id_marca);
+		$valores = array($modelo,$tarjeta_circulacion,$color_id_color,$color_variante, $noplaca,$tipo_id_tipo,$marca_id_marca);
 
 		$dbres = $this->db->query($sql, $valores);
 
@@ -262,12 +287,12 @@ function seleccionar_id_conductor() {
 
 			return $rows[0]['id_vehiculo'];
 		}
-		function crear_consecion($numero,$descripcion, $id_contratista,$id_ruta,$id_vehiculo,$id_empleado, $id_piloto) {
-			$sql = "INSERT INTO consecion(numero, descripcion, contratista_id_contratista, ruta_id_ruta,
+		function crear_consecion($numero,$tarifa,$horario_inicio, $horario_fin,$descripcion, $id_contratista,$id_ruta,$id_vehiculo,$id_empleado, $id_piloto) {
+			$sql = "INSERT INTO consecion(numero, tarifa, hora_inicio, hora_fin, descripcion, contratista_id_contratista, ruta_id_ruta,
 																		vehiculo_id_vehiculo, empleado_id_empleado, piloto_id_piloto)
-					VALUES (?, ?, ?, ?, ?, ?, ?)";
+					VALUES (?, ?, ?, ?, ?, ?, ?, ?, ?, ?)";
 
-			$valores = array($numero,$descripcion, $id_contratista,$id_ruta,$id_vehiculo,$id_empleado, $id_piloto);
+			$valores = array($numero,$tarifa,$horario_inicio, $horario_fin, $descripcion, $id_contratista,$id_ruta,$id_vehiculo,$id_empleado, $id_piloto);
 
 			$dbres = $this->db->query($sql, $valores);
 
