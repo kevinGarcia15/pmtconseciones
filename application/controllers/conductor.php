@@ -52,43 +52,71 @@ class conductor extends CI_Controller {
 												'domicilio_conductor' => $_POST['domicilio_conductor']
 											 );
 								$this->session->set_userdata($conductor);
-//				$this->consecion_model->crear_persona($data['nombre_contratista'], $data['apellido_contratista'], $data['fecha_nacimiento_contratista']);
-	//			$id_persona = $this->consecion_model->seleccionar_id_persona();
-
-//				$this->consecion_model->crear_contratista($data['telefono_contratista'],$data['CUI_contratista'],
-//				$data['domicilio_contratista'], $id_persona, $data['aldea_id_aldea']);
-//				$id_contratista = $this->consecion_model->seleccionar_id_contratista();
 			 	redirect("/ayudante/crearAyudante");
 		}
 
 		$this->load->view('crear_conductor', $data);
 	}
 
-
-	public function municipio()
-	{
+	public function editar($CUI = 0) {
 		$this->restringirAcceso();
 		$data['base_url'] = $this->config->item('base_url');
 
-		$data['municipio'] =  $this->consecion_model->seleccionarMunicipio(); //Selelcciona el pais para el select option
-		echo '<option value="0">Seleccionar</option>';
-		foreach ($data['municipio'] as $key) {
-		echo '<option value="'.$key['id_municipio'].'">'.$key['nombre_mun'].'</option>'."\n";
+		$data['arr'] = $this->conductor_model->seleccionarPilotoEditar($CUI);
+		$data['licencia'] = $this->conductor_model->seleccionarLicencia();//mustra los tipos de licencias en la BD
+
+		$data['numero_licencia'] ="";
+		$data['nombre'] ="";
+		$data['apellido'] ="";
+		$data['fecha_nacimiento'] = "";
+		$data['domicilio'] = "";
+		$data['telefono'] ="";
+		$data['tipo_licencia'] ="";
+		$data['municipio_id_municipio'] = "";
+		$data['id_conductor']= "";
+
+
+		if (isset($_POST['actualizar'])) {
+			$data['numero_licencia'] = $_POST['numero_licencia'];
+			$data['nombre'] = $_POST['nombre_conductor'];
+			$data['apellido'] = $_POST['apellido_conductor'];
+			$data['fecha_nacimiento'] = $_POST['fecha_nacimiento_conductor'];
+			$data['domicilio'] = $_POST['domicilio_conductor'];
+			$data['telefono']= $_POST['telefono_conductor'];
+			$data['tipo_licencia'] =  $_POST['tipo_licencia'];
+			$data['municipio_id_municipio'] =  $_POST['municipio'];
+
+			$data['id_persona'] = $_POST['id_persona'];
+			$data['id_conductor'] = $_POST['id_piloto'];
+			$data['id_consecion'] = $_POST['id_consecion'];
+
+			$this->conductor_model->actualizar_persona(
+				$data['id_persona'],
+				$data['nombre'],
+				$data['apellido'],
+				$data['fecha_nacimiento']
+			);
+
+			$this->conductor_model->actualizar_conductor(
+				$data['id_conductor'],
+				$data['numero_licencia'],
+				$data['domicilio'],
+				$data['telefono'],
+				$data['tipo_licencia'],
+				$data['municipio_id_municipio']
+			);
+
+///			sleep(5);
+//			header("Location: /pmtconseciones/informes/detalles/${data['id_consecion']}");
+			redirect("/informes/detalles/${data['id_consecion']}");
+
 		}
-	}
-
-	public function aldea()
-	{
-		$this->restringirAcceso();
-		$data['base_url'] = $this->config->item('base_url');
-
-		$id_municipio = $_POST['municipio'];//recibe el id del municipio
-		$data['aldea'] =  $this->consecion_model->seleccionarAldea($id_municipio); //Selelcciona el departamentp para el select option
-		echo '<option value="0">Seleccionar</option>';
-
-		foreach ($data['aldea'] as $key) {
-		echo '<option value="'.$key['id_canton_aldea'].'">'.$key['nombre'].'</option>'."\n";
+		if (isset($_POST['cancelar'])) {
+				$data['id_consecion'] = $_POST['id_consecion'];
+			redirect("/informes/detalles/${data['id_consecion']}");
 		}
-	}
 
+		$this->load->view('editar_piloto', $data);
+
+		}
 }

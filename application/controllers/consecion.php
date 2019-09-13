@@ -202,7 +202,7 @@ class consecion extends CI_Controller {
 		$this->load->view('Busqueda', $data);
 	}
 
-	public function departamento()
+	public function departamento($id = 0)
 	{
 		$this->restringirAcceso();
 		$data['base_url'] = $this->config->item('base_url');
@@ -210,11 +210,15 @@ class consecion extends CI_Controller {
 		$data['departamento'] =  $this->consecion_model->seleccionarDepartamento(); //Selelcciona el pais para el select option
 		echo '<option value="0">Seleccionar</option>';
 		foreach ($data['departamento'] as $key) {
-		echo '<option value="'.$key['id_departamento'].'">'.$key['nombre_depto'].'</option>'."\n";
+		if ($id == $key['id_departamento']) {
+			echo '<option selected value="'.$key['id_departamento'].'">'.$key['nombre_depto'].'</option>'."\n";
+		}else {
+			echo '<option value="'.$key['id_departamento'].'">'.$key['nombre_depto'].'</option>'."\n";
+		}
 		}
 	}
 
-	public function municipio()
+	public function municipio($id = 0)
 	{
 		$this->restringirAcceso();
 		$data['base_url'] = $this->config->item('base_url');
@@ -223,7 +227,11 @@ class consecion extends CI_Controller {
 		$data['municipio'] =  $this->consecion_model->seleccionarMunicipio($id_depto); //Selelcciona el pais para el select option
 		echo '<option value="0">Seleccionar</option>';
 		foreach ($data['municipio'] as $key) {
-		echo '<option value="'.$key['id_municipio'].'">'.$key['nombre_mun'].'</option>'."\n";
+			if ($id == $key['id_municipio']) {
+				echo '<option selected value="'.$key['id_municipio'].'">'.$key['nombre_mun'].'</option>'."\n";
+			}else {
+				echo '<option value="'.$key['id_municipio'].'">'.$key['nombre_mun'].'</option>'."\n";
+			}
 		}
 	}
 
@@ -250,61 +258,48 @@ class consecion extends CI_Controller {
 
 		}
 
-		public function detalles($id = 0) {
-			$this->restringirAcceso();
-			$data['base_url'] = $this->config->item('base_url');
-
-			$data['arr'] = $this->consecion_model->seleccionarDetalle($id);
-			$this->load->view('detalle', $data);
-	}
-
 		public function editar($id = 0) {
 			$this->restringirAcceso();
 			$data['base_url'] = $this->config->item('base_url');
 
-			$data['arr'] = $this->corredor_model->seleccionarCorredorEditar($id);
-
-			$data['nombre'] ="";
-			$data['fecha_nacimiento'] = "";
-			$data['CUI'] ="";
-			$data['email'] ="";
-			$data['telefono'] ="";
-			$data['numero'] ="";
-			$data['rama'] ="";
-			$data['nombre_familiar'] ="";
-			$data['telefono_familiar'] ="";
-			$data['municipio_id_municipio'] = "";
-			$id_corredor = "";
-
-
+			$data['arr'] = $this->consecion_model->seleccionarConsecionEditar($id);
+			$data['ruta'] = $this->consecion_model->seleccionarRuta();//selecciona la ruta
+			$data['numero_consecion'] ="";
+			$data['ruta_id_ruta'] = "";
+			$data['tarifa'] ="";
+			$data['horario_inicio'] ="";
+			$data['horario_fin'] ="";
+			$data['descripcion'] ="";
+			$data['id_consecion'] = "";
 
 			if (isset($_POST['actualizar'])) {
-				$data['nombre'] = str_replace(["<",">"], "", $_POST['nombre']);
-				$data['fecha_nacimiento'] = $_POST['fecha_nacimiento'];
-				$data['CUI'] = str_replace(["<",">"], "", $_POST['CUI']);
-				$data['email'] = str_replace(["<",">"], "", $_POST['email']);
-				$data['telefono'] = str_replace(["<",">"], "", $_POST['telefono']);
-				$data['numero'] = $_POST['numero'];
-				$data['rama'] = str_replace(["<",">"], "", $_POST['rama']);
-				$data['nombre_familiar'] = str_replace(["<",">"], "", $_POST['nombre_familiar']);
-				$data['telefono_familiar'] = str_replace(["<",">"], "", $_POST['telefono_familiar']);
-				$data['municipio_id_municipio'] = $_POST['municipio'];
-				$data['id_corredor'] = $_POST['id_atleta'];
+				$data['numero_consecion']  = $_POST['numero_consecion'];
+				$data['tarifa'] = $_POST['tarifa'];
+				$data['horario_inicio'] = $_POST['horario_inicio'];
+				$data['horario_fin'] = $_POST['horario_fin'];
+				$data['descripcion'] = $_POST['descripcion'];
+				$data['ruta_id_ruta'] = $_POST['ruta_id_ruta'];
+				$data['id_consecion'] = $_POST['id_consecion'];
 
-				if ($data['municipio_id_municipio'] == 0) {
-					$data['mensaje'] = "<div class=\"alert alert-danger\" role=\"alert\">
-  															Debe seleccionar un pais de origen, un departamento y un municipio
-															</div>";
-				}else {
-					$this->corredor_model->actualizar_corredor($data['id_corredor'], $data['nombre'], $data['fecha_nacimiento'], $data['CUI']
-					,$data['email'],$data['telefono'], $data['rama'],$data['municipio_id_municipio']);//ingresa datos en la tabla correror
-					$this->corredor_model->actualizar_familiar($data['id_corredor'],	$data['nombre_familiar'], $data['telefono_familiar']);//ingresar datos en la tabla familia
-					$this->corredor_model->actualizar_inscripcion($data['id_corredor'], $data['numero']);//ingresar datos del numero y el año de competicion
-				redirect("/informes/Nomina");
-				}
+				$this->consecion_model->actualizar_consecion(
+					$data['id_consecion'],
+					$data['numero_consecion'],
+					$data['tarifa'],
+					$data['horario_inicio'],
+					$data['horario_fin'],
+					$data['descripcion'],
+					$data['ruta_id_ruta']
+				);
+
+				redirect("/informes/detalles/${data['id_consecion']}");
+
+			}
+			if (isset($_POST['cancelar'])) {
+				$data['id_consecion'] = $_POST['id_consecion'];
+				redirect("/informes/detalles/${data['id_consecion']}");
 			}
 
-			$this->load->view('editar_corredor', $data);
+			$this->load->view('editar_consecion', $data);
 
 			}
 }

@@ -73,4 +73,61 @@ class vehiculo extends CI_Controller {
 			}
 		}
 
+		public function editar($id = 0) {
+			$this->restringirAcceso();
+			$data['base_url'] = $this->config->item('base_url');
+
+			$data['vehiculo'] = $this->vehiculo_model->seleccionarVehiculoEditar($id);
+			$data['color'] = $this->vehiculo_model->seleccionarColor();
+			$data['tipoVehiculo'] = $this->vehiculo_model->seleccionarTipo();
+			$data['marca'] = $this->vehiculo_model->seleccionarMarca();
+
+			$data['placas_vehiculo'] ="";
+			$data['modelo_vehiculo'] ="";
+			$data['color_vehiculo'] ="";
+			$data['tipo_vehiculo'] = "";
+			$data['marca_vehiculo'] = "";
+			$data['color_variante'] = "";
+			$data['tarjeta_circulacion'] = "";
+
+
+			if (isset($_POST['actualizar'])) {
+ 				$strPlaca = strtoupper($_POST['placas_vehiculo']);//convierte el alfabeto a mayuscula
+				$data['placas_vehiculo'] = $_POST['inicial'].' '.$strPlaca;//concatena la inicial al numero de placa
+
+				$data['tarjeta_circulacion'] = $_POST['tarjeta_circulacion'];
+				$data['modelo_vehiculo'] = $_POST['modelo_vehiculo'];
+				$data['color_variante'] = $_POST['color_variante'];
+				$data['color_vehiculo'] = $_POST['color_id_color_vehiculo'];
+				$data['tipo_vehiculo'] = $_POST['tipo_id_tipo_vehiculo'];
+				$data['marca_vehiculo'] = $_POST['marca_id_marca_vehiculo'];
+
+				$data['id_vehiculo'] = $_POST['id_vehiculo'];
+				$data['id_consecion'] = $_POST['id_consecion'];
+
+				$this->vehiculo_model->actualizar_vehiculo(
+					$data['id_vehiculo'],
+					$data['placas_vehiculo'],
+					$data['tarjeta_circulacion'],
+					$data['modelo_vehiculo'],
+					$data['color_vehiculo'],
+					$data['color_variante'],
+					$data['tipo_vehiculo'],
+					$data['marca_vehiculo']
+				);
+
+	///			sleep(5);
+	//			header("Location: /pmtconseciones/informes/detalles/${data['id_consecion']}");
+				redirect("/informes/detalles/${data['id_consecion']}");
+
+			}
+			if (isset($_POST['cancelar'])) {
+					$data['id_consecion'] = $_POST['id_consecion'];
+				redirect("/informes/detalles/${data['id_consecion']}");
+			}
+
+			$this->load->view('editar_vehiculo', $data);
+
+			}
+
 }

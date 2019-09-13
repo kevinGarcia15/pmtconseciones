@@ -31,7 +31,13 @@ h1 {
 	padding: 14px 15px 10px 15px;
 }
 
-th, td { padding: 5px; }
+
+#cabeza{
+	display: block;
+}
+th, td { padding: 1px;
+				font-size: 15px;
+		}
 
 code {
 	font-family: Consolas, Monaco, Courier New, Courier, monospace;
@@ -48,153 +54,12 @@ code {
 	margin: 0 15px 0 15px;
 }
 
-p.footer {
-	text-align: right;
-	font-size: 11px;
-	border-top: 1px solid #D0D0D0;
-	line-height: 32px;
-	padding: 0 10px 0 10px;
-	margin: 20px 0 0 0;
-}
-
 #container {
 	margin: -38px;
 	border: 0px solid #D0D0D0;
 	box-shadow: 0 0 0px #D0D0D0;
 }
-
-.bs-callout {
-		padding: 20px;
-		margin: 20px 0;
-		border: 1px solid #eee;
-		border-left-width: 5px;
-		border-radius: 3px;
-}
-.bs-callout h4 {
-		margin-top: 0;
-		margin-bottom: 5px;
-}
-.bs-callout p:last-child {
-		margin-bottom: 0;
-}
-.bs-callout code {
-		border-radius: 3px;
-}
-.bs-callout+.bs-callout {
-		margin-top: -5px;
-}
-.bs-callout-default {
-		border-left-color: #777;
-}
-.bs-callout-default h4 {
-		color: #777;
-}
-.bs-callout-primary {
-		border-left-color: #428bca;
-}
-.bs-callout-primary h4 {
-		color: #428bca;
-}
-.bs-callout-success {
-		border-left-color: #5cb85c;
-}
-.bs-callout-success h4 {
-		color: #5cb85c;
-}
-.bs-callout-danger {
-		border-left-color: #d9534f;
-}
-.bs-callout-danger h4 {
-		color: #d9534f;
-}
-.bs-callout-warning {
-		border-left-color: #f0ad4e;
-}
-.bs-callout-warning h4 {
-		color: #f0ad4e;
-}
-.bs-callout-info {
-		border-left-color: #5bc0de;
-}
-.bs-callout-info h4 {
-		color: #5bc0de;
-}
-/* Footer */
-
-section {
-		padding: 60px 0;
-}
-
-section .section-title {
-		text-align: center;
-		color: #007b5e;
-		margin-bottom: 50px;
-		text-transform: uppercase;
-}
-#footer {
-		background: #007b5e !important;
-}
-#footer h5{
-	padding-left: 10px;
-		border-left: 3px solid #eeeeee;
-		padding-bottom: 6px;
-		margin-bottom: 20px;
-		color:#ffffff;
-}
-#footer a {
-		color: #ffffff;
-		text-decoration: none !important;
-		background-color: transparent;
-		-webkit-text-decoration-skip: objects;
-}
-#footer ul.social li{
-	padding: 3px 0;
-}
-#footer ul.social li a i {
-		margin-right: 5px;
-	font-size:25px;
-	-webkit-transition: .5s all ease;
-	-moz-transition: .5s all ease;
-	transition: .5s all ease;
-}
-#footer ul.social li:hover a i {
-	font-size:30px;
-	margin-top:-10px;
-}
-#footer ul.social li a,
-#footer ul.quick-links li a{
-	color:#ffffff;
-}
-#footer ul.social li a:hover{
-	color:#eeeeee;
-}
-#footer ul.quick-links li{
-	padding: 3px 0;
-	-webkit-transition: .5s all ease;
-	-moz-transition: .5s all ease;
-	transition: .5s all ease;
-}
-#footer ul.quick-links li:hover{
-	padding: 3px 0;
-	margin-left:5px;
-	font-weight:700;
-}
-#footer ul.quick-links li a i{
-	margin-right: 5px;
-}
-#footer ul.quick-links li:hover a i {
-		font-weight: 700;
-}
-
-@media (max-width:767px){
-	#footer h5 {
-		padding-left: 0;
-		border-left: transparent;
-		padding-bottom: 0px;
-		margin-bottom: 10px;
-}
-}
-  	</style>
+</style>
 <body>
 
 <div id="container">
@@ -206,9 +71,29 @@ section .section-title {
 	<img style="float:left"  width="70" src="C:\xampp\htdocs\pmtconseciones\recursos\img\imprimir.png" >
 	<p align="center">POLICIA MUNICIPAL DE TRANSITO DE TOTONICAPÁN</p>
 </div>
+<div class="">
 	<h2>No. de conseción <?php echo $a['numero']; ?></h2>
 	<h4><?php echo "Fecha de impresión " . date("d") . " del " . date("m") . " de " . date("Y"); ?> </h4>
+</div>
 	<div id="body">
+	<!--Información de la conseción-->
+		<h3>Información de la concesión</h3>
+<hr>
+<table style="align="center" border="1"  width="100%" cellpadding="0" cellspacing="0"" font-size: 10px;>
+	<tr>
+		<th>Tarifa</th>
+		<th>Horario inicio de labores </th>
+		<th>Horario fin de labores</th>
+		<th>Ruta</th>
+			</tr>
+		<tr>
+			<td><?php echo "Q.".$a['tarifa']; ?></td>
+			<td><?php echo $a['h_inicio']; ?></td>
+			<td><?php echo $a['h_fin']; ?></td>
+			<td><?php echo $a['ruta']; ?></td>
+		</tr>
+</table>
+
 		<h3>Información del contratista</h3>
 <hr>
 <table style="align="center" border="1" height=60 width="100%" cellpadding="0" cellspacing="0"">
@@ -275,6 +160,7 @@ section .section-title {
 		<th>Nombre</th>
 		<th>Apellido</th>
 		<th>Fecha de nacimiento</th>
+		<th>Teléfono</th>
 		<th>Domicilio</th>
 		<th>Municipio</th>
 		<th>Departamento</th>
@@ -285,6 +171,7 @@ section .section-title {
 			<td><?php echo $a['nombre_ayudante']; ?></td>
 			<td><?php echo $a['apellido_ayudante']; ?></td>
 			<td><?php echo $a['nacimiento_ayudante']; ?></td>
+			<td><?php echo $a['telefono_ayudante']; ?></td>
 			<td><?php echo $a['domicilio_ayudante']; ?></td>
 			<td><?php echo $a['mun_ayudante']; ?></td>
 			<td><?php echo $a['depto_ayudante']; ?></td>
@@ -298,15 +185,16 @@ section .section-title {
 <table style="align="center" border="1" height=60 width="100%" cellpadding="0" cellspacing="0"">
 	<tr>
 		<th>Número de placa</th>
+		<th>Número de tarjeta de circulación</th>
 		<th>Modelo</th>
 		<th>Color</th>
 		<th>Variante de color</th>
 		<th>Tipo</th>
 		<th>Marca</th>
 	</tr>
-
 		<tr>
 			<td><?php echo $a['placa']; ?></td>
+			<td><?php echo $a['tarjeta_circulacion']; ?></td>
 			<td><?php echo $a['modelo']; ?></td>
 			<td><?php echo $a['color']; ?></td>
 			<td><?php echo $a['color_variante']; ?></td>

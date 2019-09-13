@@ -1,4 +1,4 @@
-<?php
+s<?php
 defined('BASEPATH') OR exit('No direct script access allowed');
 
 class ayudante extends CI_Controller {
@@ -52,14 +52,15 @@ class ayudante extends CI_Controller {
 
 		}
 		if ($this->input->post('omitir') == 'omitir'){
-			$canton_aldea = 46;//id de valor null o No Aplica N/A
+			$id_municipio = 335;//id de valor null o No Aplica N/A para que no haya conflictos con la consulta
 			$ayudante = array(
-											'CUI_ayudante'  => NULL,
-											'nombre_ayudante' => $_POST['nombre_ayudante'],
-											'apellido_ayudante' => $_POST['apellido_ayudante'],
-											'fecha_nacimiento_ayudante' => $_POST['fecha_nacimiento_ayudante'],
-											'aldea_id_aldea_ayudante' => $canton_aldea,
-											'domicilio_ayudante' => $_POST['domicilio_ayudante']
+				'CUI_ayudante'  => NULL,
+				'nombre_ayudante' => $_POST['nombre_ayudante'],
+				'apellido_ayudante' => $_POST['apellido_ayudante'],
+				'fecha_nacimiento_ayudante' => $_POST['fecha_nacimiento_ayudante'],
+				'municipio_ayudante' => $id_municipio,
+				'telefono_ayudante' => $_POST['telefono_ayudante'],
+				'domicilio_ayudante' => $_POST['domicilio_ayudante']
 										 );
 							$this->session->set_userdata($ayudante);
 			redirect("/vehiculo/crearVehiculo");
@@ -67,31 +68,60 @@ class ayudante extends CI_Controller {
 		$this->load->view('crear_ayudante', $data);
 	}
 
-
-	public function municipio()
-	{
+	public function editar($id = 0) {
 		$this->restringirAcceso();
 		$data['base_url'] = $this->config->item('base_url');
 
-		$data['municipio'] =  $this->consecion_model->seleccionarMunicipio(); //Selelcciona el pais para el select option
-		echo '<option value="0">Seleccionar</option>';
-		foreach ($data['municipio'] as $key) {
-		echo '<option value="'.$key['id_municipio'].'">'.$key['nombre_mun'].'</option>'."\n";
+		$data['ayudante'] = $this->ayudante_model->seleccionarAyudanteEditar($id);
+
+		$data['CUI'] ="";
+		$data['nombre'] ="";
+		$data['apellido'] ="";
+		$data['fecha_nacimiento'] = "";
+		$data['municipio_id_municipio'] = "";
+		$data['domicilio'] = "";
+		$data['telefono'] = "";
+
+
+		if (isset($_POST['actualizar'])) {
+			$data['CUI'] = $_POST['CUI_ayudante'];
+			$data['nombre'] = $_POST['nombre_ayudante'];
+			$data['apellido'] = $_POST['apellido_ayudante'];
+			$data['fecha_nacimiento'] = $_POST['fecha_nacimiento_ayudante'];
+			$data['municipio_id_municipio'] = $_POST['municipio'];
+			$data['telefono']= $_POST['telefono_ayudante'];
+			$data['domicilio'] =  $_POST['domicilio_ayudante'];
+
+			$data['id_persona'] = $_POST['id_persona'];
+			$data['id_ayudante'] = $_POST['id_ayudante'];
+			$data['id_consecion'] = $_POST['id_consecion'];
+
+			$this->ayudante_model->actualizar_persona(
+				$data['id_persona'],
+				$data['nombre'],
+				$data['apellido'],
+				$data['fecha_nacimiento']
+			);
+
+			$this->ayudante_model->actualizar_ayudante(
+				$data['id_ayudante'],
+				$data['CUI'],
+				$data['domicilio'],
+				$data['telefono'],
+				$data['municipio_id_municipio']
+			);
+
+///			sleep(5);
+//			header("Location: /pmtconseciones/informes/detalles/${data['id_consecion']}");
+			redirect("/informes/detalles/${data['id_consecion']}");
+
 		}
-	}
-
-	public function aldea()
-	{
-		$this->restringirAcceso();
-		$data['base_url'] = $this->config->item('base_url');
-
-		$id_municipio = $_POST['municipio'];//recibe el id del municipio
-		$data['aldea'] =  $this->consecion_model->seleccionarAldea($id_municipio); //Selelcciona el departamentp para el select option
-		echo '<option value="0">Seleccionar</option>';
-
-		foreach ($data['aldea'] as $key) {
-		echo '<option value="'.$key['id_canton_aldea'].'">'.$key['nombre'].'</option>'."\n";
+		if (isset($_POST['cancelar'])) {
+				$data['id_consecion'] = $_POST['id_consecion'];
+			redirect("/informes/detalles/${data['id_consecion']}");
 		}
-	}
 
+		$this->load->view('editar_ayudante', $data);
+
+		}
 }

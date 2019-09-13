@@ -9,11 +9,11 @@ class informes_model extends CI_Model{
 	}
 
 	function Detalle($id) {
-		$sql = "SELECT c.id_consecion id_consecion, c.numero numero,c.fecha_creacion creado,
+		$sql = "SELECT c.id_consecion id_consecion, c.numero numero,c.fecha_creacion creado,c.tarifa tarifa,c.hora_inicio h_inicio,c.hora_fin h_fin,
 /*ssda*/
 										con.cui cui_contra,contra.nombre nombre_contratista,
-										contra.apellido	apellido_contra,contra.fecha_nacimiento
-										nacimiento_contra,con.telefono telefono_contra,con.telefono2 telefono2_contra,con.domicilio domicilio_contra,
+                    contra.apellido	apellido_contra,contra.fecha_nacimiento
+                    nacimiento_contra,con.telefono telefono_contra,con.telefono2 telefono2_contra,con.domicilio domicilio_contra,
 										cant_contra.nombre cantald_contra,mun_contra.nombre_mun mun_contra,
 
 										p.numero_licencia licencia,pil.nombre nombre_piloto,
@@ -22,14 +22,14 @@ class informes_model extends CI_Model{
 										mun_pil.nombre_mun mun_pil, depto_pil.nombre_depto depto_pil , lice.tipo tipo_lice,
 
 										a.cui cui_ayudante,ayu.nombre nombre_ayudante,
-										ayu.apellido	apellido_ayudante,ayu.fecha_nacimiento
-										nacimiento_ayudante,a.domicilio domicilio_ayudante,
+                    ayu.apellido	apellido_ayudante,ayu.fecha_nacimiento
+                    nacimiento_ayudante,a.telefono telefono_ayudante,a.domicilio domicilio_ayudante,
 										mun_ayu.nombre_mun mun_ayudante,depto_ayu.nombre_depto depto_ayudante,
 
 										r.nombre ruta ,r.descripcion descripcion_ruta,
 
                     v.numero_placa placa, v.tarjeta_circulacion tarjeta_circulacion, v.modelo modelo,
-										t.tipo_vehiculo tipo, col.color color,  v.color_variante color_variante, m.nombre marca
+										t.tipo_vehiculo tipo, col.color color, v.color_variante color_variante, m.nombre marca
 
 										FROM 	consecion c
 
@@ -44,9 +44,8 @@ class informes_model extends CI_Model{
 	       		 					join persona pil on pil.id_persona = p.persona_id_persona
 											join tipo_licencia lice on lice.id_tipo = p.tipo_licencia_id_tipo
 
-
-											join ayudante a on a.id_ayudante = p.ayudante_id_ayudante
-											join persona ayu on ayu.id_persona = a.persona_id_persona
+                    	join ayudante a on a.id_ayudante = p.ayudante_id_ayudante
+	       		 					join persona ayu on ayu.id_persona = a.persona_id_persona
 											join municipio mun_ayu on a.municipio_id_municipio = mun_ayu.id_municipio
 											join departamento depto_ayu on mun_ayu.departamento_id_departamento = depto_ayu.id_departamento
 

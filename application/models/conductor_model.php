@@ -42,4 +42,44 @@ function seleccionarLicencia() {
 
 			return $rows[0]['id_piloto'];
 		}
+
+		function seleccionarPilotoEditar($licencia){
+			$sql = "SELECT  con.id_consecion id_consecion,pil.id_piloto, pil.numero_licencia licencia,pil.telefono,
+							pil.domicilio, p.id_persona id_persona, p.nombre nombre_pil, p.apellido, p.fecha_nacimiento,
+							mun.nombre_mun,mun.id_municipio, d.nombre_depto,d.id_departamento, tipo.id_tipo, tipo.tipo
+					FROM 	consecion con
+					join piloto pil on con.piloto_id_piloto = pil.id_piloto
+					join tipo_licencia tipo on tipo.id_tipo = pil.tipo_licencia_id_tipo
+					join persona p on p.id_persona = pil.persona_id_persona
+					join municipio mun on mun.id_municipio = pil.municipio_id_municipio
+					join departamento d on d.id_departamento = mun.departamento_id_departamento
+					where pil.numero_licencia = ?
+					LIMIT 	1";
+			$dbres = $this->db->query($sql,array($licencia));
+
+			$rows = $dbres->result_array();
+
+			return $rows;
+		}
+
+		function actualizar_persona($id,$nombre, $apellido,$nacimiento) {
+		$sql = "UPDATE persona
+						SET nombre = '$nombre', apellido = '$apellido', fecha_nacimiento = '$nacimiento'
+						WHERE id_persona = '$id'
+						";
+
+		$dbres = $this->db->query($sql);
+		return $dbres;
+	}
+
+	function actualizar_conductor($id,$licencia,$domicilio,$telefono,$id_tipo, $id_municipio) {
+	$sql = "UPDATE piloto
+					SET numero_licencia = '$licencia', domicilio = '$domicilio', telefono = '$telefono', tipo_licencia_id_tipo = '$id_tipo'
+					, municipio_id_municipio = '$id_municipio'
+					WHERE id_piloto = '$id'
+					";
+
+	$dbres = $this->db->query($sql);
+	return $dbres;
+	}
 }

@@ -81,7 +81,7 @@ function crear_contratista($telefono_contratista,$cui, $domicilio_contratista, $
 }
 
 	function seleccionarCuiContratista($CUI) {
-		$sql = "SELECT 	c.id_contratista,c.cui,c.telefono, c.domicilio, p.nombre, p.apellido, p.fecha_nacimiento
+		$sql = "SELECT 	c.id_contratista,c.cui,c.telefono,c.telefono2, c.domicilio, p.nombre, p.apellido, p.fecha_nacimiento
 						FROM 	contratista c
 						join persona p on p.id_persona = c.persona_id_persona
 						WHERE 	c.cui = ?
@@ -93,5 +93,70 @@ function crear_contratista($telefono_contratista,$cui, $domicilio_contratista, $
 		return $rows;
 	}
 
+	function seleccionarContratistaEditar($CUI){
+		$sql = "SELECT  con.id_consecion id_consecion,c.id_contratista,c.cui cui,c.telefono,c.telefono2, c.domicilio,
+						p.id_persona id_persona, p.nombre nombre_con, p.apellido, p.fecha_nacimiento,
+						cant.nombre,cant.id_canton_aldea aldea_contra,mun.nombre_mun,mun.id_municipio
+				FROM 	consecion con
+				join contratista c on c.id_contratista = con.contratista_id_contratista
+				join persona p on p.id_persona = c.persona_id_persona
+				join canton_aldea cant on cant.id_canton_aldea = c.canton_aldea_id_canton_aldea
+				join municipio mun on mun.id_municipio = cant.municipio_id_municipio
+ 				where c.cui = ?
+				LIMIT 	1";
+		$dbres = $this->db->query($sql,array($CUI));
 
+		$rows = $dbres->result_array();
+
+		return $rows;
+	}
+
+
+	function seleccionarMunicipioContratista() {
+			$sql = "SELECT id_municipio, nombre_mun
+					FROM 	municipio
+					where id_municipio = 2
+					order by nombre_mun ASC
+					LIMIT 	500";
+
+		$dbres = $this->db->query($sql);
+		$rows = $dbres->result_array();
+
+		return $rows;
+	}
+
+
+	function seleccionarAldeaContratista() {
+		$sql = "SELECT id_canton_aldea, nombre
+				FROM 	canton_aldea
+				order by nombre ASC
+				LIMIT 	100";
+
+		$dbres = $this->db->query($sql);
+
+		$rows = $dbres->result_array();
+
+		return $rows;
+	}
+
+	function actualizar_persona($id,$nombre, $apellido,$nacimiento) {
+	$sql = "UPDATE persona
+					SET nombre = '$nombre', apellido = '$apellido', fecha_nacimiento = '$nacimiento'
+					WHERE id_persona = '$id'
+					";
+
+	$dbres = $this->db->query($sql);
+	return $dbres;
+}
+
+function actualizar_contratista($id,$cui, $telefono,$telefono2,$domicilio,$id_aldea) {
+$sql = "UPDATE contratista
+				SET telefono = '$telefono', telefono2 = '$telefono2', cui = '$cui', domicilio = '$domicilio'
+				, canton_aldea_id_canton_aldea = '$id_aldea'
+				WHERE id_contratista = '$id'
+				";
+
+$dbres = $this->db->query($sql);
+return $dbres;
+}
 }

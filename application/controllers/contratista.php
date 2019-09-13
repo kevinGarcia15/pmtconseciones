@@ -21,7 +21,7 @@ class contratista extends CI_Controller {
 		$this->restringirAcceso();
 		$data['base_url'] = $this->config->item('base_url');
 	}
-//Crear un nuevo vontratista-----------------------------------------------------
+//Crear un nuevo contratista-----------------------------------------------------
 	public function crearContratista() {
 		$this->restringirAcceso();
 		$data['base_url'] = $this->config->item('base_url');
@@ -84,30 +84,68 @@ class contratista extends CI_Controller {
 	}
 
 
-	public function municipio()
-	{
+	public function editar($CUI = 0) {
 		$this->restringirAcceso();
 		$data['base_url'] = $this->config->item('base_url');
 
-		$data['municipio'] =  $this->consecion_model->seleccionarMunicipio(); //Selelcciona el pais para el select option
-		echo '<option value="0">Seleccionar</option>';
-		foreach ($data['municipio'] as $key) {
-		echo '<option value="'.$key['id_municipio'].'">'.$key['nombre_mun'].'</option>'."\n";
+		$data['arr'] = $this->contratista_model->seleccionarContratistaEditar($CUI);
+		$data['municipio'] =  $this->contratista_model->seleccionarMunicipioContratista(); //Selelcciona el pais para el select option
+		$data['aldea'] =  $this->contratista_model->seleccionarAldeaContratista(); //Selelcciona el departamentp para el select option
+
+		$data['CUI_contratista'] ="";
+		$data['nombre_contratista'] ="";
+		$data['apellido_contratista'] ="";
+		$data['fecha_nacimiento_contratista'] = "";
+		$data['telefono_contratista'] ="";
+		$data['telefono2_contratista']="";
+		$data['aldea_id_aldea'] = "";
+		$data['domicilio_contratista'] = "";
+		$data['id_persona'] = "";
+		$data['id_contratista'] = "";
+		$data['id_consecion'] = "";
+
+		if (isset($_POST['actualizar'])) {
+			$data['CUI_contratista'] = $_POST['CUI_contratista'];
+			$data['nombre_contratista'] = $_POST['nombre_contratista'];
+			$data['apellido_contratista'] = $_POST['apellido_contratista'];
+			$data['fecha_nacimiento_contratista'] = $_POST['fecha_nacimiento_contratista'];
+			$data['telefono_contratista'] = $_POST['telefono_contratista'];
+			$data['telefono2_contratista']= $_POST['telefono2_contratista'];
+			$data['aldea_id_aldea'] =  $_POST['aldea'];
+			$data['domicilio_contratista'] =  $_POST['domicilio_contratista'];
+
+			$data['id_persona'] = $_POST['id_persona'];
+			$data['id_contratista'] = $_POST['id_contratista'];
+			$data['id_consecion'] = $_POST['id_consecion'];
+
+			$this->contratista_model->actualizar_persona(
+				$data['id_persona'],
+				$data['nombre_contratista'],
+				$data['apellido_contratista'],
+				$data['fecha_nacimiento_contratista']
+			);
+
+			$this->contratista_model->actualizar_contratista(
+				$data['id_contratista'],
+				$data['CUI_contratista'],
+				$data['telefono_contratista'],
+				$data['telefono2_contratista'],
+				$data['domicilio_contratista'],
+				$data['aldea_id_aldea']
+			);
+
+///			sleep(5);
+//			header("Location: /pmtconseciones/informes/detalles/${data['id_consecion']}");
+			redirect("/informes/detalles/${data['id_consecion']}");
+
 		}
-	}
-
-	public function aldea()
-	{
-		$this->restringirAcceso();
-		$data['base_url'] = $this->config->item('base_url');
-
-		$id_municipio = $_POST['municipio'];//recibe el id del municipio
-		$data['aldea'] =  $this->consecion_model->seleccionarAldea($id_municipio); //Selelcciona el departamentp para el select option
-		echo '<option value="0">Seleccionar</option>';
-
-		foreach ($data['aldea'] as $key) {
-		echo '<option value="'.$key['id_canton_aldea'].'">'.$key['nombre'].'</option>'."\n";
+		if (isset($_POST['cancelar'])) {
+				$data['id_consecion'] = $_POST['id_consecion'];
+			redirect("/informes/detalles/${data['id_consecion']}");
 		}
-	}
+
+		$this->load->view('editar_contratista', $data);
+
+		}
 
 }

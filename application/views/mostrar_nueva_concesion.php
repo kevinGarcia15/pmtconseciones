@@ -12,7 +12,7 @@ $htmltrow = "<tr>
 				<td>%s</td>
 				<td>%s</td>
 				<td><a class='btn btn-secondary' href=\"${base_url}/consecion/editar/%s\">Editar</a></td>
-				<td><a class='btn btn-secondary' href=\"${base_url}/consecion/detalles/%s\">Ver mas</a></td>
+				<td><a class='btn btn-secondary' href=\"${base_url}/informes/detalles/%s\">Ver mas</a></td>
 
 			 	</tr>";
 $htmltrows = "";
@@ -42,7 +42,7 @@ foreach ($arr as $a) {
   <div class="row">
     <div class="col-sm-4">
     </div>
-    <div class="col-sm-2"><br>	
+    <div class="col-sm-2"><br>
     </div>
     <div class="col-sm">
     </div>

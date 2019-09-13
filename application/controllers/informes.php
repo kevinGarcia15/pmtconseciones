@@ -21,7 +21,7 @@ class informes extends CI_Controller {
 		$this->restringirAcceso();
 		$data['base_url'] = $this->config->item('base_url');
 	}
-	
+
 	public function mostrarNuevaConcesion($numero) {
 		$this->restringirAcceso();
 		$data['base_url'] = $this->config->item('base_url');
@@ -62,5 +62,14 @@ class informes extends CI_Controller {
        //  //download it.
        //  $this->m_pdf->pdf->Output($pdfFilePath, "D");
 	}
+
+	public function detalles($id = 0) {
+		$this->restringirAcceso();
+		$data['base_url'] = $this->config->item('base_url');
+		$data['id_concesion'] = $id;
+		$data['arr'] = $this->informes_model->Detalle($id);
+		$this->load->view('detalle', $data);
+}
+
 
 }

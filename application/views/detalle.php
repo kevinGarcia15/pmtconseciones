@@ -20,7 +20,7 @@ if (count($arr) < 1) {
 		<h1><img width="70" src="<?=$base_url?>/recursos/img/logo.png"/>Detalle</h1>
 	</header>
 
-	<div id="body">
+	<div id="body" style="margin-left: 82px;margin-right: 82px;">
 <?php foreach ($arr as $a) {?>
 		<h4>Conseción número: <?php echo $a['numero']; ?> </h4>
 		<h5>Fecha de inserción: <?php echo $a['creado']; ?> </h5>
@@ -34,6 +34,7 @@ if (count($arr) < 1) {
 					<th>Tarifa</th>
 					<th>Horario inicio de labores </th>
 					<th>Horario fin de labores</th>
+					<th>Ruta</th>
 					<th>Acciones</th>
 				</thead>
 				<tbody>
@@ -41,7 +42,8 @@ if (count($arr) < 1) {
 						<td><?php echo "Q.".$a['tarifa']; ?></td>
 						<td><?php echo $a['h_inicio']; ?></td>
 						<td><?php echo $a['h_fin']; ?></td>
-						<td><a class='btn btn-secondary' href="<?=$base_url?>/inicio/">Editar</a></td>
+						<td><?php echo $a['ruta']; ?></td>
+						<td><a class='btn btn-secondary' href="<?=$base_url?>/consecion/editar/<?php echo $id_concesion ?>">Editar</a></td>
 					</tr>
 				</tbody>
 			</table>
@@ -73,7 +75,7 @@ if (count($arr) < 1) {
 						<td><?php echo $a['domicilio_contra']; ?></td>
 						<td><?php echo $a['cantald_contra']; ?></td>
 						<td><?php echo $a['mun_contra']; ?></td>
-						<td><a class='btn btn-secondary' href="<?=$base_url?>/inicio/">Editar</a></td>
+						<td><a class='btn btn-secondary' href="<?=$base_url?>/contratista/editar/<?php echo $a['cui_contra']; ?>">Editar</a></td>
 					</tr>
 				</tbody>
 			</table>
@@ -105,7 +107,7 @@ if (count($arr) < 1) {
 						<td><?php echo $a['domicilio_piloto']; ?></td>
 						<td><?php echo $a['mun_pil']; ?></td>
 						<td><?php echo $a['depto_pil']; ?></td>
-						<td><a class='btn btn-secondary' href="<?=$base_url?>/inicio/">Editar</a></td>
+						<td><a class='btn btn-secondary' href="<?=$base_url?>/conductor/editar/<?php echo $a['licencia']; ?>">Editar</a></td>
 					</tr>
 				</tbody>
 			</table>
@@ -119,6 +121,7 @@ if (count($arr) < 1) {
 					<th>Nombre</th>
 					<th>Apellido</th>
 					<th>Fecha de nacimiento</th>
+					<th>Teléfono</th>
 					<th>Domicilio</th>
 					<th>Municipio</th>
 					<th>Departamento</th>
@@ -130,10 +133,11 @@ if (count($arr) < 1) {
 						<td><?php echo $a['nombre_ayudante']; ?></td>
 						<td><?php echo $a['apellido_ayudante']; ?></td>
 						<td><?php echo $a['nacimiento_ayudante']; ?></td>
+						<td><?php echo $a['telefono_ayudante']; ?></td>
 						<td><?php echo $a['domicilio_ayudante']; ?></td>
 						<td><?php echo $a['mun_ayudante']; ?></td>
 						<td><?php echo $a['depto_ayudante']; ?></td>
-						<td><a class='btn btn-secondary' href="<?=$base_url?>/inicio/">Editar</a></td>
+						<td><a class='btn btn-secondary' href="<?=$base_url?>/ayudante/editar/<?php echo $a['id_consecion']; ?>">Editar</a></td>
 					</tr>
 				</tbody>
 			</table>
@@ -161,7 +165,7 @@ if (count($arr) < 1) {
 						<td><?php echo $a['color_variante']; ?></td>
 						<td><?php echo $a['tipo']; ?></td>
 						<td><?php echo $a['marca']; ?></td>
-						<td><a class='btn btn-secondary' href="<?=$base_url?>/inicio/">Editar</a></td>
+						<td><a class='btn btn-secondary' href="<?=$base_url?>/vehiculo/editar/<?php echo $a['id_consecion']; ?>">Editar</a></td>
 					</tr>
 				</tbody>
 			</table>
