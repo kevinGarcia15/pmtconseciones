@@ -60,7 +60,7 @@ $mensaje = isset($mensaje) ? $mensaje : "";
 				<tr>
 					<td><strong>Seleccionar Municipio</strong></td>
 					<td>
-						<select class="custom-select" name="municipio" id="municipio">
+						<select class="custom-select" onchange="verificarMun()" name="municipio" id="municipio">
 							<option value="0">Seleccionar</option>
 						</select>
 					</td>
@@ -68,7 +68,7 @@ $mensaje = isset($mensaje) ? $mensaje : "";
 				<tr>
 					<td><strong>Seleccionar Aldea o Caserío</strong></td>
 					<td>
-						<select class="custom-select" name="aldea" id="aldea">
+						<select class="custom-select" onchange="verificarAldea()" name="aldea" id="aldea">
 							<option value="0">Seleccionar</option>
 						</select>
 					</td>
@@ -84,7 +84,10 @@ $mensaje = isset($mensaje) ? $mensaje : "";
 				</tr>
 			</table>
 			<td colspan="2">
-				<input class="btn btn-primary btn-md"  role="button"  type="submit" required name="continuar" value="continuar">
+				<input class="btn btn-primary btn-md"  role="button"
+					<?php if (isset($result[0]['id_contratista'])) {echo "disabled: false";}//habilita o deshabilita el boton continuar cuando existe el contratista
+								else{echo "disabled : true";} ?>
+								id="continuar" type="submit" required name="continuar" value="continuar">
 				<input class="btn btn-warning btn-md"  role="button"  type="reset" required name="Reset" value="Reset">
 				<input name="flag" type="hidden" value="<?php echo $flag; ?>">
 				<input name="id_contratista" type="hidden" value="<?php if (isset($result[0]['id_contratista'])) {echo $result[0]['id_contratista'];} ?>">
@@ -137,15 +140,34 @@ hoy.setHours(0,0,0,0);  // Lo iniciamos a 00:00 horas
 if (fecha_form >= hoy) {
   alert('Fecha no valida');
 	  document.getElementById("fecha").value = "";
-}
-else {
-
-}
+	}
 }
 
 function llenar(){
 	let cui = document.getElementById('cui').value
 	window.location.href = '<?=$base_url?>/contratista/crearContratista?cui='+cui+'';
+}
+
+//verifica si se ha seleccionado un departamento
+var verificarMun = function() {
+var mun = $("#municipio").val();
+var botonEnviar = document.getElementById('continuar');
+
+if (mun == "0") {
+	botonEnviar.disabled = true;
+	}
+}
+//verifica si se ha seleccionado un municipio
+var verificarAldea = function() {
+var aldea = $("#aldea").val();
+var botonEnviar = document.getElementById('continuar');
+
+	if (aldea != "0") {
+		botonEnviar.disabled = false; //activa el boton continuar
+	}
+	if (aldea == "0") {
+		botonEnviar.disabled = true; //desactiva el boton continuar
+	}
 }
 
 </script>

@@ -87,26 +87,6 @@ function seleccionarDepartamento() {
 	return $rows;
 }
 
-	function listar() {
-		$sql = "SELECT c.id_consecion id_consecion, c.numero numero, contra.nombre nombre_contratista, pil.nombre nombre_piloto, r.nombre ruta, t.tipo_vehiculo tipo
-				FROM 	consecion c
-				join contratista con on con.id_contratista = c.contratista_id_contratista
-				join piloto p on p.id_piloto = c.piloto_id_piloto
-				join ruta r on r.id_ruta = c.ruta_id_ruta
-				join vehiculo v on v.id_vehiculo = c.vehiculo_id_vehiculo
-				join tipo t on t.id_tipo = v.tipo_id_tipo
-				join persona contra on contra.id_persona = con.persona_id_persona
-        join persona pil on pil.id_persona = p.persona_id_persona
-				LIMIT 	1000";
-
-		$dbres = $this->db->query($sql);
-
-		$rows = $dbres->result_array();
-
-		return $rows;
-	}
-
-
 	function crear_persona($nombre,$apellido, $fecha_nacimiento) {
 		$sql = "INSERT INTO persona(nombre,apellido,fecha_nacimiento)
 				VALUES (?, ?, ?)";

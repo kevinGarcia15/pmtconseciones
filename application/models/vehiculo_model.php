@@ -90,4 +90,16 @@ $dbres = $this->db->query($sql);
 return $dbres;
 }
 
+function seleccionarPlacaVehiculo($placa) {
+	$sql = "SELECT 	numero_placa
+					FROM 	vehiculo
+					WHERE 	numero_placa = ?
+					LIMIT 1 ;";
+
+	$dbres = $this->db->query($sql, array($placa));
+
+	$rows = $dbres->result_array();
+	return $rows;
+}
+
 }

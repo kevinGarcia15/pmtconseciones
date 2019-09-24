@@ -23,7 +23,7 @@ $mensaje = isset($mensaje) ? $mensaje : "";
 					<td>
 						<div class="row">
 							<div class="col-2">
-								<select class="custom-select" name="inicial">
+								<select id="inicial" class="custom-select" name="inicial">
 									<option value="C">C</option>
 									<option value="M">M</option>
 									<option value="P">P</option>
@@ -31,7 +31,7 @@ $mensaje = isset($mensaje) ? $mensaje : "";
 								</select>
 							</div>
 							<div class="col-10">
-								<input type="text" class="form-control" onkeyup="mayus(this);" placeholder="Placas" maxlength="6" minlength="6" name="placas_vehiculo" required value="<?php $placas_vehiculo ?>">
+								<input type="text" id="placa" onchange="ValidarPlaca()" class="form-control" onkeyup="mayus(this);" placeholder="Placas" maxlength="6" minlength="6" name="placas_vehiculo" required value="<?php $placas_vehiculo ?>">
 							</div>
 						</div>
 					</td>
@@ -141,6 +141,26 @@ $mensaje = isset($mensaje) ? $mensaje : "";
 //convierte el texto a mayusculas
 function mayus(e) {
     e.value = e.value.toUpperCase();
+}
+
+//validar No. de placa
+var ValidarPlaca = function() {
+var placa = $("#placa").val();
+var inicial = $("#inicial").val();
+var concat = inicial + placa;
+
+var request = $.ajax({
+	method: "POST",
+	url: "<?=$base_url?>/vehiculo/validar",
+	data: { placas_vehiculo: concat}
+});
+
+request.done(function(resultado) {
+	if (resultado > 0) {
+		alert('Numero de placa existente!');
+		$(function(){$("#placa").val("");});
+	}
+});
 }
 </script>
 </html>

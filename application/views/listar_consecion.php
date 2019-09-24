@@ -2,10 +2,11 @@
 defined('BASEPATH') OR exit('No direct script access allowed');
 $mensaje = isset($mensaje) ? $mensaje : "";
 if (count($arr) < 1) {
-	$mensaje = "No hay usuarios activos!";
+	$mensaje = "Sin registros!";
 }
 
 $htmltrow = "<tr>
+				<td>%s</td>
 				<td>%s</td>
 				<td>%s</td>
 				<td>%s</td>
@@ -17,7 +18,7 @@ $htmltrow = "<tr>
 $htmltrows = "";
 
 foreach ($arr as $a) {
-	$htmltrows .= sprintf($htmltrow,$a['numero'],$a['nombre_contratista'],$a['nombre_piloto'],$a['ruta'],$a['tipo'],$a['id_consecion'],$a['id_consecion']);
+	$htmltrows .= sprintf($htmltrow,$a['numero'],$a['nombre_contratista'],$a['nombre_piloto'],$a['ruta'],$a['numero_placa'],$a['tipo'],$a['id_consecion'],$a['id_consecion']);
 }
 ?>
 <!DOCTYPE html>
@@ -38,21 +39,29 @@ foreach ($arr as $a) {
 			$numero  = count($arr);
 		?>
 <div class="container">
-  <div class="row">
-    <div class="col-sm-4">
-			<form action="<?=$base_url?>/informes/categoria"  method="POST">
-				<td><strong>Ordenar por</strong></td>
-					<select  class="form-control" onchange="consultaCategoría()" name="selectCategoria">
-						<option value="" >select</option>
-					</select>
-    </div>
-    <div class="col-sm-2"><br>
-			<input type="submit" class="btn btn-default btn-xs" role="button" name="BtnCategoria" value="Ir">
-			</form>
-    </div>
-    <div class="col-sm">
-    </div>
-  </div>
+  <div class="row"> Ordenar por...
+    <div class="col-sm-3">
+				<select id="orden" onchange="return ordenar()" class="form-control" name="orden">
+					<option value="numero"<?php if($categoria=="numero"){echo "selected";}  ?>>Número</option>
+					<option value="nombre_contratista"<?php if($categoria=="nombre_contratista"){echo "selected";}  ?>>Nombre del contratista</option>
+					<option value="nombre_piloto"<?php if($categoria=="nombre_piloto"){echo "selected";}  ?>>Nombre del piloto</option>
+				</select>
+  </div>buscar por...
+	<div class="col-sm-2">
+	<form class="form-inline" id="navbarTogglerDemo01" action="<?=$base_url?>/informes/buscar" method="POST">
+		<select  class="form-control" name="criterio">
+			<option value="numero">Número concesión</option>
+			<option value="v.numero_placa">Número de placa</option>
+			<option value="pil.nombre">Nombre del piloto</option>
+		</select>
+	</div>
+	<div class="col-sm-2">
+			<input class="form-control mr-sm-2" name="busqueda" type="search" placeholder="Search..." aria-label="Search">
+	</div>
+	<div class="col-sm-2">
+			<button class="btn btn-outline-success mr-sm-2" type="submit" name="buscar">Buscar</button>
+	</div>
+</form>
 </div>
 <hr><div class="table-responsive">
 	<table class="table table-bordered">
@@ -61,6 +70,7 @@ foreach ($arr as $a) {
 			<th>Nombre del contratista</th>
 			<th>Nombre del piloto</th>
 			<th>Ruta</th>
+			<th>Número de placa</th>
 			<th>Tipo de vehículo</th>
 			<th>Detalles</th>
 		</thead>
@@ -70,14 +80,16 @@ foreach ($arr as $a) {
 	</table>
 </div>
     <br><a class='btn btn-primary btn-md' href="<?=$base_url?>/inicio/">Listo</a>
-    <div class="label label-danger label-md" onclick="$(this).hide(1000)"><?=$mensaje?></div>
+    <div class="alert alert-danger alert-dismissible fade show" onclick="$(this).hide(1000)"><?=$mensaje?></div>
 	</div>
+	<br><br><br><br>
 	<footer><?php $this->load->view('footer') ?></footer>
 </div>
 <script type="text/javascript">
-	function consultaCategoría(){
-		document.getElementById("selectCategoria").submit();
-	}
+function ordenar(){
+	let opcion = document.getElementById('orden').value
+	window.location.href = '<?=$base_url?>/informes/listar/'+opcion+'';
+}
  </script>
 </body>
 </html>

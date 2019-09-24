@@ -56,11 +56,7 @@ class informes extends CI_Controller {
         $mpdf = new mPDF('c', 'A4P');
  		$mpdf->WriteHTML($html);
 		$mpdf->Output($pdfFilePath, "D");
-       // //generate the PDF from the given html
-       //  $this->m_pdf->pdf->WriteHTML($html);
 
-       //  //download it.
-       //  $this->m_pdf->pdf->Output($pdfFilePath, "D");
 	}
 
 	public function detalles($id = 0) {
@@ -71,5 +67,43 @@ class informes extends CI_Controller {
 		$this->load->view('detalle', $data);
 }
 
+public function listar($opcion = "numero") {
+	$this->restringirAcceso();
+	$data['base_url'] = $this->config->item('base_url');
+	$data['categoria'] = $opcion;
+	$data['arr'] = $this->informes_model->listar($opcion);
+	$this->load->view('listar_consecion', $data);
 
+	}
+
+	public function graficas() {
+		$this->restringirAcceso();
+		$data['base_url'] = $this->config->item('base_url');
+		$this->load->view('graficas', $data);
+
+		}
+
+	public function buscar()
+	{
+		$this->restringirAcceso();
+		$data['base_url'] = $this->config->item('base_url');
+
+		$data['busqueda'] = "";
+		$data['criterio'] = "";
+
+		if (isset($_POST['buscar'])) {
+			$data['busqueda'] = $_POST['busqueda'];
+			$data['criterio'] = $_POST['criterio']; // que tipo de busqueda quiere hacer
+
+			if ($data['criterio'] == 'numero') {
+				is_numeric($data['busqueda']) or exit("Ingrese un número");
+				$data['signo'] = "=";
+			}else {
+				$data['busqueda'] = '"%'.$data['busqueda'].'%"';//preparar el texto para su consulta
+				$data['signo'] = "like";
+			}
+			$data['arr'] = $this->informes_model->seleccionarBusqueda($data['busqueda'],$data['criterio'],$data['signo']);
+		}
+		$this->load->view('busqueda', $data);
+	}
 }

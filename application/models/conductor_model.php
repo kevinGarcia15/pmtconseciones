@@ -82,4 +82,16 @@ function seleccionarLicencia() {
 	$dbres = $this->db->query($sql);
 	return $dbres;
 	}
+
+	function seleccionarLicenciaConductor($licencia) {
+		$sql = "SELECT 	numero_licencia
+						FROM 	piloto
+						WHERE 	numero_licencia = ?
+						LIMIT 1 ;";
+
+		$dbres = $this->db->query($sql, array($licencia));
+
+		$rows = $dbres->result_array();
+		return $rows;
+	}
 }

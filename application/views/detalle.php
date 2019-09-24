@@ -20,7 +20,7 @@ if (count($arr) < 1) {
 		<h1><img width="70" src="<?=$base_url?>/recursos/img/logo.png"/>Detalle</h1>
 	</header>
 
-	<div id="body" style="margin-left: 82px;margin-right: 82px;">
+	<div id="body">
 <?php foreach ($arr as $a) {?>
 		<h4>Conseción número: <?php echo $a['numero']; ?> </h4>
 		<h5>Fecha de inserción: <?php echo $a['creado']; ?> </h5>
@@ -29,7 +29,8 @@ if (count($arr) < 1) {
 			<!-- informacion de la concesion-->
 			<h5>Información de la concesión</h5>
 			<hr><br>
-			<table class="table table-bordered">
+			<div class="table-responsive">
+				<table class="table table-bordered">
 				<thead>
 					<th>Tarifa</th>
 					<th>Horario inicio de labores </th>
@@ -47,10 +48,12 @@ if (count($arr) < 1) {
 					</tr>
 				</tbody>
 			</table>
+		</div>
 			<br><br>
 			<!-- Datos del contratista-->
 			<h5>Información del contratista</h5>
 			<hr><br>
+		<div class="table-responsive">
 			<table class="table table-bordered">
 				<thead>
 					<th>No. documento DPI</th>
@@ -79,10 +82,12 @@ if (count($arr) < 1) {
 					</tr>
 				</tbody>
 			</table>
+		</div>
 			<br><br>
 		<!-- Informacion del pilotp-->
 			<h5>Información del piloto</h5>
 			<hr><br>
+		<div class="table-responsive">
 			<table class="table table-bordered">
 				<thead>
 					<th>No. de licencia</th>
@@ -111,10 +116,12 @@ if (count($arr) < 1) {
 					</tr>
 				</tbody>
 			</table>
+		</div>
 			<br><br>
 		<!-- Informacion del ayudante-->
 			<h5>Información del ayudante</h5>
 			<hr><br>
+		<div class="table-responsive">
 			<table class="table table-bordered">
 				<thead>
 					<th>No. de documento DPI</th>
@@ -141,10 +148,12 @@ if (count($arr) < 1) {
 					</tr>
 				</tbody>
 			</table>
+		</div>
 			<br><br>
 			<!-- Informacion del vehículo-->
 			<h5>Información del vehículo</h5>
 			<hr><br>
+		<div class="table-responsive">
 			<table class="table table-bordered">
 				<thead>
 					<th>Número de placa</th>
@@ -169,9 +178,12 @@ if (count($arr) < 1) {
 					</tr>
 				</tbody>
 			</table>
+		</div>
+
 			 <br><br>
 				<!-- Informacion del vehículo-->
 			<br>
+		<div class="table-responsive">
 			<table style="text-align: center" class="table table-bordered">
 				<thead>
 					<th>Obsevaciones</th>
@@ -183,7 +195,7 @@ if (count($arr) < 1) {
 				</tbody>
 			</table>
 		</div>
-
+	</div>
     <br><a class='btn btn-primary btn-md' href="<?=$base_url?>/inicio/">Listo</a>
 		<a class='btn btn-primary btn-md' href="<?=$base_url?>/informes/descargar/<?php echo $a['id_consecion'] ; ?>">Descargar</a>
     <div class="label label-danger label-md" onclick="$(this).hide(1000)"><?=$mensaje?></div>

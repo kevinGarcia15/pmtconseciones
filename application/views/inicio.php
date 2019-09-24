@@ -11,7 +11,7 @@ if (isset($this->session->USUARIO)) { // Sesión iniciada
 <html lang="en">
 <head>
 	<?php $this->load->view('header'); ?>
-	<title>Control de concesiones</title>
+	<title>Bienvenido <?php echo $this->session->USUARIO; ?></title>
 </head>
 <body>
 <div id="container">
@@ -56,7 +56,7 @@ if (isset($this->session->USUARIO)) { // Sesión iniciada
 													 <h4 class="card-title">Usuario</h4>
 														<p class="card-text p-2">Crear usuario</p>
 														<!-- Large modal -->
-													 <a class="btn btn-warning" href="<?=$base_url?>/usuario/crear" role="button" target="_blank">Visitar</a>
+													 <a class="btn btn-warning" href="<?=$base_url?>/usuario/crear" role="button" >Visitar</a>
 												</div>
 												<br>
 										</div>
@@ -68,7 +68,7 @@ if (isset($this->session->USUARIO)) { // Sesión iniciada
 													 <h4 class="card-title">Ver</h4>
 														<p class="card-text p-2">Listar Usuarios activos</p>
 														<!-- Large modal -->
-													 <a class="btn btn-warning" href="<?=$base_url?>/usuario/activos" role="button" target="_blank">Visitar</a>
+													 <a class="btn btn-warning" href="<?=$base_url?>/usuario/activos" role="button">Visitar</a>
 												</div>
 												<br>
 										</div>
@@ -80,7 +80,7 @@ if (isset($this->session->USUARIO)) { // Sesión iniciada
 														<h4 class="card-title">Concesión</h4>
 														<p class="card-text p-2">Crear Concesión</p>
 														<!-- Large modal -->
-													 <a class="btn btn-warning" href="" role="button" target="_blank">Visitar</a>
+													 <a class="btn btn-warning" href="<?=$base_url?>/contratista/crearContratista" role="button">Visitar</a>
 												</div>
 												<br>
 										</div>
@@ -92,7 +92,7 @@ if (isset($this->session->USUARIO)) { // Sesión iniciada
 														<h4 class="card-title">Ver</h4>
 														<p class="card-text p-2">Listar Concesiones</p>
 														<!-- Large modal -->
-													 <a class="btn btn-warning" href="" role="button" target="_blank">Visitar</a>
+													 <a class="btn btn-warning" href="<?=$base_url?>/informes/listar" role="button">Visitar</a>
 												</div>
 												<br>
 										</div>

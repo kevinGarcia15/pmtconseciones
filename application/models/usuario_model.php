@@ -164,4 +164,16 @@ function validarUsuario($Usuario, $cui) {
 
 		return 0; // El usuario existe pero no cumple la clave
 	}
+
+	function seleccionarCuiUsuario($CUI) {
+		$sql = "SELECT 	cui
+						FROM 	empleado
+						WHERE 	cui = ?
+						LIMIT 1 ;";
+
+		$dbres = $this->db->query($sql, array($CUI));
+
+		$rows = $dbres->result_array();
+		return $rows;
+	}
 }

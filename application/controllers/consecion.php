@@ -188,20 +188,6 @@ class consecion extends CI_Controller {
 		}
 	}
 
-	public function buscar()
-	{
-		//$this->restringirAcceso();
-		$data['base_url'] = $this->config->item('base_url');
-
-
-		$busqueda = $this->input->post('busqueda');
-		if ($busqueda) {
-			$data['arr'] = $this->corredor_model->seleccionarBusqueda($busqueda);
-		}
-
-		$this->load->view('Busqueda', $data);
-	}
-
 	public function departamento($id = 0)
 	{
 		$this->restringirAcceso();
@@ -248,15 +234,6 @@ class consecion extends CI_Controller {
 		echo '<option value="'.$key['id_canton_aldea'].'">'.$key['nombre'].'</option>'."\n";
 		}
 	}
-
-	public function listar() {
-		$this->restringirAcceso();
-		$data['base_url'] = $this->config->item('base_url');
-
-		$data['arr'] = $this->consecion_model->listar();
-		$this->load->view('listar_consecion', $data);
-
-		}
 
 		public function editar($id = 0) {
 			$this->restringirAcceso();

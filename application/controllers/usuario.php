@@ -23,7 +23,6 @@ class usuario extends CI_Controller {
 
 	public function crear() {
 		$this->restringirAcceso();
-
 		$data['base_url'] = $this->config->item('base_url');
 
 		$data['nombre'] = "";
@@ -68,6 +67,20 @@ class usuario extends CI_Controller {
 
 		$this->load->view('crear_usuario', $data);
 	}
+
+	public function validar(){
+		$this->restringirAcceso();
+		$data['base_url'] = $this->config->item('base_url');
+
+		$cuiVerificar = "";
+			//Busca a contratista en BD
+		$cuiVerificar = $_POST['cui_user'];
+		$data['result'] = $this->usuario_model->seleccionarCuiUsuario($cuiVerificar);
+		//verifica si exite el contratista
+		$retorno = count($data['result']);
+		echo $retorno; //retorna el resultado de la busqueda
+
+}
 
 	public function mostrar_insercion($cui) {
 		$data['base_url'] = $this->config->item('base_url');

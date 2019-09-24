@@ -21,8 +21,8 @@ $mensaje = isset($mensaje) ? $mensaje : "";
 				<tr>
 					<td><strong>Ingrese No. de licencia<strong style="color: red; font-size: 20px">*</strong></strong></td>
 					<td>
-						<input type="number" class="form-control"
-							placeholder="No. Licencia" name="numero_licencia" min="999999999999" required
+						<input id="licencia" onchange="ValidarLicencia()" type="number" class="form-control"
+							placeholder="No. Licencia" name="numero_licencia" min="1000000000000" max="9999999999999" required
 							value="<?php $numero_licencia ?>">
 					</td>
 				</tr>
@@ -48,11 +48,11 @@ $mensaje = isset($mensaje) ? $mensaje : "";
 					</td>
 				</tr>
 				<tr>
-					<td><strong>Seleccionar el tipo de licencia</strong></td>
+					<td><strong>Seleccionar el tipo de licencia<strong style="color: red; font-size: 20px">*</strong></strong></td>
 					<td>
 						<select class="custom-select" name="tipo_licencia">
 							<?php foreach ($licencia as $key) {?>
-							<option value="<?php echo $key['id_tipo']; ?>"><?php echo $key['tipo']; ?></option>
+							<option  value="<?php echo $key['id_tipo']; ?>"><?php echo $key['tipo']; ?></option>
 							<?php	} ?>
 						</select>
 					</td>
@@ -65,32 +65,32 @@ $mensaje = isset($mensaje) ? $mensaje : "";
 					</td>
 				</tr>
 				<tr>
-					<td><strong>Seleccionar departamento</strong></td>
+					<td><strong>Seleccionar departamento<strong style="color: red; font-size: 20px">*</strong></strong></td>
 					<td>
-						<select class="custom-select" name="departamento" id="departamento">
+						<select class="custom-select" onchange="verificarDepto()" name="departamento" id="departamento">
 							<option value="0">Seleccionar</option>
 						</select>
 					</td>
 				</tr>
 				<tr>
-					<td><strong>Seleccionar municipio</strong></td>
+					<td><strong>Seleccionar municipio<strong style="color: red; font-size: 20px">*</strong></strong></td>
 					<td>
-						<select class="custom-select" name="municipio_conductor" id="municipio">
+						<select class="custom-select" onchange="verificarMun()" name="municipio_conductor" id="municipio">
 							<option value="0">Seleccionar</option>
 						</select>
 					</td>
 				</tr>
 				<tr>
-					<td><strong>Ingrese lugar de domicilio</strong></td>
+					<td><strong>Ingrese lugar de domicilio<strong style="color: red; font-size: 20px">*</strong></strong></td>
 					<td>
-						<input type="text" class="form-control" placeholder="Domicilio" name="domicilio_conductor"
+						<input type="text" class="form-control" onchange="verificarDepto()" placeholder="Domicilio" name="domicilio_conductor"
 							required value="<?php $domicilio ?>">
 					</td>
 				</tr>
 				</tr>
 			</table>
 			<td colspan="2">
-				<input class="btn btn-primary btn-md"  role="button"  type="submit" required name="continuar" value="continuar">
+				<input class="btn btn-primary btn-md"  disabled = "false" role="button" id="continuar" type="submit" required name="continuar" value="continuar">
 				<input class="btn btn-warning btn-md"  role="button"  type="reset" required name="Reset" value="Reset">
 			</td>
 		</form>
@@ -118,9 +118,6 @@ $(function(){
 			$('#municipio').html(respuesta);
 		});
 	});
-
-
-	//listar de Municipios
 })
 
 function validarFecha()
@@ -135,17 +132,46 @@ hoy.setHours(0,0,0,0);  // Lo iniciamos a 00:00 horas
 if (fecha_form >= hoy) {
   alert('Fecha no valida');
 	  document.getElementById("fecha").value = "";
+	}
 }
-else {
+//validar No. de licencia
+var ValidarLicencia = function() {
+var licencia = $("#licencia").val();
 
-}
-}
+var request = $.ajax({
+	method: "POST",
+	url: "<?=$base_url?>/conductor/validar",
+	data: { licencia_conductor: licencia}
+});
 
-function llenar(){
-	let cui = document.getElementById('cui').value
-	window.location.href = '<?=$base_url?>/consecion/crearContratista?cui='+cui+'';
+request.done(function(resultado) {
+	if (resultado > 0) {
+		alert('Numero de licencia existente!');
+		$(function(){$("#licencia").val("");});
+	}
+});
 }
+//verifica si se ha seleccionado un departamento
+var verificarDepto = function() {
+var depto = $("#departamento").val();
+var botonEnviar = document.getElementById('continuar');
 
+if (depto == "0") {
+	botonEnviar.disabled = true;
+	}
+}
+//verifica si se ha seleccionado un municipio
+var verificarMun = function() {
+var mun = $("#municipio").val();
+var botonEnviar = document.getElementById('continuar');
+
+	if (mun != "0") {
+		botonEnviar.disabled = false; //activa el boton continuar
+	}
+	if (mun == "0") {
+		botonEnviar.disabled = true; //desactiva el boton continuar
+	}
+}
 
 </script>
 </html>

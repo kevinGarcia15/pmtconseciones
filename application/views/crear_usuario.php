@@ -16,8 +16,14 @@ $mensaje = isset($mensaje) ? $mensaje : "";
 	</header>
 
 	<div  id="body">
-		<form  id="subir" action="<?=$base_url?>/usuario/crear/" method="POST">
+		<form  action="<?=$base_url?>/usuario/crear/" method="POST">
 			<table class="table table-bordered" >
+				<tr>
+					<td><strong>Ingrese No. de documento DPI<strong style="color: red; font-size: 20px">*</strong></strong></td>
+					<td>
+						<input id="cui" onchange="ValidarUsuario()" min="1000000000000" max="9999999999999" type="number" class="form-control" placeholder="CUI" name="CUI" required value="<?=$CUI?>">
+					</td>
+				</tr>
 				<tr>
 					<td><strong>Nombre<strong style="color: red; font-size: 20px">*</strong></strong></td>
 					<td>
@@ -34,12 +40,6 @@ $mensaje = isset($mensaje) ? $mensaje : "";
 					<td><strong>Usuario<strong style="color: red; font-size: 20px">*</strong></strong></td>
 					<td>
 						<input type="text" class="form-control" placeholder="Usuario" name="usuario" required value="<?=$usuario?>">
-					</td>
-				</tr>
-				<tr>
-					<td><strong>Ingrese No. de documento DPI<strong style="color: red; font-size: 20px">*</strong></strong></td>
-					<td>
-						<input type="number" class="form-control" placeholder="CUI" name="CUI" required value="<?=$CUI?>">
 					</td>
 				</tr>
 				<tr>
@@ -82,7 +82,7 @@ $mensaje = isset($mensaje) ? $mensaje : "";
 				</tr>
 			</table>
 		</form>
-		<div class="alert alert-danger" onclick="$(this).hide(1000)"><?=$mensaje?></div>
+		<div class="alert alert-danger" onclick="$(this).hide(1000)"><?php echo $mensaje; ?></div>
 	</div>
 
 	<footer><?php $this->load->view('footer') ?></footer>
@@ -90,5 +90,25 @@ $mensaje = isset($mensaje) ? $mensaje : "";
 
 </body>
 <script type="text/javascript">
+	function validar(){
+		let cui = document.getElementById('cui').value
+		window.location.href = '<?=$base_url?>/usuario/crear?cui='+cui+'';
+	}
+	var ValidarUsuario = function() {
+	var cui = $("#cui").val();
+
+	var request = $.ajax({
+		method: "POST",
+		url: "<?=$base_url?>/usuario/validar",
+		data: { cui_user: cui}
+	});
+
+	request.done(function(resultado) {
+		if (resultado > 0) {
+			alert('Numero de CUI Existente');
+			$(function(){$("#cui").val("");});
+		}
+	});
+}
 </script>
 </html>

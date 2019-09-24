@@ -68,6 +68,20 @@ class ayudante extends CI_Controller {
 		$this->load->view('crear_ayudante', $data);
 	}
 
+	public function validar(){
+		$this->restringirAcceso();
+		$data['base_url'] = $this->config->item('base_url');
+
+		$verificar = "";
+			//Busca a contratista en BD
+		$verificar = $_POST['cui_ayudante'];
+		$data['result'] = $this->ayudante_model->seleccionarCuiAyudante($verificar);
+		//verifica si exite el contratista
+		$retorno = count($data['result']);
+		echo $retorno; //retorna el resultado de la busqueda
+
+	}
+
 	public function editar($id = 0) {
 		$this->restringirAcceso();
 		$data['base_url'] = $this->config->item('base_url');

@@ -40,23 +40,50 @@ if (isset($this->session->USUARIO)) { // Sesión iniciada
            </a>
            <div class="dropdown-menu" aria-labelledby="navbarDropdownMenuLink">
             <a class="dropdown-item" href="<?=$base_url?>/contratista/crearContratista">Crear Conseción</a>
-            <a class="dropdown-item" href="<?=$base_url?>/consecion/listar">Listar Conseción</a>
-            <hr>
-            <a class="dropdown-item" href="<?=$base_url?>/consecion/crearRuta">Crear ruta</a>
-            <a class="dropdown-item" href="<?=$base_url?>/consecion/listarRuta">Listar</a>
+            <a class="dropdown-item" href="<?=$base_url?>/informes/listar">Listar Conseción</a>
            </div>
           </li>
-          <div id="navbarTogglerDemo01">
-            <form class="form-inline" id="navbarTogglerDemo01" action="<?=$base_url?>/corredor/buscar" method="POST">
-              <input class="form-control mr-sm-2" name="busqueda" type="search" placeholder="número de Conseción o nombre del contratista" aria-label="Search">
-              <button class="btn btn-outline-success mr-sm-2" type="submit">Buscar</button>
-            </form>
-          </div>
           <?php } ?>
         <?php if ($this->session->ROL == 'Usuario') { ?>
           <a class="nav-item nav-link" href="<?=$base_url?>/corredor/crear">Listar conseciones</a>
         <?php } ?>
-
+        <a class="nav-item nav-link" href="<?=$base_url?>/informes/graficas">graficas</a>
+        <a class="nav-item nav-link" data-toggle="modal" data-target="#exampleModal" data-whatever="@mdo">Buscar</a>
+        <!-- inicio del formulario emergente-->
+        <div class="modal fade" id="exampleModal" tabindex="-1" role="dialog" aria-labelledby="exampleModalLabel" aria-hidden="true">
+          <div class="modal-dialog" role="document">
+            <div class="modal-content">
+              <div class="modal-header">
+                <h5 class="modal-title" id="exampleModalLabel" style="color:white;">Buscar</h5>
+                <button type="button" class="close" data-dismiss="modal" aria-label="Close">
+                  <span aria-hidden="true">&times;</span>
+                </button>
+              </div>
+              <div class="modal-body">
+                <form id="subir" action="<?=$base_url?>/informes/buscar/" method="POST">
+                  <div class="form-group">
+                    <label for="recipient-name" class="col-form-label" style="color:white;">Seleccione el criterio de busqueda</label>
+                    <select  class="form-control" name="criterio">
+                			<option value="numero">Número concesión</option>
+                			<option value="v.numero_placa">Número de placa</option>
+                			<option value="pil.nombre">Nombre del piloto</option>
+                		</select>
+                  </div>
+                  <div class="form-group">
+                    <label for="message-text" class="col-form-label" style="color:white;">Ingrese el valor a buscar</label>
+                    <input class="form-control mr-sm-2" name="busqueda" type="search" placeholder="Search..." aria-label="Search">
+                  </div>
+                  <div class="modal-footer">
+                    <button type="button" class="btn btn-secondary" data-dismiss="modal" style="color:white;">Cerrar</button>
+                    <button  type="submit" class="btn btn-primary" name="buscar" value="buscar" style="color:white;">buscar</button>
+                    <?php $ruta ?>
+                  </div>
+                </form>
+              </div>
+            </div>
+          </div>
+        </div>
+        <!-- Fin ventana emergente-->
       </div>
     </div>
     <?=$log?>

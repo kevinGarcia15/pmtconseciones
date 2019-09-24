@@ -39,7 +39,7 @@ class vehiculo extends CI_Controller {
 
 		if ($this->input->post('continuar') == 'continuar') {
 				$strPlaca = strtoupper($_POST['placas_vehiculo']);//convierte el alfabeto a mayuscula
-				$data['placas_vehiculo'] = $_POST['inicial'].' '.$strPlaca;//concatena la inicial al numero de placa
+				$data['placas_vehiculo'] = $_POST['inicial'].$strPlaca;//concatena la inicial al numero de placa
 
 				$vehiculo = array(
 												'placas_vehiculo'  => $data['placas_vehiculo'],
@@ -129,5 +129,19 @@ class vehiculo extends CI_Controller {
 			$this->load->view('editar_vehiculo', $data);
 
 			}
+
+			public function validar(){
+				$this->restringirAcceso();
+				$data['base_url'] = $this->config->item('base_url');
+		
+				$verificar = "";
+					//Busca a contratista en BD
+				$verificar = $_POST['placas_vehiculo'];
+				$data['result'] = $this->vehiculo_model->seleccionarPlacaVehiculo($verificar);
+				//verifica si exite el contratista
+				$retorno = count($data['result']);
+				echo $retorno; //retorna el resultado de la busqueda
+
+		}
 
 }

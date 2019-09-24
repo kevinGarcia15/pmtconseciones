@@ -2,27 +2,6 @@
 defined('BASEPATH') OR exit('No direct script access allowed');
 $mensaje = isset($mensaje) ? $mensaje : "";
 
-$corredores_Femeninas = 0;
-$corredores_Masculino = 0;
-$corredores_Libre = 0;
-$NombreRama = array();
-$Valores = array();
-
-foreach ($arr as $a) {
-	if ($a['Rama'] == 'Femenina') {
-		$corredores_Femeninas = $corredores_Femeninas + 1;
-	}
-	if ($a['Rama'] == 'Master Masculina') {
-		$corredores_Masculino = $corredores_Masculino + 1;# code...
-	}
-	if ($a['Rama'] == 'Libre') {
-		$corredores_Libre = $corredores_Libre + 1;# code...
-	}
-	$NombreRama[] = $a['Rama'];
-}
-$NombreRamaJson = json_encode($NombreRama);
-$ValoresJson = json_encode($corredores_Femeninas,$corredores_Masculino,$corredores_Libre)
-
 ?><!DOCTYPE html>
 <html lang="en">
 <head>
@@ -42,7 +21,10 @@ $ValoresJson = json_encode($corredores_Femeninas,$corredores_Masculino,$corredor
 						<h1 style="text-align: center;">Corredores por categoría</h1>
 				    <div  class="col-md-auto">
 							<div id="grafica"class="">
-
+								<iframe width="800" height="600" src="https://app.powerbi.com/view?r=eyJrIjoiNjk5NThmY2MtYThlMS00YzRmLWFlZWItZmQzNDVmNjZhYmEzIiwidCI6Ijg4Mjc4MzNhLWQ3MmItNGUwMS1hY2ZkLWJlNzFjNzdhMzFhYSJ9" frameborder="0" allowFullScreen="true"></iframe>
+							</div>
+							<div id="grafica"class="">
+							<iframe width="800" height="600" src="https://app.powerbi.com/view?r=eyJrIjoiNTZjZWQ4ZDMtYWJmOS00YTNiLWI1ZWMtYzc1NjgxZThlZWY0IiwidCI6Ijg4Mjc4MzNhLWQ3MmItNGUwMS1hY2ZkLWJlNzFjNzdhMzFhYSJ9" frameborder="0" allowFullScreen="true"></iframe>
 							</div>
 				    </div>
 				</div>
@@ -52,26 +34,5 @@ $ValoresJson = json_encode($corredores_Femeninas,$corredores_Masculino,$corredor
 		</div>
 	</body>
 	<script type="text/javascript">
-		function CrearCadenaJson(json){
-			var parsed = JSON.parse(json);
-			var arr = [];
-			for (var x in parsed) {
-				arr.push(parsed[x]);
-			}
-			return arr;
-		}
-
-			var data = [{
-				values: [<?php echo $corredores_Femeninas; ?>, <?php echo $corredores_Libre; ?>, <?php echo $corredores_Masculino; ?>],
-				labels: ['Femenina', 'Libre', 'Master Masculina'],
-				type: 'pie'
-				}];
-
-				var layout = {
-				height: 800,
-				width: 1000
-				};
-
-			Plotly.newPlot('grafica', data, layout);
 	</script>
 </html>

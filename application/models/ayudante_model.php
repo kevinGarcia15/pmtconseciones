@@ -45,4 +45,16 @@ $dbres = $this->db->query($sql);
 return $dbres;
 }
 
+function seleccionarCuiAyudante($cui) {
+	$sql = "SELECT 	cui
+					FROM 	ayudante
+					WHERE 	cui = ?
+					LIMIT 1 ;";
+
+	$dbres = $this->db->query($sql, array($cui));
+
+	$rows = $dbres->result_array();
+	return $rows;
+}
+
 }
