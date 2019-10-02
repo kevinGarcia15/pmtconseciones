@@ -106,4 +106,12 @@ public function listar($opcion = "numero") {
 		}
 		$this->load->view('busqueda', $data);
 	}
+
+	public function borrar($id) {
+		$this->restringirAcceso();
+		$data['base_url'] = $this->config->item('base_url');
+
+		$this->informes_model->borrarConcesion($id);
+
+		redirect("/informes/listar");		}
 }

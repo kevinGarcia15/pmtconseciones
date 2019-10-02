@@ -60,7 +60,7 @@ if (isset($this->session->USUARIO)) { // Sesión iniciada
                 </button>
               </div>
               <div class="modal-body">
-                <form id="subir" action="<?=$base_url?>/informes/buscar/" method="POST">
+                <form id="buscar" action="<?=$base_url?>/informes/buscar/" method="POST">
                   <div class="form-group">
                     <label for="recipient-name" class="col-form-label" style="color:white;">Seleccione el criterio de busqueda</label>
                     <select  class="form-control" name="criterio">

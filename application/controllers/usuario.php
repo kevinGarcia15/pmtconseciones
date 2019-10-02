@@ -32,6 +32,7 @@ class usuario extends CI_Controller {
 		$data['cargo'] = "";
 		$data['fecha_nacimiento'] = "";
 		$data['rol'] = "";
+		$data['email'] = "";
 		$data['clave'] = "";
 		$data['clave2'] = "";
 		$data['mensaje'] = "";
@@ -44,6 +45,7 @@ class usuario extends CI_Controller {
 			$data['fecha_nacimiento'] = str_replace(["<",">"], "", $_POST['fecha_nacimiento']);
 			$data['cargo'] = str_replace(["<",">"], "", $_POST['cargo']);
 			$data['rol'] = str_replace(["<",">"], "", $_POST['rol']);
+			$data['email'] = str_replace(["<",">"], "", $_POST['email']);
 			$data['clave'] = $_POST['clave'];
 			$data['clave2'] = $_POST['clave2'];
 
@@ -59,7 +61,7 @@ class usuario extends CI_Controller {
 				//Todos los datos son correctos, guardar en la BD.
 				$this->usuario_model->crearPersona($data['nombre'], $data['apellido'], $data['fecha_nacimiento']);
 				$id_persona = $this->usuario_model->seleccionar_id_persona();//busaca el id de la persona
-				$this->usuario_model->crearEmpleado($data['CUI'], $data['rol'], $data['usuario'],	$data['cargo'], $data['clave'], $id_persona);
+				$this->usuario_model->crearEmpleado($data['CUI'], $data['rol'],$data['email'],$data['usuario'],	$data['cargo'], $data['clave'], $id_persona);
 
 				redirect("/usuario/mostrar_insercion/${data['CUI']}");
 			}
@@ -146,11 +148,77 @@ class usuario extends CI_Controller {
 	public function baja($id = 0) {
 		$this->restringirAcceso();
 
-				$data['base_url'] = $this->config->item('base_url');
-				$this->usuario_model->darBaja($id);
+		$data['base_url'] = $this->config->item('base_url');
+		$this->usuario_model->darBaja($id);
 
 		redirect("/usuario/activos");
 	}
+
+	public function recuperar() {
+		$data['base_url'] = $this->config->item('base_url');
+
+		$this->load->view('recuperarPass', $data);
+	}
+
+	public function enviarEmail() {//funcion donde envia un email para la recuperacion de pasword
+		$data['base_url'] = $this->config->item('base_url');
+
+		$data['boton'] = "";
+		$data['asunto'] = "PMT Recuperacion de contraseña";
+		$data['texto_mail'] = "Solicitaste la recuperación de contraseña, Si no fuiste tú, has caso omiso a este correo. ";
+		$data['texto_mail'].="Si fuiste tú el que solicitó el cambio de contraseña accede al siguiente link ";
+		$data['headers'] = "MIME-Version: 1.0\r\n";//opcional acuedo de envio de emails
+		$data['headers'].="Content-type: text/html; charset=utf8\r\n";
+		$data['headers'].="From: PMT  Totonicapán \r\n ";
+		$email = "";
+		$no_cui = "";
+
+		if (isset($_POST['Enviar'])) {
+				$no_cui = str_replace(["<",">"], "", $_POST['CUI']);
+				$email = str_replace(["<",">"], "", $_POST['email']);
+
+				$id_empleado = $this->usuario_model->seleccionarUsuarioEmail($email, $no_cui);//verifica los datos en BD
+				if (count($id_empleado) > 0) {
+					$destinatario = str_replace(["<",">"], "",$email);
+					$token = hash('sha256', $no_cui);
+					$data['texto_mail'].= "<a href=".$data['base_url']."/usuario/RestorePass?user_id=".$id_empleado."&token=".$token.">Ingresa Aqui</a>";
+					$exito = mail($destinatario,$data['asunto'],$data['texto_mail'],$data['headers']);
+						$data['mensaje'] = '<div class="alert alert-success">se ha enviado un correo a "'.$email.'" para la recuperación de la contraseña</div>';
+				}else {
+					$data['mensaje'] = '<div class="alert alert-danger">Los datos que ingreso no exiten en la Base de Datos</div>';
+				}
+			}
+			$this->load->view('recuperarPass', $data);
+	}
+//Funcion para cambiar contrseña
+	public function RestorePass() {
+		$data['base_url'] = $this->config->item('base_url');
+		if (isset($_GET['user_id'])) {
+			$data['id'] = $_GET['user_id'];
+		}
+		if (isset($_GET['token'])) {
+			$data['token'] = $_GET['token'];
+		}
+		$data['mensaje'] = "";
+		if (isset($_POST['Enviar'])) {
+				$clave1 = str_replace(["<",">"], "", $_POST['clave1']);
+				$clave2 = str_replace(["<",">"], "", $_POST['clave2']);
+				$id = $_POST['id'];
+				$token = $_POST['token'];
+
+				$CUI = $this->usuario_model->seleccionarUsuario($id);//verifica los datos en BD
+				$valorCUI = hash('sha256',$CUI);//genera el token para verificar
+
+				if ($valorCUI == $token) {
+					$this->usuario_model->actualizarPassword($clave1, $id);
+					redirect('/usuario/login/');
+				}else {
+					$data['mensaje'] = "Acción no permitida";
+				}
+			}
+		$this->load->view('cambiarContra', $data);
+	}
+
 
 	public function login() {
 		$data['base_url'] = $this->config->item('base_url');
@@ -170,7 +238,7 @@ class usuario extends CI_Controller {
 				$this->session->ROL = $id[0]['rol'];
 				redirect("/inicio/");
 			} else {
-				$data["mensaje"] = "Usuario o clave incorrectos!";
+				$data['mensaje'] = '<div class="alert alert-danger">Usuario o clave incorrectos</div>';
 			}
 		}
 

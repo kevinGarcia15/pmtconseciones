@@ -127,4 +127,32 @@ class informes_model extends CI_Model{
 
 		return $rows;
 	}
+
+	function borrarConcesion($id) {
+		$sql1 = "DELETE FROM consecion
+						WHERE id_consecion = 7";
+		$dbres = $this->db->query($sql1);
+
+		$sql2 = "DELETE FROM piloto
+						WHERE id_piloto = 7";
+		$dbres = $this->db->query($sql2);
+
+		$sql3 = "DELETE FROM persona
+						WHERE id_persona = 25";
+		$dbres = $this->db->query($sql3);
+
+		$sql4 = "DELETE FROM ayudante
+						WHERE id_ayudante = 8";
+		$dbres = $this->db->query($sql4);
+
+		$sql5 = "DELETE FROM persona
+						WHERE id_persona = 24";
+		$dbres = $this->db->query($sql5);
+
+		$sql6 = "DELETE FROM vehiculo
+						WHERE id_vehiculo = 7";
+		$dbres = $this->db->query($sql6);
+
+		return $dbres;
+	}
 }

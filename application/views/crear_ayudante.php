@@ -81,9 +81,9 @@ $mensaje = isset($mensaje) ? $mensaje : "";
 				</tr>
 			</table>
 			<td colspan="2">
-				<input class="btn btn-primary btn-md"  role="button" disabled = "false" type="submit" id="continuar" required name="continuar" value="continuar">
+				<input class="btn btn-primary btn-md"  role="button" disabled = "false" type="submit" id="continuar" name="continuar" value="continuar">
 				<input class="btn btn-warning btn-md"  role="button"  type="reset" required name="Reset" value="Reset">
-				<input class="btn btn-danger btn-md"  role="button" onclick="mensaje()"  name="omitir" value="omitir">
+				<input class="btn btn-danger btn-md"  role="button" id="omitir" onclick="mensaje()"  name="omitir" value="omitir">
 			</td>
 		</form>
 		<?php $mensaje ?>

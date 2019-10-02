@@ -30,15 +30,15 @@ class usuario_model extends CI_Model{
 		return $rows[0]['id_persona'];
 	}
 
-	function crearEmpleado($CUI, $rol, $usuario, $cargo, $clave, $persona_id_persona) {
-		$sql = "INSERT INTO empleado(CUI, cargo, estado, rol, persona_id_persona, usuario,  hash_clave, salt)
-				VALUES (?, ?, ?, ?, ?, ?, ?, ?)";
+	function crearEmpleado($CUI, $rol, $email, $usuario, $cargo, $clave, $persona_id_persona) {
+		$sql = "INSERT INTO empleado(CUI, cargo, estado, rol, email, persona_id_persona, usuario,  hash_clave, salt)
+				VALUES (?, ?, ?, ?, ?, ?, ?, ?, ?)";
 
 		$salt = rand(0,999999); //calcular un número aleatorio
 		$hash_clave = hash('sha256', $clave.$salt); //calcular el hash de clave + salt
 		$estado = "A";
 
-		$valores = array($CUI,$cargo, $estado,$rol,$persona_id_persona, $usuario, $hash_clave, $salt);
+		$valores = array($CUI,$cargo, $estado,$rol,$email,$persona_id_persona, $usuario, $hash_clave, $salt);
 
 		$dbres = $this->db->query($sql, $valores);
 
@@ -176,4 +176,47 @@ function validarUsuario($Usuario, $cui) {
 		$rows = $dbres->result_array();
 		return $rows;
 	}
+
+	function seleccionarUsuarioEmail($email,$cui){
+		$sql = "SELECT id_empleado, cui, email
+				FROM 	empleado e
+				where email = ? and cui = ?
+				LIMIT 	1";
+		$dbres = $this->db->query($sql,array($email,$cui));
+
+		$rows = $dbres->result_array();
+
+		if (isset($rows[0]['id_empleado'])) {
+			return  $rows[0]['id_empleado'];
+		}else {
+			return  $rows;
+		}
+	}
+
+	function seleccionarUsuario($id) {
+		$sql = "SELECT 	cui
+						FROM 	empleado
+						WHERE 	id_empleado = ?
+						LIMIT 1 ;";
+
+		$dbres = $this->db->query($sql, array($id));
+
+		$rows = $dbres->result_array();
+		return $rows[0]['cui'];
+	}
+
+	function actualizarPassword($clave, $id){
+		$salt = rand(0,999999); //calcular un número aleatorio
+		$hash_clave = hash('sha256', $clave.$salt); //calcular el hash de clave + salt
+		
+		$sql = "UPDATE empleado
+						SET hash_clave = '$hash_clave', salt = '$salt'
+						WHERE id_empleado = '$id' ";
+
+
+		$dbres = $this->db->query($sql);
+		return $dbres;
+
+	}
+
 }

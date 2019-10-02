@@ -61,8 +61,8 @@ class ayudante extends CI_Controller {
 				'municipio_ayudante' => $id_municipio,
 				'telefono_ayudante' => $_POST['telefono_ayudante'],
 				'domicilio_ayudante' => $_POST['domicilio_ayudante']
-										 );
-							$this->session->set_userdata($ayudante);
+				);
+			$this->session->set_userdata($ayudante);
 			redirect("/vehiculo/crearVehiculo");
 		}
 		$this->load->view('crear_ayudante', $data);

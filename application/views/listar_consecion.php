@@ -13,6 +13,7 @@ $htmltrow = "<tr>
 				<td>%s</td>
 				<td>%s</td>
 				<td><a class='btn btn-secondary' href=\"${base_url}/informes/detalles/%s\">Ver mas</a></td>
+				<td><a class='btn btn-danger' id='boton' onclick='mensaje(%s)'>Eliminar</a></td>
 
 			 	</tr>";
 $htmltrows = "";
@@ -73,6 +74,7 @@ foreach ($arr as $a) {
 			<th>Número de placa</th>
 			<th>Tipo de vehículo</th>
 			<th>Detalles</th>
+			<th>Eliminar</th>
 		</thead>
 		<tbody>
 			<?=$htmltrows?>
@@ -89,6 +91,16 @@ foreach ($arr as $a) {
 function ordenar(){
 	let opcion = document.getElementById('orden').value
 	window.location.href = '<?=$base_url?>/informes/listar/'+opcion+'';
+}
+
+function mensaje(id){
+	// confirm dialog
+alertify.confirm("¿Está seguro de omitir?", function (e) {
+		if (e) {
+			window.location.href = '<?=$base_url?>/informes/borrar/'+id;
+		}else{
+		}
+	});
 }
  </script>
 </body>

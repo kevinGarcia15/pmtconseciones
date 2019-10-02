@@ -55,6 +55,12 @@ $mensaje = isset($mensaje) ? $mensaje : "";
 					</td>
 				</tr>
 				<tr>
+					<td><strong>Ingrese E-mail<strong style="color: red; font-size: 20px">*</strong></strong></td>
+					<td>
+						<input type="email" class="form-control" placeholder="E-mail" name="email" required value="<?=$email?>">
+					</td>
+				</tr>
+				<tr>
 					<td><strong>Seleccione el Rol del Usuario</strong></td>
 					<td>
 						<select class="custom-select" name="rol">

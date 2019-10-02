@@ -19,29 +19,28 @@ $mensaje = isset($mensaje) ? $mensaje : "";
 	<br><hr><br>
 	<div class="abs-center">
 		<div id="container-fluid bg">
-			<div class="label label-danger label-md" onclick="$(this).hide(1000)"><?=$mensaje?></div>
 			<div class="row">
-				<form class="form-container" action="<?=$base_url?>/usuario/login/" method="POST">
+				<form class="form-container" action="<?=$base_url?>/usuario/enviarEmail/" method="POST">
 					<div class="form-group">
-						<label for="user1">Usuario</label>
-						<input type="text" class="form-control" placeholder="Usuario" name="usuario">
+						<label for="user1" id="email">Ingrese Corrreo electronico</label>
+						<input type="email" required class="form-control" placeholder="E-mail" name="email">
 					</div>
 					<div class="form-group">
-						<label for="Pasword">Contraseña</label>
-						<input type="password" class="form-control" placeholder="Contraseña" name="clave" required>
+						<label for="user1" id="email">Ingrese su numero de DPI</label>
+						<input min="1000000000000" max="9999999999999" type="number" class="form-control" placeholder="CUI" name="CUI" required value="">
 					</div>
 					<td colspan="2">
-						<center><input type="submit" class="btn btn-info btn-md" role="button" name="login" value="Login"></center>
+						<center><input type="submit" class="btn btn-info btn-md" role="button" name="Enviar" value="Enviar"></center>
+						<?php if (isset($boton)) {echo $boton;}?>
 					</td>
-					<br>
-					<tr>
-						<center><a href="<?=$base_url?>/usuario/recuperar/">Recuperar contraseña</a></center>
-					</tr>
+					<?php echo $mensaje; ?>
 				</form>
 			</div>
 		</div>
 	</div>
 </div>
-
 </body>
+<script type="text/javascript">
+
+</script>
 </html>
