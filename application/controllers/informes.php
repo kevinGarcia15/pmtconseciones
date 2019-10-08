@@ -111,7 +111,16 @@ public function listar($opcion = "numero") {
 		$this->restringirAcceso();
 		$data['base_url'] = $this->config->item('base_url');
 
-		$this->informes_model->borrarConcesion($id);
-
-		redirect("/informes/listar");		}
+	 	$result = $this->informes_model->seleccionarBorrar($id);
+//funcion para borrar la concesión
+		$this->informes_model->borrarConcesion(
+			$result[0]['id_consecion'],
+			$result[0]['id_piloto'],
+			$result[0]['id_persona_pil'],
+			$result[0]['id_ayudante'],
+			$result[0]['id_persona_ayu'],
+			$result[0]['id_vehiculo']
+		);
+		redirect("/informes/listar");
+	}
 }

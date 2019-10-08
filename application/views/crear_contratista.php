@@ -43,7 +43,7 @@ $mensaje = isset($mensaje) ? $mensaje : "";
 				<tr>
 					<td><strong>Fecha de nacimiento<strong style="color: red; font-size: 20px">*</strong></strong></td>
 					<td>
-						<input id="fecha" onchange="validarFecha()" type="date" class="form-control" name="fecha_nacimiento_contratista"
+						<input id="fecha" onblur="validarFecha()" type="date" class="form-control" name="fecha_nacimiento_contratista"
 							<?php echo $activar; ?> required value="<?php if ($flag == 1){echo $result[0]['fecha_nacimiento'];}?>">
 					</td>
 				</tr>
@@ -58,7 +58,7 @@ $mensaje = isset($mensaje) ? $mensaje : "";
 				</tr>
 				<?php if ($flag == 0) {?>
 				<tr>
-					<td><strong>Seleccionar Municipio</strong></td>
+					<td><strong>Seleccionar Municipio<strong style="color: red; font-size: 20px">*</strong></strong></td>
 					<td>
 						<select class="custom-select" onchange="verificarMun()" name="municipio" id="municipio">
 							<option value="0">Seleccionar</option>
@@ -66,7 +66,7 @@ $mensaje = isset($mensaje) ? $mensaje : "";
 					</td>
 				</tr>
 				<tr>
-					<td><strong>Seleccionar Aldea o Caserío</strong></td>
+					<td><strong>Seleccionar Aldea o Caserío<strong style="color: red; font-size: 20px">*</strong></strong></td>
 					<td>
 						<select class="custom-select" onchange="verificarAldea()" name="aldea" id="aldea">
 							<option value="0">Seleccionar</option>
@@ -131,16 +131,29 @@ $(function(){
 function validarFecha()
 {
 	var hoy = new Date();
+
+	var resta = hoy.setFullYear(hoy.getFullYear()-10);//resta 10 años a la fecha de hoy
+	var suma = hoy.setFullYear(hoy.getFullYear()-90);//le resta 90 años a la fcha de hoy
+
 	let fecha_form_usuario = document.getElementById('fecha').value;
 	let fecha_form = new Date(fecha_form_usuario);
 
 // Comparamos solo las fechas => no las horas!!
 hoy.setHours(0,0,0,0);  // Lo iniciamos a 00:00 horas
 
-if (fecha_form >= hoy) {
-  alert('Fecha no valida');
+if (fecha_form <= suma) {
+  alert('Fecha no valida, debe ingresar una fecha mayor a 1920');
 	  document.getElementById("fecha").value = "";
-	}
+	return 0;
+}
+if (fecha_form >= resta) {
+  alert('Fecha no valida, debe ingresar una fecha de por lo menos 10 años atras');
+	  document.getElementById("fecha").value = "";
+}
+
+else {
+
+}
 }
 
 function llenar(){

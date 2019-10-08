@@ -5,6 +5,15 @@ if (count($arr) < 1) {
 	$mensaje = "No hay usuarios activos!";
 }
 
+if ($this->session->ROL == 'Administrador') {
+	$thead="<th>Acciones</th>";
+	$hidenL= "";
+	$hidenR= "";
+}else {
+	$thead="";
+	$hidenL= "<!--";//comenta el elemento del boton editar
+	$hidenR= "-->";
+}
 
 ?>
 <!DOCTYPE html>
@@ -36,7 +45,7 @@ if (count($arr) < 1) {
 					<th>Horario inicio de labores </th>
 					<th>Horario fin de labores</th>
 					<th>Ruta</th>
-					<th>Acciones</th>
+					<?php echo $thead; ?>
 				</thead>
 				<tbody>
 					<tr>
@@ -44,7 +53,10 @@ if (count($arr) < 1) {
 						<td><?php echo $a['h_inicio']; ?></td>
 						<td><?php echo $a['h_fin']; ?></td>
 						<td><?php echo $a['ruta']; ?></td>
+						<!--comenta el boton  en caso que sea un usuario-->
+					<?php echo $hidenL;?>
 						<td><a class='btn btn-secondary' href="<?=$base_url?>/consecion/editar/<?php echo $id_concesion ?>">Editar</a></td>
+					<?php echo $hidenR;?>
 					</tr>
 				</tbody>
 			</table>
@@ -65,7 +77,7 @@ if (count($arr) < 1) {
 					<th>Domicilio</th>
 					<th>Canton/Aldea</th>
 					<th>Municipio</th>
-					<th>Acciones</th>
+					<?php echo $thead; ?>
 				</thead>
 				<tbody>
 					<tr>
@@ -78,8 +90,10 @@ if (count($arr) < 1) {
 						<td><?php echo $a['domicilio_contra']; ?></td>
 						<td><?php echo $a['cantald_contra']; ?></td>
 						<td><?php echo $a['mun_contra']; ?></td>
-						<td><a class='btn btn-secondary' href="<?=$base_url?>/contratista/editar/<?php echo $a['cui_contra']; ?>">Editar</a></td>
-					</tr>
+						<?php echo $hidenL;?>
+							<td><a class='btn btn-secondary' href="<?=$base_url?>/contratista/editar/<?php echo $a['cui_contra']; ?>">Editar</a></td>
+						<?php echo $hidenR;?>
+				</tr>
 				</tbody>
 			</table>
 		</div>
@@ -99,7 +113,7 @@ if (count($arr) < 1) {
 					<th>Domicilio</th>
 					<th>Municipio</th>
 					<th>Departamento</th>
-					<th>Acciones</th>
+					<?php echo $thead; ?>
 				</thead>
 				<tbody>
 					<tr>
@@ -112,7 +126,9 @@ if (count($arr) < 1) {
 						<td><?php echo $a['domicilio_piloto']; ?></td>
 						<td><?php echo $a['mun_pil']; ?></td>
 						<td><?php echo $a['depto_pil']; ?></td>
-						<td><a class='btn btn-secondary' href="<?=$base_url?>/conductor/editar/<?php echo $a['licencia']; ?>">Editar</a></td>
+						<?php echo $hidenL;?>
+							<td><a class='btn btn-secondary' href="<?=$base_url?>/conductor/editar/<?php echo $a['licencia']; ?>">Editar</a></td>
+						<?php echo $hidenR;?>
 					</tr>
 				</tbody>
 			</table>
@@ -132,7 +148,7 @@ if (count($arr) < 1) {
 					<th>Domicilio</th>
 					<th>Municipio</th>
 					<th>Departamento</th>
-					<th>Acciones</th>
+					<?php echo $thead; ?>
 				</thead>
 				<tbody>
 					<tr>
@@ -144,7 +160,9 @@ if (count($arr) < 1) {
 						<td><?php echo $a['domicilio_ayudante']; ?></td>
 						<td><?php echo $a['mun_ayudante']; ?></td>
 						<td><?php echo $a['depto_ayudante']; ?></td>
-						<td><a class='btn btn-secondary' href="<?=$base_url?>/ayudante/editar/<?php echo $a['id_consecion']; ?>">Editar</a></td>
+						<?php echo $hidenL;?>
+							<td><a class='btn btn-secondary' href="<?=$base_url?>/ayudante/editar/<?php echo $a['id_consecion']; ?>">Editar</a></td>
+						<?php echo $hidenR;?>
 					</tr>
 				</tbody>
 			</table>
@@ -163,7 +181,7 @@ if (count($arr) < 1) {
 					<th>Variante de color</th>
 					<th>Tipo</th>
 					<th>Marca</th>
-					<th>Acciones</th>
+					<?php echo $thead; ?>
 				</thead>
 				<tbody>
 					<tr>
@@ -174,7 +192,9 @@ if (count($arr) < 1) {
 						<td><?php echo $a['color_variante']; ?></td>
 						<td><?php echo $a['tipo']; ?></td>
 						<td><?php echo $a['marca']; ?></td>
-						<td><a class='btn btn-secondary' href="<?=$base_url?>/vehiculo/editar/<?php echo $a['id_consecion']; ?>">Editar</a></td>
+						<?php echo $hidenL;?>
+							<td><a class='btn btn-secondary' href="<?=$base_url?>/vehiculo/editar/<?php echo $a['id_consecion']; ?>">Editar</a></td>
+						<?php echo $hidenR;?>
 					</tr>
 				</tbody>
 			</table>

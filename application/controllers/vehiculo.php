@@ -26,6 +26,11 @@ class vehiculo extends CI_Controller {
 		$this->restringirAcceso();
 		$data['base_url'] = $this->config->item('base_url');
 
+//verifica si existen éstas variables, para que no se pueda ingresar desde la url sin tener que llenar primero los datos del contratista
+		if (null == $this->session->userdata('id_contratista_existe') and null == $this->session->userdata('CUI_contratista')) {
+		redirect("/contratista/crearContratista");
+		}
+
 		$data['color'] = $this->vehiculo_model->seleccionarColor();
 		$data['tipo'] = $this->vehiculo_model->seleccionarTipo();
 		$data['marca'] = $this->vehiculo_model->seleccionarMarca();
@@ -133,7 +138,7 @@ class vehiculo extends CI_Controller {
 			public function validar(){
 				$this->restringirAcceso();
 				$data['base_url'] = $this->config->item('base_url');
-		
+
 				$verificar = "";
 					//Busca a contratista en BD
 				$verificar = $_POST['placas_vehiculo'];
@@ -141,7 +146,19 @@ class vehiculo extends CI_Controller {
 				//verifica si exite el contratista
 				$retorno = count($data['result']);
 				echo $retorno; //retorna el resultado de la busqueda
-
 		}
 
+		public function ValidarTarjeta(){
+			$this->restringirAcceso();
+			$data['base_url'] = $this->config->item('base_url');
+
+			$verificar = "";
+				//Busca a contratista en BD
+			$verificar = $_POST['No_tarjeta'];
+			$data['result'] = $this->vehiculo_model->seleccionarTarjetaVehiculo($verificar);
+			//verifica si exite el contratista
+			$retorno = count($data['result']);
+			echo $retorno; //retorna el resultado de la busqueda
+
+	}
 }

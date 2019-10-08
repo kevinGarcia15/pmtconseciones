@@ -23,7 +23,7 @@ $mensaje = isset($mensaje) ? $mensaje : "";
 					<td>
 						<div class="row">
 							<div class="col-2">
-								<select id="inicial" class="custom-select" name="inicial">
+								<select id="inicial"  onchange="ValidarPlaca()" class="custom-select" name="inicial">
 									<option value="C">C</option>
 									<option value="M">M</option>
 									<option value="P">P</option>
@@ -39,11 +39,11 @@ $mensaje = isset($mensaje) ? $mensaje : "";
 				<tr>
 					<td><strong>Ingrese No. de tarjeta de circulación<strong style="color: red; font-size: 20px">*</strong></strong></td>
 					<td>
-						<input type="number" class="form-control" placeholder="Número" min="1000000" name="tarjeta_circulacion" required value="<?php $tarjeta_circulacion?>">
+						<input type="number" id="noTarjeta" onchange="ValidarTarjeta()" class="form-control" placeholder="Número" min="1000000" name="tarjeta_circulacion" required value="<?php $tarjeta_circulacion?>">
 					</td>
 				</tr>
 				<tr>
-					<td><strong>Seleccione el modelo</strong></td>
+					<td><strong>Seleccione el modelo<strong style="color: red; font-size: 20px">*</strong></strong></td>
 					<td>
 						<select class="custom-select" name="modelo_vehiculo">
 							<?php
@@ -56,7 +56,7 @@ $mensaje = isset($mensaje) ? $mensaje : "";
 					</td>
 				</tr>
 				<tr>
-					<td><strong>Seleccionar color del Vehículo</strong></td>
+					<td><strong>Seleccionar color del Vehículo<strong style="color: red; font-size: 20px">*</strong></strong></td>
 					<td>
 						<div class="row">
 							<div class="col-2">
@@ -69,13 +69,13 @@ $mensaje = isset($mensaje) ? $mensaje : "";
 								<input type="text" class="form-control" placeholder="Variante" maxlength="100"  name="color_variante" value="<?php $color_variante ?>">
 							</div>
 							<div class="col-1">
-								<img type="button" data-toggle="modal" data-target="#exampleModal" data-whatever="@mdo" src="<?=$base_url?>/recursos/img/plus.png" style="width: 24px;" alt=""><br>
+								<img type="button" data-toggle="modal" data-target="#variante" data-whatever="@mdo" src="<?=$base_url?>/recursos/img/plus.png" style="width: 24px;" alt=""><br>
 							</div>
 						</div>
 					</td>
 				</tr>
 				<tr>
-					<td><strong>Seleccionar el tipo de vehículo</strong></td>
+					<td><strong>Seleccionar el tipo de vehículo<strong style="color: red; font-size: 20px">*</strong></strong></td>
 					<td>
 						<select class="custom-select" name="tipo_id_tipo_vehiculo">
 							<?php foreach ($tipo as $key) {?>
@@ -85,7 +85,7 @@ $mensaje = isset($mensaje) ? $mensaje : "";
 					</td>
 				</tr>
 				<tr>
-					<td><strong>Seleccionar la marca del vehículo</strong></td>
+					<td><strong>Seleccionar la marca del vehículo<strong style="color: red; font-size: 20px">*</strong></strong></td>
 					<td>
 						<select class="custom-select" name="marca_id_marca_vehiculo">
 							<?php foreach ($marca as $key) {?>
@@ -102,7 +102,7 @@ $mensaje = isset($mensaje) ? $mensaje : "";
 			</td>
 		</form>
 		<!-- incio formulario color-->
-		<div class="modal fade" id="exampleModal" tabindex="-1" role="dialog" aria-labelledby="exampleModalLabel" aria-hidden="true">
+		<div class="modal fade" id="variante" tabindex="-1" role="dialog" aria-labelledby="exampleModalLabel" aria-hidden="true">
 			<div class="modal-dialog" role="document">
 				<div class="modal-content">
 					<div class="modal-header">
@@ -115,7 +115,7 @@ $mensaje = isset($mensaje) ? $mensaje : "";
 						<form id="subir" action="<?=$base_url?>/vehiculo/crearColor/" method="POST">
 							<div class="form-group">
 								<label for="recipient-name" class="col-form-label" style="color:white;">Ingrese el nombre del color</label>
-								<input type="text" class="form-control" id="recipient-name" name="color" value="<?php $color ?>">
+								<input type="text" required class="form-control" id="recipient-name" name="color" value="<?php $color ?>">
 							</div>
 							<div class="modal-footer">
 								<button type="button" class="btn btn-secondary" data-dismiss="modal" style="color:white;">Cerrar</button>
@@ -159,8 +159,25 @@ request.done(function(resultado) {
 	if (resultado > 0) {
 		alert('Numero de placa existente!');
 		$(function(){$("#placa").val("");});
-	}
+		}
+	});
+}
+//valida numero de tarjeta de circulación
+var ValidarTarjeta= function() {
+var tarjeta = $("#noTarjeta").val();
+
+var request = $.ajax({
+	method: "POST",
+	url: "<?=$base_url?>/vehiculo/ValidarTarjeta",
+	data: { No_tarjeta: tarjeta}
 });
+
+request.done(function(resultado) {
+	if (resultado > 0) {
+		alert('Numero de tarjeta existente!');
+		$(function(){$("#noTarjeta").val("");});
+		}
+	});
 }
 </script>
 </html>

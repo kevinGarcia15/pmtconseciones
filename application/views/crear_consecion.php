@@ -22,11 +22,11 @@ $mensaje = isset($mensaje) ? $mensaje : "";
 				<tr>
 					<td><strong>Ingrese No. de la concesión<strong style="color: red; font-size: 20px">*</strong></strong></td>
 					<td>
-						<input type="number" class="form-control" placeholder="número" name="numero_consecion" min="100" required value="<?=$numero_consecion?>">
+						<input type="number" onchange="ValidarNumero()" id="numero" class="form-control" placeholder="número" name="numero_consecion" min="100" required value="<?=$numero_consecion?>">
 					</td>
 				</tr>
 				<tr>
-					<td><strong>Seleccionar la ruta que cubre</strong></td>
+					<td><strong>Seleccionar la ruta que cubre<strong style="color: red; font-size: 20px">*</strong></strong></td>
 					<td>
 						<div class="row">
 							<div class="col-8">
@@ -41,7 +41,7 @@ $mensaje = isset($mensaje) ? $mensaje : "";
 							</div>
 							<div class="col-2">
 								<!-- Boton que activa la ventana emergente-->
-								<img type="button" data-toggle="modal" data-target="#exampleModal" data-whatever="@mdo" src="<?=$base_url?>/recursos/img/plus.png" style="width: 24px;" alt="">
+								<img type="button" data-toggle="modal" data-target="#IngresoRuta" data-whatever="@mdo" src="<?=$base_url?>/recursos/img/plus.png" style="width: 24px;" alt="">
 							</div>
 						</div>
 					</td>
@@ -92,7 +92,7 @@ $mensaje = isset($mensaje) ? $mensaje : "";
 			</td>
 		</form>
 		<!-- inicio del formulario emergente-->
-		<div class="modal fade" id="exampleModal" tabindex="-1" role="dialog" aria-labelledby="exampleModalLabel" aria-hidden="true">
+		<div class="modal fade" id="IngresoRuta" tabindex="-1" role="dialog" aria-labelledby="exampleModalLabel" aria-hidden="true">
 			<div class="modal-dialog" role="document">
 				<div class="modal-content">
 					<div class="modal-header">
@@ -105,7 +105,7 @@ $mensaje = isset($mensaje) ? $mensaje : "";
 						<form id="subir" action="<?=$base_url?>/consecion/crearRuta/" method="POST">
 							<div class="form-group">
 								<label for="recipient-name" class="col-form-label" style="color:white;">Ingrese nombre de la ruta</label>
-								<input type="text" class="form-control" id="recipient-name" name="ruta" value="<?php $rut ?>">
+								<input type="text" required class="form-control" id="recipient-name" name="ruta" value="<?php $rut ?>">
 							</div>
 							<div class="form-group">
 								<label for="message-text" class="col-form-label" style="color:white;">ingrese una descripción</label>
@@ -141,6 +141,24 @@ alertify.confirm("¿Está seguro de omitir?", function (e) {
 		}else{
 		}
 	});
+}
+
+//validar No. de concesion
+var ValidarNumero = function() {
+var numero = $("#numero").val();
+
+var request = $.ajax({
+	method: "POST",
+	url: "<?=$base_url?>/consecion/validar",
+	data: { numero_consecion: numero}
+});
+
+request.done(function(resultado) {
+	if (resultado > 0) {
+		alert('Numero de concesión existente!');
+		$(function(){$("#numero").val("");});
+	}
+});
 }
 </script>
 </html>

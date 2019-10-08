@@ -43,7 +43,7 @@ $mensaje = isset($mensaje) ? $mensaje : "";
 				<tr>
 					<td><strong>Fecha de nacimiento<strong style="color: red; font-size: 20px">*</strong></strong></td>
 					<td>
-						<input id="fecha" onchange="validarFecha()" type="date" class="form-control" name="fecha_nacimiento_conductor"
+						<input id="fecha" onblur="validarFecha()" type="date" class="form-control" name="fecha_nacimiento_conductor"
 						 required value="<?php $fecha_nacimiento ?>">
 					</td>
 				</tr>
@@ -58,9 +58,9 @@ $mensaje = isset($mensaje) ? $mensaje : "";
 					</td>
 				</tr>
 				<tr>
-					<td><strong>Teléfono</strong></td>
+					<td><strong>Teléfono<strong style="color: red; font-size: 20px">*</strong></strong></td>
 					<td>
-						<input type="number" class="form-control" min="10000000" max="99999999" placeholder="Número de teléfono" name="telefono_conductor"
+						<input type="number" required class="form-control" min="10000000" max="99999999" placeholder="Número de teléfono" name="telefono_conductor"
 					 	 value="<?php $telefono ?>">
 					</td>
 				</tr>
@@ -123,16 +123,29 @@ $(function(){
 function validarFecha()
 {
 	var hoy = new Date();
+
+	var resta = hoy.setFullYear(hoy.getFullYear()-10);//resta 10 años a la fecha de hoy
+	var suma = hoy.setFullYear(hoy.getFullYear()-90);//le resta 90 años a la fcha de hoy
+
 	let fecha_form_usuario = document.getElementById('fecha').value;
 	let fecha_form = new Date(fecha_form_usuario);
 
 // Comparamos solo las fechas => no las horas!!
 hoy.setHours(0,0,0,0);  // Lo iniciamos a 00:00 horas
 
-if (fecha_form >= hoy) {
-  alert('Fecha no valida');
+if (fecha_form <= suma) {
+  alert('Fecha no valida, debe ingresar una fecha mayor a 1920');
 	  document.getElementById("fecha").value = "";
-	}
+	return 0;
+}
+if (fecha_form >= resta) {
+  alert('Fecha no valida, debe ingresar una fecha de por lo menos 10 años atras');
+	  document.getElementById("fecha").value = "";
+}
+
+else {
+
+}
 }
 //validar No. de licencia
 var ValidarLicencia = function() {
@@ -172,6 +185,5 @@ var botonEnviar = document.getElementById('continuar');
 		botonEnviar.disabled = true; //desactiva el boton continuar
 	}
 }
-
 </script>
 </html>

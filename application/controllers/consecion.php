@@ -24,10 +24,14 @@ class consecion extends CI_Controller {
 
 	public function crear() {
 		$this->restringirAcceso();
-
 		$data['base_url'] = $this->config->item('base_url');
 
-		$data['ruta'] = $this->consecion_model->seleccionarRuta();//selecciona la ruta
+//verifica si existen éstas variables, para que no se pueda ingresar desde la url sin tener que llenar primero los datos del contratista
+if (null == $this->session->userdata('id_contratista_existe') and null == $this->session->userdata('CUI_contratista')) {
+redirect("/contratista/crearContratista");
+}
+
+		$data['ruta'] = $this->consecion_model->seleccionarRuta();//selecciona la ruta para mostrarlo en el formulario "crear_consecion"
 
 		$data['numero_consecion'] = "";
 		$data['descripcion'] = "";
@@ -45,7 +49,7 @@ class consecion extends CI_Controller {
 					$data['ruta_id_ruta'] = $_POST['ruta_id_ruta'];
 					$id_usuario =	$this->session->IDUSUARIO;
 				/*crear contratista*/
-				if ( null== $this->session->userdata('id_contratista_existe')) {//verifica si existe yá un contratista
+				if (null== $this->session->userdata('id_contratista_existe')) {//verifica si existe yá un contratista
 
 				$this->crearPersona(
 					$this->session->userdata('nombre_contratista'),
@@ -154,7 +158,9 @@ class consecion extends CI_Controller {
 												'color_id_color_vehiculo',
 												'tipo_id_tipo_vehiculo',
 												'marca_id_marca_vehiculo',
-												'id_contratista_existe'
+												'id_contratista_existe',
+												'tarjeta_circulacion',
+												'color_variante'
 											);
 		$this->session->unset_userdata($borrar);//borra las variables de sesion
 	redirect("/informes/mostrarNuevaConcesion/${data['numero_consecion']}");
@@ -170,6 +176,43 @@ class consecion extends CI_Controller {
 			);
 	}
 
+	public function borrar_variables_session() {
+		$this->restringirAcceso();
+		$borrar = array(	'CUI_contratista',
+												'nombre_contratista',
+												'apellido_contratista',
+												'fecha_nacimiento_contratista',
+												'telefono_contratista',
+												'telefono2_contratista',
+												'aldea_id_aldea_contratista',
+												'domicilio_contratista',
+												'numero_licencia',
+												'nombre_conductor',
+												'apellido_conductor',
+												'fecha_nacimiento_conductor',
+												'telefono_conductor',
+												'municipio_conductor',
+												'tipo_licencia_id_tipo',
+												'domicilio_conductor',
+												'CUI_ayudante',
+												'nombre_ayudante',
+												'apellido_ayudante',
+												'fecha_nacimiento_ayudante',
+												'municipio_ayudante',
+												'telefono_ayudante',
+												'domicilio_ayudante',
+												'placas_vehiculo',
+												'modelo_vehiculo',
+												'color_id_color_vehiculo',
+												'tipo_id_tipo_vehiculo',
+												'marca_id_marca_vehiculo',
+												'id_contratista_existe',
+												'tarjeta_circulacion',
+												'color_variante'
+											);
+		$this->session->unset_userdata($borrar);//borra las variables de sesion
+
+	}
 
 	public function crearRuta() {
 		$this->restringirAcceso();
@@ -279,4 +322,18 @@ class consecion extends CI_Controller {
 			$this->load->view('editar_consecion', $data);
 
 			}
+
+			public function validar(){
+				$this->restringirAcceso();
+				$data['base_url'] = $this->config->item('base_url');
+
+				$verificar = "";
+					//Busca a contratista en BD
+				$verificar = $_POST['numero_consecion'];
+				$data['result'] = $this->consecion_model->seleccionarNumero($verificar);
+				//verifica si exite el nemro de concesion
+				$retorno = count($data['result']);
+				echo $retorno; //retorna el resultado de la busqueda
+
+		}
 }

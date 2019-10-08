@@ -127,30 +127,48 @@ class informes_model extends CI_Model{
 
 		return $rows;
 	}
+//se selecciona la concesion para borrar
+	function seleccionarBorrar($id) {
+		$sql = "SELECT c.id_consecion id_consecion, p.id_piloto id_piloto, p.persona_id_persona id_persona_pil, a.id_ayudante id_ayudante,
+						a.persona_id_persona id_persona_ayu,c.vehiculo_id_vehiculo id_vehiculo
 
-	function borrarConcesion($id) {
+				FROM 	consecion c
+				join piloto p on p.id_piloto = c.piloto_id_piloto
+				join ayudante a on a.id_ayudante = p.ayudante_id_ayudante
+				where c.id_consecion = ?
+				LIMIT 	1";
+
+		$dbres = $this->db->query($sql, $id);
+
+		$rows = $dbres->result_array();
+
+		return $rows;
+	}
+
+	function borrarConcesion($id_consecion, $id_piloto, $id_persona_pil, $id_ayudante, $id_persona_ayu, $id_vehiculo) {
 		$sql1 = "DELETE FROM consecion
-						WHERE id_consecion = 7";
+						WHERE id_consecion = $id_consecion";
 		$dbres = $this->db->query($sql1);
 
 		$sql2 = "DELETE FROM piloto
-						WHERE id_piloto = 7";
+						WHERE id_piloto = $id_piloto";
 		$dbres = $this->db->query($sql2);
 
 		$sql3 = "DELETE FROM persona
-						WHERE id_persona = 25";
+						WHERE id_persona = $id_persona_pil";
 		$dbres = $this->db->query($sql3);
 
 		$sql4 = "DELETE FROM ayudante
-						WHERE id_ayudante = 8";
+						WHERE id_ayudante = $id_ayudante";
 		$dbres = $this->db->query($sql4);
 
 		$sql5 = "DELETE FROM persona
-						WHERE id_persona = 24";
+						WHERE id_persona = $id_persona_ayu";
 		$dbres = $this->db->query($sql5);
 
 		$sql6 = "DELETE FROM vehiculo
-						WHERE id_vehiculo = 7";
+						WHERE id_vehiculo = $id_vehiculo";
+
 		$dbres = $this->db->query($sql6);
 
 		return $dbres;

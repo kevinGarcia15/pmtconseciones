@@ -44,10 +44,15 @@ if (isset($this->session->USUARIO)) { // Sesión iniciada
            </div>
           </li>
           <?php } ?>
+
+  <!--Restricciones para usuario-->
         <?php if ($this->session->ROL == 'Usuario') { ?>
-          <a class="nav-item nav-link" href="<?=$base_url?>/corredor/crear">Listar conseciones</a>
+          <a class="nav-item nav-link" href="<?=$base_url?>/contratista/crearContratista">Crear Conseción</a>
+          <a class="nav-item nav-link" href="<?=$base_url?>/informes/listar">Listar conseciones</a>
         <?php } ?>
-        <a class="nav-item nav-link" href="<?=$base_url?>/informes/graficas">graficas</a>
+<!--fin de restricciones-->
+
+        <a class="nav-item nav-link" href="http://localhost:8080/pentaho/Home">graficas</a>
         <a class="nav-item nav-link" data-toggle="modal" data-target="#exampleModal" data-whatever="@mdo">Buscar</a>
         <!-- inicio del formulario emergente-->
         <div class="modal fade" id="exampleModal" tabindex="-1" role="dialog" aria-labelledby="exampleModalLabel" aria-hidden="true">

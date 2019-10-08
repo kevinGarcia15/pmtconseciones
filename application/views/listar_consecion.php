@@ -4,23 +4,39 @@ $mensaje = isset($mensaje) ? $mensaje : "";
 if (count($arr) < 1) {
 	$mensaje = "Sin registros!";
 }
-
-$htmltrow = "<tr>
-				<td>%s</td>
-				<td>%s</td>
-				<td>%s</td>
-				<td>%s</td>
-				<td>%s</td>
-				<td>%s</td>
-				<td><a class='btn btn-secondary' href=\"${base_url}/informes/detalles/%s\">Ver mas</a></td>
-				<td><a class='btn btn-danger' id='boton' onclick='mensaje(%s)'>Eliminar</a></td>
-
-			 	</tr>";
-$htmltrows = "";
-
-foreach ($arr as $a) {
-	$htmltrows .= sprintf($htmltrow,$a['numero'],$a['nombre_contratista'],$a['nombre_piloto'],$a['ruta'],$a['numero_placa'],$a['tipo'],$a['id_consecion'],$a['id_consecion']);
+if ($this->session->ROL == 'Administrador') {
+	$htmltrow = "<tr>
+					<td>%s</td>
+					<td>%s</td>
+					<td>%s</td>
+					<td>%s</td>
+					<td>%s</td>
+					<td>%s</td>
+					<td><a class='btn btn-secondary' href=\"${base_url}/informes/detalles/%s\">Ver mas</a></td>
+					<td><a class='btn btn-danger' id='boton_eliminar' onclick='mensaje(%s)'>Eliminar</a></td>
+				 	</tr>";
+	$htmltrows = "";
+	$thead = "<th>Eliminar</th>";
+	foreach ($arr as $a) {
+		$htmltrows .= sprintf($htmltrow,$a['numero'],$a['nombre_contratista'],$a['nombre_piloto'],$a['ruta'],$a['numero_placa'],$a['tipo'],$a['id_consecion'],$a['id_consecion']);
+	}
+}else {
+	$htmltrow = "<tr>
+					<td>%s</td>
+					<td>%s</td>
+					<td>%s</td>
+					<td>%s</td>
+					<td>%s</td>
+					<td>%s</td>
+					<td><a class='btn btn-secondary' href=\"${base_url}/informes/detalles/%s\">Ver mas</a></td>
+					</tr>";
+	$htmltrows = "";
+	$thead = "";
+	foreach ($arr as $a) {
+		$htmltrows .= sprintf($htmltrow,$a['numero'],$a['nombre_contratista'],$a['nombre_piloto'],$a['ruta'],$a['numero_placa'],$a['tipo'],$a['id_consecion']);
+	}
 }
+
 ?>
 <!DOCTYPE html>
 <html lang="en">
@@ -74,7 +90,7 @@ foreach ($arr as $a) {
 			<th>Número de placa</th>
 			<th>Tipo de vehículo</th>
 			<th>Detalles</th>
-			<th>Eliminar</th>
+			<?php echo $thead; ?>
 		</thead>
 		<tbody>
 			<?=$htmltrows?>
@@ -102,6 +118,8 @@ alertify.confirm("¿Está seguro de omitir?", function (e) {
 		}
 	});
 }
+
+//$('#boton_eliminar').attr("disabled", true);
  </script>
 </body>
 </html>

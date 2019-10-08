@@ -19,7 +19,6 @@ if (isset($this->session->USUARIO)) { // Sesión iniciada
 	<br>
 	<div class="container-flu bg-primary"></div>
 	<br><br>
-  <?php  	 print_r($this->session->userdata()); ?>
 	<div>
 	  <h3><center>Policía Municipal de Transito de Totonicapán</center></h2>
 	  <h3><center><?php $año = date("Y"); echo $año; ?></center></h2><br>
@@ -34,6 +33,7 @@ if (isset($this->session->USUARIO)) { // Sesión iniciada
 <br>
 <section id="info2">
         <div class="container">
+  <!--        <?php print_r($this->session->userdata()); ?>-->
             <div class="info text-center">
               <br>
                 <h1 class="h4">BIENVENIDOS</h1>
@@ -49,6 +49,7 @@ if (isset($this->session->USUARIO)) { // Sesión iniciada
 		<?php  if (isset($this->session->USUARIO)) {?>
 		<section>
 			 <div class="card-group text-center">
+        <?php if ($this->session->ROL == 'Administrador') { ?>
 								<div class="col-md-12 col-lg-3">
 										<div class="card m-3">
 												<img class="card-img-top mb-3"  style="width:70%;padding-left: 0px;margin-left: 56px;" src="<?=$base_url?>/recursos/img/creacion.png" alt="Card image cap">
@@ -97,6 +98,11 @@ if (isset($this->session->USUARIO)) { // Sesión iniciada
 												<br>
 										</div>
 								</div>
+              <?php } ?>
+<!--fin de lo que se le muestra al Administrador-->
+        <?php if ($this->session->ROL == 'Usuario') { ?>
+          <?php $this->load->view('inicio_usuario'); ?>
+          <?php } ?>
 						</div>
  				</section>
 				<?php }?>

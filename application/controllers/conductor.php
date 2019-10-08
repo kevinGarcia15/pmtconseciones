@@ -25,7 +25,10 @@ class conductor extends CI_Controller {
 	public function crearConductor() {
 		$this->restringirAcceso();
 		$data['base_url'] = $this->config->item('base_url');
-
+//verifica si existen éstas variables, para que no se pueda ingresar desde la url sin tener que llenar primero los datos del contratista
+if (null == $this->session->userdata('id_contratista_existe') and null == $this->session->userdata('CUI_contratista')) {
+redirect("/contratista/crearContratista");
+}
 //Datos de registro del conductor
 		$data['numero_licencia'] ="";
 		$data['nombre'] ="";

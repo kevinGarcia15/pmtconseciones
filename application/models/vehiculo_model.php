@@ -102,4 +102,16 @@ function seleccionarPlacaVehiculo($placa) {
 	return $rows;
 }
 
+function seleccionarTarjetaVehiculo($tarjeta) {
+	$sql = "SELECT 	tarjeta_circulacion
+					FROM 	vehiculo
+					WHERE 	tarjeta_circulacion = ?
+					LIMIT 1 ;";
+
+	$dbres = $this->db->query($sql, array($tarjeta));
+
+	$rows = $dbres->result_array();
+	return $rows;
+}
+
 }

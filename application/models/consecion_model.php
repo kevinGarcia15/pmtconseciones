@@ -244,4 +244,17 @@ function seleccionar_id_conductor() {
 		$dbres = $this->db->query($sql);
 		return $dbres;
 	}
+
+	function seleccionarNumero($numero) {
+		$sql = "SELECT 	numero
+						FROM 		consecion
+						WHERE 	numero = ?
+						LIMIT 1 ;";
+
+		$dbres = $this->db->query($sql, array($numero));
+
+		$rows = $dbres->result_array();
+		return $rows;
+	}
+
 }
