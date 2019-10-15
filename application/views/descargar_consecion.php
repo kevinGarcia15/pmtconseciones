@@ -85,12 +85,14 @@ code {
 		<th>Horario inicio de labores </th>
 		<th>Horario fin de labores</th>
 		<th>Ruta</th>
+		<th>lugar de parqueo</th>
 			</tr>
 		<tr>
 			<td><?php echo "Q.".$a['tarifa']; ?></td>
 			<td><?php echo $a['h_inicio']; ?></td>
 			<td><?php echo $a['h_fin']; ?></td>
 			<td><?php echo $a['ruta']; ?></td>
+			<td><?php echo $a['parqueo']; ?></td>
 		</tr>
 </table>
 
@@ -209,8 +211,11 @@ code {
 	<tr>
 		<th>Obsevaciones</th>
 	</tr>
-		<tr>
-			<td align="center"><?php echo $a['descripcion_ruta']; ?></td>
+		<tr border="0">
+			<td align="center"><strong>De la ruta: </strong><?php echo $a['descripcion_ruta']; ?></td>
+		</tr>
+		<tr border="0">
+			<td align="center"><strong>De la conseción: </strong><?php echo $a['descripcion']; ?></td>
 		</tr>
 </table>		<div class="label label-danger label-md" onclick="$(this).hide(1000)"><?=$mensaje?></div>
 	</div>

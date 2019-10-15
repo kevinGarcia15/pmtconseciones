@@ -76,6 +76,20 @@ public function listar($opcion = "numero") {
 
 	}
 
+	public function informes() {
+		$this->restringirAcceso();
+		$data['base_url'] = $this->config->item('base_url');
+		$this->load->view('informe_checkbox', $data);
+		}
+
+	public function informe_categoria() {
+		$this->restringirAcceso();
+		$data['base_url'] = $this->config->item('base_url');
+
+		var_dump($_POST['valor']);
+	//	$this->load->view('informe_view_cat', $data);
+		}
+
 	public function graficas() {
 		$this->restringirAcceso();
 		$data['base_url'] = $this->config->item('base_url');

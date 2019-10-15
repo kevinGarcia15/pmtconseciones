@@ -9,7 +9,8 @@ class informes_model extends CI_Model{
 	}
 
 	function Detalle($id) {
-		$sql = "SELECT c.id_consecion id_consecion, c.numero numero,c.fecha_creacion creado,c.tarifa tarifa,c.hora_inicio h_inicio,c.hora_fin h_fin,
+		$sql = "SELECT c.id_consecion id_consecion, c.numero numero,c.fecha_creacion creado,c.tarifa tarifa, c.parqueo parqueo,
+									 c.hora_inicio h_inicio,c.hora_fin h_fin,c.descripcion descripcion,
 /*ssda*/
 										con.cui cui_contra,contra.nombre nombre_contratista,
                     contra.apellido	apellido_contra,contra.fecha_nacimiento

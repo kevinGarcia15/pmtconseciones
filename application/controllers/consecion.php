@@ -30,6 +30,9 @@ class consecion extends CI_Controller {
 if (null == $this->session->userdata('id_contratista_existe') and null == $this->session->userdata('CUI_contratista')) {
 redirect("/contratista/crearContratista");
 }
+		$id_tipo_vehiculo = $this->session->userdata('tipo_id_tipo_vehiculo');
+		$data['abreviatura'] =  $this->consecion_model->seleccionarTipoVehiculo($id_tipo_vehiculo);
+
 
 		$data['ruta'] = $this->consecion_model->seleccionarRuta();//selecciona la ruta para mostrarlo en el formulario "crear_consecion"
 
@@ -38,15 +41,17 @@ redirect("/contratista/crearContratista");
 		$data['tarifa'] = "";
 		$data['horario_inicio'] = "";
 		$data['horario_fin'] = "";
+		$data['parqueo'] = "";
 		$id_contratista_existe = "";
 //ingresa todos los datos a la base de datos
 		if (isset($_POST['finalizar'])) {
-					$data['numero_consecion']  = $_POST['numero_consecion'];
+					$data['numero_consecion']  = $_POST['numero_consecion'].$_POST['clave'];
 					$data['tarifa'] = $_POST['tarifa'];
 					$data['horario_inicio'] = $_POST['horario_inicio'];
 					$data['horario_fin'] = $_POST['horario_fin'];
 					$data['descripcion'] = $_POST['descripcion'];
 					$data['ruta_id_ruta'] = $_POST['ruta_id_ruta'];
+					$data['parqueo'] = $_POST['parqueo'];
 					$id_usuario =	$this->session->IDUSUARIO;
 				/*crear contratista*/
 				if (null== $this->session->userdata('id_contratista_existe')) {//verifica si existe yá un contratista
@@ -120,6 +125,7 @@ redirect("/contratista/crearContratista");
 		$this->consecion_model->crear_consecion(
 			$data['numero_consecion'],
 			$data['tarifa'],
+			$data['parqueo'],
 			$data['horario_inicio'],
 			$data['horario_fin'],
 			$data['descripcion'],
@@ -287,6 +293,7 @@ redirect("/contratista/crearContratista");
 			$data['numero_consecion'] ="";
 			$data['ruta_id_ruta'] = "";
 			$data['tarifa'] ="";
+			$data['parqueo'] ="";
 			$data['horario_inicio'] ="";
 			$data['horario_fin'] ="";
 			$data['descripcion'] ="";
@@ -295,6 +302,7 @@ redirect("/contratista/crearContratista");
 			if (isset($_POST['actualizar'])) {
 				$data['numero_consecion']  = $_POST['numero_consecion'];
 				$data['tarifa'] = $_POST['tarifa'];
+				$data['parqueo'] = $_POST['parqueo'];
 				$data['horario_inicio'] = $_POST['horario_inicio'];
 				$data['horario_fin'] = $_POST['horario_fin'];
 				$data['descripcion'] = $_POST['descripcion'];
@@ -305,6 +313,7 @@ redirect("/contratista/crearContratista");
 					$data['id_consecion'],
 					$data['numero_consecion'],
 					$data['tarifa'],
+					$data['parqueo'],
 					$data['horario_inicio'],
 					$data['horario_fin'],
 					$data['descripcion'],

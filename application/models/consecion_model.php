@@ -211,12 +211,12 @@ function seleccionar_id_conductor() {
 
 			return $rows[0]['id_vehiculo'];
 		}
-		function crear_consecion($numero,$tarifa,$horario_inicio, $horario_fin,$descripcion, $id_contratista,$id_ruta,$id_vehiculo,$id_empleado, $id_piloto) {
-			$sql = "INSERT INTO consecion(numero, tarifa, hora_inicio, hora_fin, descripcion, contratista_id_contratista, ruta_id_ruta,
+		function crear_consecion($numero,$tarifa,$parqueo,$horario_inicio, $horario_fin,$descripcion, $id_contratista,$id_ruta,$id_vehiculo,$id_empleado, $id_piloto) {
+			$sql = "INSERT INTO consecion(numero, tarifa, parqueo, hora_inicio, hora_fin, descripcion, contratista_id_contratista, ruta_id_ruta,
 																		vehiculo_id_vehiculo, empleado_id_empleado, piloto_id_piloto)
-					VALUES (?, ?, ?, ?, ?, ?, ?, ?, ?, ?)";
+					VALUES (?, ?, ?, ?, ?, ?, ?, ?, ?, ?, ?)";
 
-			$valores = array($numero,$tarifa,$horario_inicio, $horario_fin, $descripcion, $id_contratista,$id_ruta,$id_vehiculo,$id_empleado, $id_piloto);
+			$valores = array($numero,$tarifa,$parqueo, $horario_inicio, $horario_fin, $descripcion, $id_contratista,$id_ruta,$id_vehiculo,$id_empleado, $id_piloto);
 
 			$dbres = $this->db->query($sql, $valores);
 
@@ -224,7 +224,7 @@ function seleccionar_id_conductor() {
 		}
 
 		function seleccionarConsecionEditar($id){
-			$sql = "SELECT  id_consecion,numero, tarifa, hora_inicio,hora_fin, descripcion, ruta_id_ruta
+			$sql = "SELECT  id_consecion,numero, tarifa,parqueo, hora_inicio,hora_fin, descripcion, ruta_id_ruta
 					FROM 	consecion
 					where id_consecion = ?
 					LIMIT 	1";
@@ -235,9 +235,9 @@ function seleccionar_id_conductor() {
 			return $rows;
 		}
 
-		function actualizar_consecion($id_concesion,$numero, $tarifa, $horario_inicio,	$horario_fin, $descripcion, $id_ruta) {
+		function actualizar_consecion($id_concesion,$numero, $tarifa,$parqueo, $horario_inicio,	$horario_fin, $descripcion, $id_ruta) {
 		$sql = "UPDATE consecion
-						SET numero = '$numero', tarifa = '$tarifa', hora_inicio = '$horario_inicio', hora_fin= '$horario_fin ', descripcion= '$descripcion'
+						SET numero = '$numero', tarifa = '$tarifa', parqueo = '$parqueo', hora_inicio = '$horario_inicio', hora_fin= '$horario_fin ', descripcion= '$descripcion'
 						, ruta_id_ruta = '$id_ruta'
 						WHERE id_consecion = '$id_concesion' ";
 
@@ -256,5 +256,18 @@ function seleccionar_id_conductor() {
 		$rows = $dbres->result_array();
 		return $rows;
 	}
+
+	function seleccionarTipoVehiculo($id) {
+		$sql = "SELECT 	id_tipo, abreviatura
+						FROM 		tipo
+						where   id_tipo = ?
+						LIMIT 1 ;";
+
+		$dbres = $this->db->query($sql,$id);
+
+		$rows = $dbres->result_array();
+		return $rows[0]['abreviatura'];
+	}
+
 
 }

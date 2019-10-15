@@ -31,7 +31,7 @@ if ($this->session->ROL == 'Administrador') {
 
 	<div id="body">
 <?php foreach ($arr as $a) {?>
-		<h4>Conseción número: <?php echo $a['numero']; ?> </h4>
+		<h4>Código de la conseción: <?php echo $a['numero']; ?> </h4>
 		<h5>Fecha de inserción: <?php echo $a['creado']; ?> </h5>
 		<br><br>
 		<div class="">
@@ -45,6 +45,7 @@ if ($this->session->ROL == 'Administrador') {
 					<th>Horario inicio de labores </th>
 					<th>Horario fin de labores</th>
 					<th>Ruta</th>
+					<th>lugar de parqueo</th>
 					<?php echo $thead; ?>
 				</thead>
 				<tbody>
@@ -53,6 +54,7 @@ if ($this->session->ROL == 'Administrador') {
 						<td><?php echo $a['h_inicio']; ?></td>
 						<td><?php echo $a['h_fin']; ?></td>
 						<td><?php echo $a['ruta']; ?></td>
+						<td><?php echo $a['parqueo']; ?></td>
 						<!--comenta el boton  en caso que sea un usuario-->
 					<?php echo $hidenL;?>
 						<td><a class='btn btn-secondary' href="<?=$base_url?>/consecion/editar/<?php echo $id_concesion ?>">Editar</a></td>
@@ -210,7 +212,10 @@ if ($this->session->ROL == 'Administrador') {
 				</thead>
 				<tbody>
 					<tr>
-						<td><?php echo $a['descripcion_ruta']; ?></td>
+						<td><strong>De la ruta: </strong><?php echo $a['descripcion_ruta']; ?></td>
+					</tr>
+					<tr>
+						<td><strong>De la conseción: </strong><?php echo $a['descripcion']; ?></td>
 					</tr>
 				</tbody>
 			</table>

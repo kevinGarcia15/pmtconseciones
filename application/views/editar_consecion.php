@@ -24,7 +24,7 @@ $mensaje = isset($mensaje) ? $mensaje : "";
 				<tr>
 					<td><strong>Ingrese No. de la concesión<strong style="color: red; font-size: 20px">*</strong></strong></td>
 					<td>
-						<input type="number" class="form-control" placeholder="número" name="numero_consecion" min="100" required value="<?=$a['numero']?>">
+						<input type="text" class="form-control" placeholder="número" name="numero_consecion" min="100" required value="<?=$a['numero']?>">
 					</td>
 				</tr>
 				<tr>
@@ -46,6 +46,13 @@ $mensaje = isset($mensaje) ? $mensaje : "";
 					</td>
 				</tr>
 				<tr>
+					<tr>
+						<td><strong>Ingrese su lugar de parqueo<strong style="color: red; font-size: 20px">*</strong></strong></td>
+						<td>
+							<input type="text" class="form-control" placeholder="Lugar" name="parqueo"
+								required maxlength="50" size="50"  value="<?=$a['parqueo']?>">
+						</td>
+					</tr>
 					<td><strong>Ingrese la tarifa<strong style="color: red; font-size: 20px">*</strong></strong></td>
 					<td>
 						<div class="row">

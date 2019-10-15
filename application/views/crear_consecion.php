@@ -20,9 +20,19 @@ $mensaje = isset($mensaje) ? $mensaje : "";
 			<h1>Ingreso de datos de la concesión</h1>
 			<table class="table table-bordered" border="1">
 				<tr>
-					<td><strong>Ingrese No. de la concesión<strong style="color: red; font-size: 20px">*</strong></strong></td>
+					<td><strong>Ingrese código de la concesión<strong style="color: red; font-size: 20px">*</strong></strong></td>
 					<td>
-						<input type="number" onchange="ValidarNumero()" id="numero" class="form-control" placeholder="número" name="numero_consecion" min="100" required value="<?=$numero_consecion?>">
+						<div class="row">
+							<div class="col-4">
+								<input type="number" onchange="ValidarNumero()" id="numero" class="form-control" placeholder="número" name="numero_consecion" min="1" required value="<?=$numero_consecion?>">
+							</div>
+							<div class="col-2 alert alert-info">
+								Abreviatura: <?php echo $abreviatura; ?>
+							</div>
+							<div class="col-4">
+								<input type="hidden"  id="abr" class="form-control"  placeholder="<?php echo $abreviatura; ?>" name="clave" min="1"  value="<?php echo $abreviatura; ?>">
+							</div>
+						</div>
 					</td>
 				</tr>
 				<tr>
@@ -46,6 +56,14 @@ $mensaje = isset($mensaje) ? $mensaje : "";
 						</div>
 					</td>
 				</tr>
+				<tr>
+					<td><strong>Ingrese su lugar de parqueo<strong style="color: red; font-size: 20px">*</strong></strong></td>
+					<td>
+						<input type="text" class="form-control" placeholder="Lugar" name="parqueo"
+							required maxlength="50" size="50"  value="<?php $parqueo; ?>">
+					</td>
+				</tr>
+
 				<tr>
 					<td><strong>Ingrese la tarifa<strong style="color: red; font-size: 20px">*</strong></strong></td>
 					<td>
@@ -87,7 +105,7 @@ $mensaje = isset($mensaje) ? $mensaje : "";
 				</tr>
 			</table>
 			<td colspan="2">
-				<input class="btn btn-primary btn-md" type="submit" role="button" name="finalizar" value="Finalizar">
+				<input class="btn btn-primary btn-md" type="submit" role="button"  name="finalizar" value="Finalizar">
 				<input class="btn btn-danger btn-md"  role="button" onclick="mensaje()"  name="cancelar" value="Cancelar">
 			</td>
 		</form>
@@ -142,11 +160,11 @@ alertify.confirm("¿Está seguro de omitir?", function (e) {
 		}
 	});
 }
-
 //validar No. de concesion
 var ValidarNumero = function() {
-var numero = $("#numero").val();
-
+var numero_conce = $("#numero").val();
+var abrev = $("#abr").val();
+var numero = numero_conce + abrev;
 var request = $.ajax({
 	method: "POST",
 	url: "<?=$base_url?>/consecion/validar",
