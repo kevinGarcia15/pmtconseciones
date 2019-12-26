@@ -39,22 +39,23 @@ if (isset($this->session->USUARIO)) { // Sesión iniciada
             Conseción
            </a>
            <div class="dropdown-menu" aria-labelledby="navbarDropdownMenuLink">
-            <a class="dropdown-item" href="<?=$base_url?>/contratista/crearContratista">Crear Conseción</a>
-            <a class="dropdown-item" href="<?=$base_url?>/informes/listar">Listar Conseción</a>
+            <a class="dropdown-item" href="<?=$base_url?>/contratista/crearContratista">Crear Concesión</a>
+            <a class="dropdown-item" href="<?=$base_url?>/informes/listar">Listar Concesión</a>
+            <a class="dropdown-item" href="<?=$base_url?>/informes/informes">Informes</a>
            </div>
           </li>
+          <a class="nav-item nav-link" data-toggle="modal" data-target="#exampleModal" data-whatever="@mdo">Buscar</a>
+          <a class="nav-item nav-link" href="http://localhost:8080/pentaho/Home">graficas</a>
           <?php } ?>
 
   <!--Restricciones para usuario-->
         <?php if ($this->session->ROL == 'Usuario') { ?>
-          <a class="nav-item nav-link" href="<?=$base_url?>/contratista/crearContratista">Crear Conseción</a>
           <a class="nav-item nav-link" href="<?=$base_url?>/informes/listar">Listar conseciones</a>
+          <a class="nav-item nav-link" href="<?=$base_url?>/informes/informes">Informes</a>
+          <a class="nav-item nav-link" data-toggle="modal" data-target="#exampleModal" data-whatever="@mdo">Buscar</a>
+
         <?php } ?>
 <!--fin de restricciones-->
-
-        <a class="nav-item nav-link" href="http://localhost:8080/pentaho/Home">graficas</a>
-        <a class="nav-item nav-link" href="<?=$base_url?>/informes/informes">Informes</a>
-        <a class="nav-item nav-link" data-toggle="modal" data-target="#exampleModal" data-whatever="@mdo">Buscar</a>
         <!-- inicio del formulario emergente-->
         <div class="modal fade" id="exampleModal" tabindex="-1" role="dialog" aria-labelledby="exampleModalLabel" aria-hidden="true">
           <div class="modal-dialog" role="document">

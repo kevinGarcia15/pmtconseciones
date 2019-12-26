@@ -66,6 +66,38 @@ class informes_model extends CI_Model{
 		return $rows;
 	}
 
+	function informe_cat($valores,$tipo_vehiculo) {
+		$sql = "SELECT $valores
+										FROM 	consecion c
+
+											join contratista con on con.id_contratista = c.contratista_id_contratista
+											join canton_aldea cant_contra on con.canton_aldea_id_canton_aldea = cant_contra.id_canton_aldea
+											join municipio mun_contra on cant_contra.municipio_id_municipio = mun_contra.id_municipio
+				            	join persona contra on contra.id_persona = con.persona_id_persona
+
+											join piloto p on p.id_piloto = c.piloto_id_piloto
+											join municipio mun_pil on p.municipio_id_municipio = mun_pil.id_municipio
+											join departamento depto_pil on mun_pil.departamento_id_departamento = depto_pil.id_departamento
+	       		 					join persona pil on pil.id_persona = p.persona_id_persona
+											join tipo_licencia lice on lice.id_tipo = p.tipo_licencia_id_tipo
+
+											join ruta r on r.id_ruta = c.ruta_id_ruta
+											join vehiculo v on v.id_vehiculo = c.vehiculo_id_vehiculo
+											join tipo t on t.id_tipo = v.tipo_id_tipo
+	                    join marca m on m.id_marca = v.marca_id_marca
+	                    join color col on col.id_color = v.color_id_color
+
+											where t.tipo_vehiculo = '$tipo_vehiculo'
+
+											LIMIT 	100";
+
+		$dbres = $this->db->query($sql);
+
+		$rows = $dbres->result_array();
+
+		return $rows;
+	}
+
 
 	function mostrar($numero) {
 		$sql = "SELECT c.id_consecion id_consecion, c.numero numero, contra.nombre nombre_contratista, pil.nombre nombre_piloto, r.nombre ruta, t.tipo_vehiculo tipo
@@ -173,5 +205,18 @@ class informes_model extends CI_Model{
 		$dbres = $this->db->query($sql6);
 
 		return $dbres;
+	}
+
+	function seleccionarTipo() {
+		$sql = "SELECT id_tipo, tipo_vehiculo
+				FROM 	tipo
+				order by tipo_vehiculo ASC
+				LIMIT 	20";
+
+		$dbres = $this->db->query($sql);
+
+		$rows = $dbres->result_array();
+
+		return $rows;
 	}
 }

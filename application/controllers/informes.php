@@ -9,18 +9,21 @@ class informes extends CI_Controller {
 		$this->load->helper('url');
 		$this->load->model('informes_model');
 	}
+	//------------------------------------------------------------------------------------
 
 	private function restringirAcceso() {
 		if (!isset($this->session->USUARIO)) {
 			redirect("usuario/login");
 		}
 	}
+	//------------------------------------------------------------------------------------
 
 	public function index()
 	{
 		$this->restringirAcceso();
 		$data['base_url'] = $this->config->item('base_url');
 	}
+	//------------------------------------------------------------------------------------
 
 	public function mostrarNuevaConcesion($numero) {
 		$this->restringirAcceso();
@@ -31,6 +34,7 @@ class informes extends CI_Controller {
 		$this->load->view('mostrar_nueva_concesion', $data);
 
 		}
+		//------------------------------------------------------------------------------------
 
 	public function descargar($id){
 
@@ -58,6 +62,7 @@ class informes extends CI_Controller {
 		$mpdf->Output($pdfFilePath, "D");
 
 	}
+	//------------------------------------------------------------------------------------
 
 	public function detalles($id = 0) {
 		$this->restringirAcceso();
@@ -66,6 +71,7 @@ class informes extends CI_Controller {
 		$data['arr'] = $this->informes_model->Detalle($id);
 		$this->load->view('detalle', $data);
 }
+//------------------------------------------------------------------------------------
 
 public function listar($opcion = "numero") {
 	$this->restringirAcceso();
@@ -75,20 +81,62 @@ public function listar($opcion = "numero") {
 	$this->load->view('listar_consecion', $data);
 
 	}
+	//------------------------------------------------------------------------------------
 
 	public function informes() {
 		$this->restringirAcceso();
 		$data['base_url'] = $this->config->item('base_url');
-		$this->load->view('informe_checkbox', $data);
-		}
 
+		$data['tipo'] = $this->informes_model->seleccionarTipo();
+		$this->load->view('checkbox_informe', $data);
+		}
+//------------------------------------------------------------------------------------
 	public function informe_categoria() {
 		$this->restringirAcceso();
 		$data['base_url'] = $this->config->item('base_url');
+		$checkSeleccionados = count($_POST['valor']);
+		if ($checkSeleccionados >= 7) {
+			$data['mensaje']= "";
+			$data['mensaje'] = "<div class=\"alert alert-danger\">ha excedido el número de opciones</div> ";
+			redirect("informes/informes");
+		}else{
+			$SeleccionarValores = "";
+			$data['SeleccionarValores'] = implode(',',$_POST['valor']);//metodo implode une la cadena con un caracter, como la COMA
+			$data['tipo_vehiculo'] = $_POST['tipo_vehiculo'];
+			$data['nombre_tabla'] = "";
+			$data['nombre_tabla'] = $_POST['titulo'];
+			$data['arr'] = $this->informes_model->informe_cat($data['SeleccionarValores'],$data['tipo_vehiculo'] );
 
-		var_dump($_POST['valor']);
-	//	$this->load->view('informe_view_cat', $data);
+			$this->load->view('informe_view_cat', $data);
+
 		}
+	}
+
+	//------------------------------------------------------------------------------------
+
+public function descargarCat(){
+if (isset($_POST['descargar'])) {
+	$data = [];
+	$hoy = date("dmyhis");
+	$consecion = 'pmt';
+
+	$data['nombre_tabla'] = array();
+	$select = $_POST['select'];
+	$tipo_vehiculo = $_POST['tipo_vehiculo'];
+	echo $select,$tipo_vehiculo;
+
+/*
+	$data['arr'] = $this->informes_model->informe_cat($select,$tipo_vehiculo);
+
+	$html = $this->load->view('informe_view_cat', $data, true);
+	$pdfFilePath = "PMTconseción_".'numero_'.$numero.'_'.$hoy.".pdf";
+	$this->load->library('M_pdf');
+	$mpdf = new mPDF('c', 'A4P');
+	$mpdf->WriteHTML($html);
+	$mpdf->Output($pdfFilePath, "D");
+*/}
+}
+		//------------------------------------------------------------------------------------
 
 	public function graficas() {
 		$this->restringirAcceso();
@@ -96,6 +144,7 @@ public function listar($opcion = "numero") {
 		$this->load->view('graficas', $data);
 
 		}
+		//------------------------------------------------------------------------------------
 
 	public function buscar()
 	{
@@ -120,6 +169,7 @@ public function listar($opcion = "numero") {
 		}
 		$this->load->view('busqueda', $data);
 	}
+	//------------------------------------------------------------------------------------
 
 	public function borrar($id) {
 		$this->restringirAcceso();

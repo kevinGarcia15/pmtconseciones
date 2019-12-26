@@ -49,12 +49,6 @@ if (count($arr) < 1) {
 		</tbody>
 	</table>
 </div>
-<!--<form class="" action="<?=$base_url?>/informes/descargarCat/" method="post">
-	<input type="hidden" name="select" value="<?php echo $SeleccionarValores; ?>">
-	<input type="hidden" name="tipo_vehiculo" value="<?php echo $tipo_vehiculo; ?>">
-	<input type="hidden" name="nombre_tabla" value="<?php echo serialize($nombre_tabla); ?>">
-	<input class="btn btn-primary btn-md" role="button" id="continuar" type="submit" name="descargar" value="descargar">
-</form>-->
     <br><a class='btn btn-primary btn-md' href="<?=$base_url?>/informes/informes">Listo</a>
 	</div>
 	<br><br><br><br>

@@ -33,7 +33,6 @@ if (isset($this->session->USUARIO)) { // Sesión iniciada
 <br>
 <section id="info2">
         <div class="container">
-      <?php print_r($this->session->userdata()); ?>
             <div class="info text-center">
               <br>
                 <h1 class="h4">BIENVENIDOS</h1>

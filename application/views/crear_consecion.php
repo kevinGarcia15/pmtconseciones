@@ -17,7 +17,6 @@ $mensaje = isset($mensaje) ? $mensaje : "";
 
 	<div  id="body">
 		<form  id="subir" action="<?=$base_url?>/consecion/crear/" method="POST">
-			<h1>Ingreso de datos de la concesión</h1>
 			<table class="table table-bordered" border="1">
 				<tr>
 					<td><strong>Ingrese código de la concesión<strong style="color: red; font-size: 20px">*</strong></strong></td>
@@ -26,7 +25,7 @@ $mensaje = isset($mensaje) ? $mensaje : "";
 							<div class="col-4">
 								<input type="number" onchange="ValidarNumero()" id="numero" class="form-control" placeholder="número" name="numero_consecion" min="1" required value="<?=$numero_consecion?>">
 							</div>
-							<div class="col-2 alert alert-info">
+							<div class="col-4 alert alert-info">
 								Abreviatura: <?php echo $abreviatura; ?>
 							</div>
 							<div class="col-4">
